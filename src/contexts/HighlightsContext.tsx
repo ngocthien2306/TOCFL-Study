@@ -1,10 +1,13 @@
 /**
  * HighlightsContext
  *
- * Quản lý danh sách highlight toàn app:
- *  - Load từ localStorage khi khởi động (offline-first)
- *  - Sync lên BE khi có token (sau khi đăng nhập)
- *  - add/remove tự động cập nhật cả local + BE
+ * Local-first highlight storage (mirrors the dual-write pattern of useProgress):
+ *  1. add/remove update localStorage + state IMMEDIATELY (UI never waits on BE)
+ *  2. BE sync happens fire-and-forget; failures are silent
+ *  3. Items that failed to reach BE keep a negative "temp" id and are retried
+ *     on the next login (mergeFromServer)
+ *
+ * This means a flaky/dead BE never causes lost highlights.
  */
 import React, {
   createContext, useCallback, useContext, useEffect, useRef, useState,
@@ -26,7 +29,25 @@ function loadLocal(): HighlightRecord[] {
 function saveLocal(list: HighlightRecord[]) {
   try {
     localStorage.setItem(LS_KEY, JSON.stringify(list));
-  } catch { /* storage full */ }
+  } catch { /* storage full — ignore */ }
+}
+
+// Module-scoped counter ensures temp ids never collide within a session
+let tempIdCounter = -1;
+function nextTempId(): number { return tempIdCounter--; }
+
+/** Strip nulls → undefined for the BE create payload. */
+function toCreatePayload(h: HighlightRecord) {
+  return {
+    page_key:   h.page_key,
+    text:       h.text,
+    ctx_before: h.ctx_before ?? undefined,
+    ctx_after:  h.ctx_after  ?? undefined,
+    color:      h.color,
+    pinyin:     h.pinyin     ?? undefined,
+    meaning:    h.meaning    ?? undefined,
+    note:       h.note       ?? undefined,
+  };
 }
 
 // ─── Context types ────────────────────────────────────────────────────────────
@@ -43,9 +64,9 @@ export interface NewHighlight {
 
 interface HighlightsContextValue {
   highlights:     HighlightRecord[];
-  /** Thêm highlight mới; trả về record đã lưu (id có thể là temp nếu offline) */
+  /** Thêm highlight mới — luôn lưu localStorage trước, BE sync chạy nền */
   add:            (h: NewHighlight) => Promise<HighlightRecord>;
-  /** Xoá highlight theo id */
+  /** Xoá highlight theo id — luôn xoá local trước, BE delete chạy nền */
   remove:         (id: number) => Promise<void>;
   /** Lấy highlights theo page_key */
   getForPage:     (page_key: string) => HighlightRecord[];
@@ -69,77 +90,102 @@ interface Props {
 export const HighlightsProvider: React.FC<Props> = ({ token, children }) => {
   const [highlights, setHighlights] = useState<HighlightRecord[]>(loadLocal);
   const [isLoading,  setIsLoading]  = useState(false);
-  // Track last synced token to re-fetch when user logs in
   const lastToken = useRef<string | null>(null);
+  // Live ref of highlights so async callbacks can read latest state without re-running effects
+  const highlightsRef = useRef<HighlightRecord[]>(highlights);
+  useEffect(() => { highlightsRef.current = highlights; }, [highlights]);
 
-  // ── Sync from BE on login ──────────────────────────────────────────────────
+  // ── Sync from BE on login (and flush any local-only temp items) ────────────
   useEffect(() => {
     if (!token || token === lastToken.current) return;
     lastToken.current = token;
 
-    setIsLoading(true);
-    highlightsApi.list(token).then(beList => {
-      // Merge: BE is source of truth; keep any local-only highlights
-      // (those with negative/temp ids added while offline — not supported yet,
-      // but safe to keep in mind)
-      setHighlights(beList);
-      saveLocal(beList);
-    }).catch(() => {
-      // BE unreachable — keep local copy
-    }).finally(() => {
-      setIsLoading(false);
-    });
+    let cancelled = false;
+    (async () => {
+      setIsLoading(true);
+      try {
+        const beList = await highlightsApi.list(token);
+        if (cancelled) return;
+
+        // Items added while offline / while BE was down — those have a temp negative id
+        const localOnly = highlightsRef.current.filter(h => h.id < 0);
+
+        const synced: HighlightRecord[] = [];
+        const stillFailed: HighlightRecord[] = [];
+        for (const local of localOnly) {
+          try {
+            const server = await highlightsApi.create(token, toCreatePayload(local));
+            synced.push(server);
+          } catch {
+            stillFailed.push(local);
+          }
+        }
+        if (cancelled) return;
+
+        // Merge: BE truth + items just synced + items still pending
+        const merged = [...beList, ...synced, ...stillFailed];
+        setHighlights(merged);
+        saveLocal(merged);
+      } catch {
+        // BE unreachable — keep local copy untouched
+      } finally {
+        if (!cancelled) setIsLoading(false);
+      }
+    })();
+
+    return () => { cancelled = true; };
   }, [token]);
 
-  // ── add ───────────────────────────────────────────────────────────────────
+  // ── add: local-first, BE fire-and-forget ──────────────────────────────────
   const add = useCallback(async (h: NewHighlight): Promise<HighlightRecord> => {
+    const tempRecord: HighlightRecord = {
+      id:         nextTempId(),
+      page_key:   h.page_key,
+      text:       h.text,
+      ctx_before: h.ctx_before ?? null,
+      ctx_after:  h.ctx_after  ?? null,
+      color:      h.color      ?? '#fde68a',
+      pinyin:     h.pinyin     ?? null,
+      meaning:    h.meaning    ?? null,
+      note:       h.note       ?? null,
+      created_at: new Date().toISOString(),
+    };
+    // 1. Persist to local + state IMMEDIATELY
+    setHighlights(prev => {
+      const next = [...prev, tempRecord];
+      saveLocal(next);
+      return next;
+    });
+
+    // 2. Fire-and-forget BE sync; on success, swap temp id → server id
     if (token) {
-      // BE-first when authenticated
-      const created = await highlightsApi.create(token, {
-        ...h,
-        pinyin:  h.pinyin,
-        meaning: h.meaning,
-      });
-      setHighlights(prev => {
-        const next = [...prev, created];
-        saveLocal(next);
-        return next;
-      });
-      return created;
-    } else {
-      // Offline: store with a temporary negative id
-      const tmp: HighlightRecord = {
-        id:         -(Date.now()),
-        page_key:   h.page_key,
-        text:       h.text,
-        ctx_before: h.ctx_before ?? null,
-        ctx_after:  h.ctx_after  ?? null,
-        color:      h.color      ?? '#fde68a',
-        pinyin:     h.pinyin     ?? null,
-        meaning:    h.meaning    ?? null,
-        note:       h.note       ?? null,
-        created_at: new Date().toISOString(),
-      };
-      setHighlights(prev => {
-        const next = [...prev, tmp];
-        saveLocal(next);
-        return next;
-      });
-      return tmp;
+      void highlightsApi.create(token, toCreatePayload(tempRecord))
+        .then(server => {
+          setHighlights(prev => {
+            const next = prev.map(item => item.id === tempRecord.id ? server : item);
+            saveLocal(next);
+            return next;
+          });
+        })
+        .catch(() => {
+          // BE down — keep temp id; will be retried on next login sync
+        });
     }
+    return tempRecord;
   }, [token]);
 
-  // ── remove ────────────────────────────────────────────────────────────────
+  // ── remove: local-first, BE fire-and-forget ───────────────────────────────
   const remove = useCallback(async (id: number): Promise<void> => {
-    // Optimistic local removal
     setHighlights(prev => {
       const next = prev.filter(h => h.id !== id);
       saveLocal(next);
       return next;
     });
+    // Only call BE for items that actually exist on the server (positive id)
     if (token && id > 0) {
-      await highlightsApi.delete(token, id).catch(() => {
-        // If delete fails we keep the local removal (user intention)
+      void highlightsApi.delete(token, id).catch(() => {
+        // BE down — local removal stands; nothing to retry (server still has it,
+        // but next login sync will re-add it. Acceptable trade-off vs. complex queue.)
       });
     }
   }, [token]);
