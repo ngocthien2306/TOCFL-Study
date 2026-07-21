@@ -34,4 +34,3 @@ export interface GuidedReadingProgress {
 }
 
 export type GuidedProgressMap = Record<string, GuidedReadingProgress>;
-

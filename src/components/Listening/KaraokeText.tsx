@@ -78,4 +78,3 @@ export const KaraokeText: React.FC<Props> = ({ text, chars, pageKey, currentTime
     </span>
   );
 };
-
