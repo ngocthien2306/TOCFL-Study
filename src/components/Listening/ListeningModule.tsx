@@ -13,6 +13,7 @@ import {
 import { progressApi } from '../../api/client';
 import { HighlightableText } from '../HighlightableText';
 import { OfficialTranscript } from './OfficialTranscript';
+import { useQuestionTranscript } from '../../hooks/useTranscript';
 
 interface Props {
   listeningData: ListeningData;
@@ -70,9 +71,14 @@ function clearListeningDraft() {
 // ── Audio player component ────────────────────────────────────────────────────
 interface AudioPlayerProps {
   tracks: string[];       // full URLs
+  /** Cumulative time offset (seconds) BEFORE each track. Length === tracks.length.
+   *  When provided, onCumulativeTimeChange emits position in the full playlist. */
+  cumulativeOffsets?: number[];
+  /** Called on every timeupdate with cumulative seconds across the playlist. */
+  onCumulativeTimeChange?: (sec: number) => void;
   onEnded?: () => void;
 }
-const AudioPlayer: React.FC<AudioPlayerProps> = ({ tracks, onEnded }) => {
+const AudioPlayer: React.FC<AudioPlayerProps> = ({ tracks, cumulativeOffsets, onCumulativeTimeChange, onEnded }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [trackIdx, setTrackIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -86,6 +92,14 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ tracks, onEnded }) => {
     setCurrentTime(0);
     setDuration(0);
   }, [tracks.join('|')]);
+
+  // Emit cumulative time whenever local state changes (use ref to avoid effect dep churn)
+  const onCumRef = useRef(onCumulativeTimeChange);
+  useEffect(() => { onCumRef.current = onCumulativeTimeChange; }, [onCumulativeTimeChange]);
+  useEffect(() => {
+    const offset = cumulativeOffsets?.[trackIdx] ?? 0;
+    onCumRef.current?.(offset + currentTime);
+  }, [trackIdx, currentTime, cumulativeOffsets]);
 
   const handleTimeUpdate = () => {
     if (audioRef.current) setCurrentTime(audioRef.current.currentTime);
@@ -298,6 +312,22 @@ export const ListeningModule: React.FC<Props> = ({ listeningData, token }) => {
   const total = flat.length;
   const q = flat[qIdx];
 
+  // ── Transcript-driven karaoke sync ──────────────────────────────────────────
+  // Hooks MUST run unconditionally on every render (Rules of Hooks), even
+  // when q is undefined (during select/result phases).
+  const transcriptItem = useQuestionTranscript(band, examKey, q?.id ?? 0);
+  const cumulativeOffsets = useMemo(() => {
+    const durs = transcriptItem?.audioDurations;
+    if (!durs || !durs.length) return undefined;
+    const acc: number[] = [];
+    let s = 0;
+    for (const d of durs) { acc.push(s); s += d; }
+    return acc;
+  }, [transcriptItem?.audioDurations]);
+  const [cumTime, setCumTime] = useState(0);
+  // Reset karaoke position when question changes
+  useEffect(() => { setCumTime(0); }, [q?.id]);
+
   // Sync AI explanations with BE when user logs in
   useEffect(() => {
     if (token) syncExplanationsWithBE(token).catch(() => {});
@@ -430,7 +460,7 @@ export const ListeningModule: React.FC<Props> = ({ listeningData, token }) => {
     }[lang];
 
     return (
-      <div>
+      <div className="exam-select-workspace exam-select-workspace--listening">
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
           <button className="btn btn-ghost btn-sm" onClick={() => setPhase('select')}>{lbl.back}</button>
           <h2 style={{ margin: 0, fontSize: '1rem' }}>{lbl.title}</h2>
@@ -533,7 +563,7 @@ export const ListeningModule: React.FC<Props> = ({ listeningData, token }) => {
         </div>
 
         {/* ── Band poster cards ────────────────────────────────────────────── */}
-        <div style={{
+        <div className="exam-band-grid" style={{
           display: 'flex', gap: 12, overflowX: 'auto', paddingBottom: 4, marginBottom: 28,
           scrollbarWidth: 'none', msOverflowStyle: 'none',
         }}>
@@ -544,6 +574,7 @@ export const ListeningModule: React.FC<Props> = ({ listeningData, token }) => {
             return (
               <button
                 key={b}
+                className={`exam-band-card${isActive ? ' active' : ''}`}
                 onClick={() => { setBand(b); setExamKey('exam1'); }}
                 style={{
                   flexShrink: 0,
@@ -562,13 +593,21 @@ export const ListeningModule: React.FC<Props> = ({ listeningData, token }) => {
                   outline: 'none',
                 }}
               >
+                <img
+                  className="exam-band-card__art"
+                  src={`${import.meta.env.BASE_URL}artwork/band-${b.toLowerCase()}.webp`}
+                  alt=""
+                  loading="lazy"
+                  aria-hidden="true"
+                />
+                <div className="exam-band-card__shade" />
                 {/* Decorative circles */}
                 <div style={{ position: 'absolute', top: -18, right: -18, width: 90, height: 90, borderRadius: '50%', background: 'rgba(255,255,255,.13)', pointerEvents: 'none' }} />
                 <div style={{ position: 'absolute', bottom: 28, left: -22, width: 70, height: 70, borderRadius: '50%', background: 'rgba(255,255,255,.09)', pointerEvents: 'none' }} />
                 <div style={{ position: 'absolute', top: 36, left: -10, width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,.07)', pointerEvents: 'none' }} />
 
                 {/* Content */}
-                <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '14px 14px 16px', color: '#fff', textAlign: 'left' }}>
+                <div className="exam-band-card__content" style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '14px 14px 16px', color: '#fff', textAlign: 'left' }}>
                   <div style={{ fontSize: '2rem', fontWeight: 900, lineHeight: 1, letterSpacing: '-.02em', textShadow: '0 2px 8px rgba(0,0,0,.2)' }}>
                     Band {b}
                   </div>
@@ -596,7 +635,7 @@ export const ListeningModule: React.FC<Props> = ({ listeningData, token }) => {
         </div>
 
         {/* ── Exam book-cover cards ────────────────────────────────────────── */}
-        <div style={{
+        <div className="exam-paper-grid" style={{
           display: 'flex', gap: 12, overflowX: 'auto', paddingBottom: 8, marginBottom: 24,
           scrollbarWidth: 'none', msOverflowStyle: 'none',
         }}>
@@ -620,6 +659,7 @@ export const ListeningModule: React.FC<Props> = ({ listeningData, token }) => {
             return (
               <button
                 key={ek}
+                className="exam-paper-card"
                 onClick={() => { if (hasDraft) { setExamKey(ek); resumeFromDraft(); } else { startExamDirect(band, ek); } }}
                 style={{
                   flexShrink: 0,
@@ -641,7 +681,7 @@ export const ListeningModule: React.FC<Props> = ({ listeningData, token }) => {
                 onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = ''; (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 2px 12px rgba(0,0,0,.10)'; }}
               >
                 {/* Cover image area */}
-                <div style={{
+                <div className="exam-paper-cover exam-paper-cover--listening" style={{
                   background: `linear-gradient(150deg, ${th.grad} 0%, ${th.gradDark} 100%)`,
                   padding: '18px 12px 14px',
                   position: 'relative',
@@ -651,6 +691,13 @@ export const ListeningModule: React.FC<Props> = ({ listeningData, token }) => {
                   flexDirection: 'column',
                   justifyContent: 'flex-end',
                 }}>
+                  <img
+                    className="exam-paper-cover__art"
+                    src={`${import.meta.env.BASE_URL}artwork/listening-exam-${idx}.webp`}
+                    alt=""
+                    loading="lazy"
+                    aria-hidden="true"
+                  />
                   <div style={{ position: 'absolute', top: -14, right: -14, width: 64, height: 64, borderRadius: '50%', background: 'rgba(255,255,255,.15)' }} />
                   <div style={{ position: 'absolute', top: 20, right: 18, width: 30, height: 30, borderRadius: '50%', background: 'rgba(255,255,255,.10)' }} />
                   <div style={{ position: 'relative', color: '#fff', textAlign: 'left' }}>
@@ -887,7 +934,12 @@ export const ListeningModule: React.FC<Props> = ({ listeningData, token }) => {
 
         {/* Audio player */}
         <div style={{ padding: '0 12px 10px' }}>
-          <AudioPlayer key={q.audio.join('|')} tracks={audioUrls} />
+          <AudioPlayer
+            key={q.audio.join('|')}
+            tracks={audioUrls}
+            cumulativeOffsets={cumulativeOffsets}
+            onCumulativeTimeChange={setCumTime}
+          />
         </div>
       </div>
 
@@ -898,8 +950,8 @@ export const ListeningModule: React.FC<Props> = ({ listeningData, token }) => {
         <div className="exam-content">
           <div className="card">
 
-            {/* Official transcript (PDF-extracted) — spoiler with first-time warning */}
-            <OfficialTranscript band={band} examKey={examKey} questionId={q.id} />
+            {/* Official transcript (PDF-extracted) — spoiler with first-time warning + karaoke sync */}
+            <OfficialTranscript band={band} examKey={examKey} questionId={q.id} currentTime={cumTime} />
 
             {/* Page image (image_choice) */}
             {q.page_image && q.partType === 'image_choice' && (

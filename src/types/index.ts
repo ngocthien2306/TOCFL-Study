@@ -269,14 +269,40 @@ export interface ListeningData {
 // ─── Listening official transcripts (extracted from PDFs) ─────────────────────
 export type TranscriptSpeaker = string; // '男' | '女' | '男1' | '女2' | '老師' | etc.
 
+/** Per-character timing for word-level karaoke highlighting */
+export interface CharTiming {
+  char:   string;
+  start?: number;
+  end?:   number;
+}
+
+export interface TranscriptDialogueLine {
+  speaker: TranscriptSpeaker;
+  text:    string;
+  start?:  number;             // seconds, cumulative across audioFiles playlist
+  end?:    number;
+  chars?:  CharTiming[];
+}
+
+export interface TranscriptOptionTiming {
+  start?: number;
+  end?:   number;
+  chars?: CharTiming[];
+}
+
 export type TranscriptBlock =
-  | { kind: 'narration'; text: string }
-  | { kind: 'dialogue'; lines: { speaker: TranscriptSpeaker; text: string }[] }
-  | { kind: 'qa'; question: string; asked_by?: TranscriptSpeaker; options?: Partial<Record<OptionKey, string>> };
+  | { kind: 'narration'; text: string; start?: number; end?: number; chars?: CharTiming[] }
+  | { kind: 'dialogue';  lines: TranscriptDialogueLine[] }
+  | { kind: 'qa'; question: string; asked_by?: TranscriptSpeaker;
+      options?: Partial<Record<OptionKey, string>>;
+      optionsTimings?: Partial<Record<OptionKey, TranscriptOptionTiming>>;
+      start?: number; end?: number; chars?: CharTiming[] };
 
 export interface TranscriptItem {
-  ids: number[];                // question IDs sharing this audio block
-  blocks: TranscriptBlock[];
+  ids:             number[];        // question IDs sharing this audio block
+  blocks:          TranscriptBlock[];
+  audioFiles?:     string[];        // ordered playlist of mp3 paths (relative to public/)
+  audioDurations?: number[];        // seconds per audio (so FE computes cumulative offset)
 }
 
 export interface ExamTranscripts {
@@ -288,7 +314,7 @@ export interface ExamTranscripts {
 }
 
 // ─── AI Generator types ───────────────────────────────────────────────────────
-export type AIContentType = 'sentences' | 'reading';
+export type AIContentType = 'sentences' | 'reading' | 'dialogue';
 
 export interface AIKeyWord {
   word: string;
@@ -345,7 +371,25 @@ export interface AIReadingResult {
   createdAt: string;
 }
 
-export type AIResult = AISentenceResult | AIReadingResult;
+export interface AIDialogueLine {
+  speaker: string;     // Speaker name, e.g. 小明
+  chinese: string;
+  pinyin: string;
+  vietnamese: string;
+}
+
+export interface AIDialogueResult {
+  type: 'dialogue';
+  topic: string;
+  band: string;
+  title?: string;
+  dialogue: AIDialogueLine[];
+  questions: AIQuestion[];
+  vocabulary?: AIVocabItem[];
+  createdAt: string;
+}
+
+export type AIResult = AISentenceResult | AIReadingResult | AIDialogueResult;
 
 // ─── Interview types ──────────────────────────────────────────────────────────
 
