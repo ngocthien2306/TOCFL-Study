@@ -13,6 +13,7 @@ import React, {
 } from 'react';
 import type { ExamData, ListeningData, CATAttempt } from '../../types';
 import { useLang } from '../../i18n/LangContext';
+import { IconBarChart, IconBookOpen, IconBrain, IconClipboard, IconHourglass, IconLock, IconMic, IconSparkles } from '../UI/Icons';
 import { loadCATAttempts, saveCATAttempt, deleteCATAttempt, fmtDate, fmtDuration } from '../../utils/historyStorage';
 import {
   buildCATPool,
@@ -562,7 +563,7 @@ export const CATModule: React.FC<Props> = ({ examData, listeningData }) => {
         setPhase('result');
         return;
       }
-      const next = selectNextQuestion(pool, newTheta, newUsed, currentItem.examKey, correct);
+      const next = selectNextQuestion(pool, newTheta, newUsed, currentItem.examKey, correct, currentItem.difficulty);
       if (!next) {
         if (totalTimerRef.current) { clearInterval(totalTimerRef.current); totalTimerRef.current = null; }
         setPhase('result');
@@ -586,20 +587,20 @@ export const CATModule: React.FC<Props> = ({ examData, listeningData }) => {
     const poolSize = (m: CATMode) => m === 'listening' ? listeningPool.length : readingPool.length;
 
     return (
-      <div style={{ width: '100%', padding: '0 16px' }}>
-        <div style={{
+      <div className="cat-workspace" style={{ width: '100%', padding: '0 16px' }}>
+        <div className="cat-intro-card" style={{
           background: 'var(--card)', borderRadius: 14,
           border: '1px solid var(--border)', padding: '28px 26px',
         }}>
           {/* Header */}
           <div style={{ textAlign: 'center', marginBottom: 22 }}>
-            <div style={{
+            <div className="cat-badge" style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
               background: 'linear-gradient(135deg, var(--primary), #6366F1)',
               color: '#fff', borderRadius: 12, padding: '6px 18px',
               fontSize: '.8rem', fontWeight: 700, letterSpacing: '.04em', marginBottom: 12,
             }}>
-              {t('cat_badge')}
+              <IconBrain size={15} /> CAT
             </div>
             <h2 style={{ margin: '0 0 6px', fontSize: '1.4rem', fontWeight: 800 }}>
               {t('cat_title')}
@@ -615,7 +616,7 @@ export const CATModule: React.FC<Props> = ({ examData, listeningData }) => {
               const isActive = mode === m;
               const disabled = m === 'listening' && listeningPool.length === 0;
               return (
-                <button key={m} disabled={disabled} onClick={() => setMode(m)} style={{
+                <button key={m} className={`cat-mode-card${isActive ? ' active' : ''}`} disabled={disabled} onClick={() => setMode(m)} style={{
                   padding: '14px 10px', borderRadius: 10,
                   border: `2px solid ${isActive ? 'var(--primary)' : 'var(--border)'}`,
                   background: isActive ? 'rgba(var(--primary-rgb),.08)' : 'var(--surface)',
@@ -624,8 +625,8 @@ export const CATModule: React.FC<Props> = ({ examData, listeningData }) => {
                   opacity: disabled ? 0.4 : 1,
                   textAlign: 'center', transition: 'all .15s',
                 }}>
-                  <div style={{ fontSize: '1.5rem', marginBottom: 4 }}>
-                    {m === 'reading' ? '📖' : '🎧'}
+                  <div className="cat-mode-icon" style={{ fontSize: '1.5rem', marginBottom: 4 }}>
+                    {m === 'reading' ? <IconBookOpen size={23} /> : <IconMic size={23} />}
                   </div>
                   <div style={{ fontWeight: 700, fontSize: '.9rem' }}>
                     {m === 'reading' ? t('cat_mode_r_short') : t('cat_mode_l_short')}
@@ -645,14 +646,14 @@ export const CATModule: React.FC<Props> = ({ examData, listeningData }) => {
             display: 'flex', flexDirection: 'column', gap: 10,
           }}>
             {[
-              { icon: '🎯', key: 'cat_how1' as const },
-              { icon: '⚡', key: 'cat_how2' as const },
-              { icon: '⏱', key: mode === 'listening' ? ('cat_how3_listen' as const) : ('cat_how3_read' as const) },
-              { icon: '📊', key: 'cat_how4' as const },
-              { icon: '🔒', key: 'cat_how5' as const },
-            ].map(({ icon, key }, i) => (
+              { Icon: IconSparkles, key: 'cat_how1' as const },
+              { Icon: IconBrain, key: 'cat_how2' as const },
+              { Icon: IconHourglass, key: mode === 'listening' ? ('cat_how3_listen' as const) : ('cat_how3_read' as const) },
+              { Icon: IconBarChart, key: 'cat_how4' as const },
+              { Icon: IconLock, key: 'cat_how5' as const },
+            ].map(({ Icon, key }, i) => (
               <div key={i} style={{ display: 'flex', gap: 10, fontSize: '.85rem', alignItems: 'flex-start' }}>
-                <span style={{ fontSize: '1rem', lineHeight: 1.5, flexShrink: 0 }}>{icon}</span>
+                <span className="cat-how-icon"><Icon size={16} /></span>
                 <span style={{ color: 'var(--text-secondary)', lineHeight: 1.55 }}>{t(key)}</span>
               </div>
             ))}
@@ -677,6 +678,7 @@ export const CATModule: React.FC<Props> = ({ examData, listeningData }) => {
           </div>
 
           <button
+            className="cat-start-btn"
             onClick={() => beginTest(mode)}
             style={{
               width: '100%', padding: '13px', borderRadius: 10, border: 'none',
@@ -713,7 +715,8 @@ export const CATModule: React.FC<Props> = ({ examData, listeningData }) => {
               border: '1px solid var(--border)', background: 'var(--surface)',
               color: 'var(--text-secondary)', fontSize: '.85rem', cursor: 'pointer',
             }}>
-              📋 {lang === 'vi' ? `Xem lịch sử (${catAttempts.length} lần)` : lang === 'zh' ? `查看歷史 (${catAttempts.length})` : `History (${catAttempts.length})`}
+              <IconClipboard size={14} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 6 }} />
+              {lang === 'vi' ? `Xem lịch sử (${catAttempts.length} lần)` : lang === 'zh' ? `查看歷史 (${catAttempts.length})` : `History (${catAttempts.length})`}
             </button>
           )}
         </div>

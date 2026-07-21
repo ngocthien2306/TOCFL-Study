@@ -114,8 +114,9 @@ export function updateTheta(
   }
 
   const p    = pCorrect(theta, b);
-  // Step shrinks as test progresses but stays aggressive enough to cross difficulty bands
-  const step = Math.max(0.30, 1.2 / Math.sqrt(questionCount));
+  // Aggressive convergence — early questions leap big so a single A1-correct
+  // can pull θ across the A→B band boundary in one step.
+  const step = Math.max(0.50, 2.2 / Math.sqrt(questionCount));
 
   const delta = correct
     ? step * timeWeight * (1 - p)   // positive update: scale by (1-p) — bigger when θ < b
@@ -166,35 +167,101 @@ export function thetaToLevel(theta: number): TOCFLLevel {
 // ─── Question selection ────────────────────────────────────────────────────────
 
 /**
- * Select next question:
- * - Target difficulty = theta + bias based on last answer
- *   correct  → bias +0.5 (push harder immediately)
- *   wrong    → bias -0.5 (drop easier immediately)
- *   unknown  → no bias (first question)
- * - Tiny jitter (0.08) to avoid always picking same question
- * - Prefer variety across examKeys
+ * Select next question with AGGRESSIVE band-leap logic:
+ *   • Correct on easy A (b<3)        → next = Band B Part 1   (target b≈4.8)
+ *   • Wrong on easy A   (b<3)        → next = Band A Part 4-5 (target b≈4.8 — "A2" zone)
+ *   • Correct on hard A / B Part 1   → next = Band B Part 2 / Band C
+ *   • Wrong on hard A   (3≤b<5)      → drop to easy A (target b≈2.0)
+ *   • Correct on Band B              → next = Band C
+ *   • Wrong on Band B                → drop to hard A (target b≈4.8)
+ *   • Correct on Band C              → harder Band C
+ *   • Wrong on Band C                → drop to Band B
+ *
+ * Falls back to nearest-by-difficulty in `theta` if filter returns no candidates.
  */
 export function selectNextQuestion(
-  pool:         CATItem[],
-  theta:        number,
-  usedUids:     Set<string>,
-  lastExamKey?: string,
-  lastCorrect?: boolean,
+  pool:            CATItem[],
+  theta:           number,
+  usedUids:        Set<string>,
+  lastExamKey?:    string,
+  lastCorrect?:    boolean,
+  lastDifficulty?: number,
 ): CATItem | null {
   const available = pool.filter(q => !usedUids.has(q.uid));
   if (available.length === 0) return null;
 
-  // Bias target difficulty based on last response
-  const bias   = lastCorrect === true ? 0.5 : lastCorrect === false ? -0.5 : 0;
-  const target = theta + bias;
+  type Filter = (q: CATItem) => boolean;
+  // Band membership helpers (works for both reading and listening, since prefix is A_/B_/C_ or LA_/LB_/LC_)
+  const inBandA  = (q: CATItem) => /^L?A_/.test(q.examKey);
+  const inBandB  = (q: CATItem) => /^L?B_/.test(q.examKey);
+  const inBandC  = (q: CATItem) => /^L?C_/.test(q.examKey);
+  const isHardA  = (q: CATItem) => inBandA(q) && (q.part === 'part4' || q.part === 'part5');
+  const isEasyA  = (q: CATItem) => inBandA(q) && !isHardA(q);
 
-  const scored = available.map(q => {
+  let target = theta;
+  let preferred: Filter | null = null;
+
+  if (lastCorrect !== undefined && lastDifficulty !== undefined) {
+    if (lastDifficulty < 3.0) {
+      // ── Easy Band A (Parts 1-3) ─────────────────────────────────────────
+      if (lastCorrect) {
+        // Đúng → nhảy thẳng Band B Part 1 (B1)
+        preferred = q => inBandB(q) && q.part === 'part1';
+        target = 4.8;
+      } else {
+        // Sai → xuống "A2" = câu 40-50 Band A (Part 4-5, harder A)
+        preferred = isHardA;
+        target = 4.8;
+      }
+    } else if (lastDifficulty < 4.5) {
+      // ── Mid Band A (Part 3-early-4) ─────────────────────────────────────
+      if (lastCorrect) {
+        preferred = q => inBandB(q);
+        target = 5.2;
+      } else {
+        preferred = isEasyA;
+        target = 2.0;
+      }
+    } else if (lastDifficulty < 5.5) {
+      // ── Hard Band A / Early Band B ──────────────────────────────────────
+      if (lastCorrect) {
+        preferred = q => inBandB(q) && q.part === 'part2' || inBandC(q) && q.part === 'part1';
+        target = 5.8;
+      } else {
+        preferred = isEasyA;
+        target = 2.5;
+      }
+    } else if (lastDifficulty < 6.0) {
+      // ── Band B Part 2 / Band C entry ────────────────────────────────────
+      if (lastCorrect) {
+        preferred = inBandC;
+        target = 6.5;
+      } else {
+        preferred = isHardA;
+        target = 4.8;
+      }
+    } else {
+      // ── Band C (C1-C2) ──────────────────────────────────────────────────
+      if (lastCorrect) {
+        preferred = q => inBandC(q) && q.part === 'part2';
+        target = Math.min(7.0, lastDifficulty + 0.5);
+      } else {
+        preferred = inBandB;
+        target = 5.0;
+      }
+    }
+  }
+
+  // Score candidates
+  const candidates = preferred ? available.filter(preferred) : available;
+  const pool2 = candidates.length > 0 ? candidates : available; // fallback if filter too strict
+
+  const scored = pool2.map(q => {
     let dist = Math.abs(q.difficulty - target);
     if (q.examKey === lastExamKey) dist += 0.08; // small variety nudge
     dist += Math.random() * 0.08;               // tiny jitter
     return { q, dist };
   });
-
   scored.sort((a, b) => a.dist - b.dist);
   return scored[0].q;
 }
