@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import type { AIContentType, AIResult, Word, Progress } from '../../types';
-import { generateSentences, generateReading } from './openai';
+import { generateSentences, generateReading, generateDialogue } from './openai';
 import type { VocabWord } from './openai';
 import { ResultCard } from './ResultCard';
 import { useLang } from '../../i18n/LangContext';
@@ -11,13 +11,59 @@ import {
   IconDice, IconBook, IconSave, IconBookOpen, IconEdit, IconPin,
   IconTrash, IconFolder, IconSettings, IconRocket, IconRefresh,
   IconHourglass, IconUnlock, IconLock, IconWarning, IconBot,
-  IconLoader,
+  IconLoader, IconMessageSquare,
 } from '../UI/Icons';
 
 const TOPICS: Record<string, string[]> = {
   A: ['Gia đình', 'Mua sắm', 'Thời tiết', 'Trường học', 'Du lịch', 'Ăn uống', 'Công việc', 'Giao thông'],
   B: ['Môi trường', 'Công nghệ', 'Giáo dục', 'Sức khỏe', 'Kinh tế', 'Văn hóa', 'Du lịch', 'Xã hội'],
 };
+
+// Display label per content type
+const TYPE_LABEL: Record<AIContentType, string> = {
+  sentences: 'Câu ví dụ',
+  reading:   'Bài đọc',
+  dialogue:  'Hội thoại',
+};
+
+// Icon theo loại nội dung
+const typeIcon = (type: AIContentType, size = 11) =>
+  type === 'sentences' ? <IconEdit size={size} />
+  : type === 'dialogue' ? <IconMessageSquare size={size} />
+  : <IconBookOpen size={size} />;
+
+// Tối đa số từ nạp vào 1 lần sinh nội dung
+const MAX_WORDS = 20;
+
+// Chia từ vựng (theo band) thành các "chương" để nạp nhanh.
+// Band A: nhóm theo chủ đề (context). Band B/C: nhóm theo level, cắt ~MAX_WORDS từ/phần.
+interface Chapter { id: string; label: string; words: Word[] }
+function buildChapters(vocabulary: Word[], band: string): Chapter[] {
+  const pool = vocabulary.filter(w => w.band === band);
+  const chapters: Chapter[] = [];
+  const pushChunks = (prefix: string, name: string, words: Word[]) => {
+    if (words.length <= MAX_WORDS) {
+      chapters.push({ id: `${prefix}`, label: `${name} (${words.length})`, words });
+    } else {
+      const n = Math.ceil(words.length / MAX_WORDS);
+      for (let i = 0; i < n; i++) {
+        const slice = words.slice(i * MAX_WORDS, (i + 1) * MAX_WORDS);
+        chapters.push({ id: `${prefix}-${i}`, label: `${name} · Phần ${i + 1} (${slice.length})`, words: slice });
+      }
+    }
+  };
+
+  const groups = new Map<string, Word[]>();
+  for (const w of pool) {
+    const key = band === 'A' ? (w.context?.trim() || 'Khác') : (w.level || band);
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key)!.push(w);
+  }
+  for (const [key, words] of [...groups].sort((a, b) => a[0].localeCompare(b[0]))) {
+    pushChunks(`${band}-${key}`, key, words);
+  }
+  return chapters;
+}
 
 // ── Vocab picker ───────────────────────────────────────────────────────────────
 interface VocabPickerProps {
@@ -28,6 +74,9 @@ interface VocabPickerProps {
 }
 const VocabPicker: React.FC<VocabPickerProps> = ({ vocabulary, band, selected, onChange }) => {
   const [search, setSearch] = useState('');
+  const [chapterId, setChapterId] = useState('');
+  const chapters = useMemo(() => buildChapters(vocabulary, band), [vocabulary, band]);
+
   const filtered = vocabulary
     .filter(w => w.band === band)
     .filter(w =>
@@ -41,17 +90,47 @@ const VocabPicker: React.FC<VocabPickerProps> = ({ vocabulary, band, selected, o
   const toggle = (w: Word) => {
     const exists = selected.find(s => s.hanzi === w.hanzi);
     if (exists) onChange(selected.filter(s => s.hanzi !== w.hanzi));
-    else if (selected.length < 8) onChange([...selected, w]);
+    else if (selected.length < MAX_WORDS) onChange([...selected, w]);
+  };
+
+  const loadChapter = (id: string) => {
+    setChapterId(id);
+    const ch = chapters.find(c => c.id === id);
+    onChange(ch ? ch.words.slice(0, MAX_WORDS) : []);
   };
 
   const randomPick = () => {
     const pool = vocabulary.filter(w => w.band === band);
-    const shuffled = [...pool].sort(() => Math.random() - 0.5).slice(0, 5);
+    const shuffled = [...pool].sort(() => Math.random() - 0.5).slice(0, 8);
+    setChapterId('');
     onChange(shuffled);
   };
 
   return (
     <div>
+      {/* Chapter selector */}
+      <div style={{ marginBottom: 8 }}>
+        <select
+          value={chapterId}
+          onChange={e => loadChapter(e.target.value)}
+          style={{
+            width: '100%', padding: '8px 10px', borderRadius: 'var(--radius)',
+            border: '1px solid var(--border)', fontSize: '.85rem', outline: 'none',
+            background: 'var(--surface)', color: 'var(--text-primary)',
+          }}
+        >
+          <option value="">— Chọn nguyên chương (chủ đề / level) —</option>
+          {chapters.map(c => (
+            <option key={c.id} value={c.id}>{c.label}</option>
+          ))}
+        </select>
+        <p style={{ fontSize: '.72rem', color: 'var(--text-muted)', margin: '4px 0 0' }}>
+          {band === 'A'
+            ? 'Band A chia theo chủ đề TOCFL; chọn 1 chương để nạp nhanh, có thể chỉnh thêm bên dưới.'
+            : 'Band B chia theo level (B1/B2), mỗi phần ~' + MAX_WORDS + ' từ.'}
+        </p>
+      </div>
+
       <div style={{ display: 'flex', gap: 8, marginBottom: 8, alignItems: 'center' }}>
         <input
           type="text" value={search} onChange={e => setSearch(e.target.value)}
@@ -93,14 +172,14 @@ const VocabPicker: React.FC<VocabPickerProps> = ({ vocabulary, band, selected, o
             <button
               key={w.hanzi}
               onClick={() => toggle(w)}
-              disabled={!isSelected && selected.length >= 8}
+              disabled={!isSelected && selected.length >= MAX_WORDS}
               style={{
                 padding: '4px 10px', borderRadius: 99, fontSize: '.8rem',
                 border: `1px solid ${isSelected ? 'var(--accent)' : 'var(--border)'}`,
                 background: isSelected ? 'var(--accent-light)' : 'var(--surface)',
                 color: isSelected ? 'var(--accent)' : 'var(--text-primary)',
                 cursor: 'pointer', fontWeight: isSelected ? 700 : 400,
-                opacity: !isSelected && selected.length >= 8 ? 0.4 : 1,
+                opacity: !isSelected && selected.length >= MAX_WORDS ? 0.4 : 1,
               }}
               title={`${w.pinyin} — ${w.meaning}`}
             >
@@ -110,7 +189,7 @@ const VocabPicker: React.FC<VocabPickerProps> = ({ vocabulary, band, selected, o
         })}
       </div>
       <p style={{ fontSize: '.72rem', color: 'var(--text-muted)', marginTop: 6 }}>
-        Chọn tối đa 8 từ · {selected.length}/8 đã chọn · {vocabulary.filter(w => w.band === band).length} từ Band {band}
+        Chọn tối đa {MAX_WORDS} từ · {selected.length}/{MAX_WORDS} đã chọn · {vocabulary.filter(w => w.band === band).length} từ Band {band}
       </p>
     </div>
   );
@@ -172,7 +251,7 @@ const LibraryPanel: React.FC<LibraryProps> = ({ items, onLoad, onEdit, onDelete 
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontWeight: 700, fontSize: '.9rem', marginBottom: 2, display: 'flex', alignItems: 'center', gap: 5 }}>
-                    {item.type === 'sentences' ? <IconEdit size={13} /> : <IconBookOpen size={13} />}
+                    {typeIcon(item.type as AIContentType, 13)}
                     {item.title}
                   </div>
                   <div style={{ fontSize: '.75rem', color: 'var(--text-secondary)' }}>
@@ -213,7 +292,7 @@ const LibraryPanel: React.FC<LibraryProps> = ({ items, onLoad, onEdit, onDelete 
 interface Props { vocabulary: Word[]; progress?: Progress }
 
 export const AIGeneratorModule: React.FC<Props> = ({ vocabulary, progress }) => {
-  useLang();
+  const { lang } = useLang();
   const { token, isLoggedIn } = useAuth();
   const { apiKey, hasKey } = useApiKey();
 
@@ -268,12 +347,13 @@ export const AIGeneratorModule: React.FC<Props> = ({ vocabulary, progress }) => 
         ? pickedWords.map(w => ({ hanzi: w.hanzi, pinyin: w.pinyin, meaning: w.meaning, pos: w.pos }))
         : [];
       let result: AIResult;
-      if (contentType === 'sentences') result = await generateSentences(apiKey, band, topic, count, vocabArg);
-      else result = await generateReading(apiKey, band, topic, vocabArg);
+      if (contentType === 'sentences')     result = await generateSentences(apiKey, band, topic, count, vocabArg);
+      else if (contentType === 'dialogue') result = await generateDialogue(apiKey, band, topic, vocabArg);
+      else                                 result = await generateReading(apiKey, band, topic, vocabArg);
       setResults(prev => [result, ...prev]);
       setActiveTab(0);
       // Pre-fill save title
-      setSaveTitle(`${result.type === 'sentences' ? 'Câu ví dụ' : 'Bài đọc'} — ${result.topic}`);
+      setSaveTitle(`${TYPE_LABEL[result.type]} — ${result.topic}`);
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -301,7 +381,7 @@ export const AIGeneratorModule: React.FC<Props> = ({ vocabulary, progress }) => 
       else result = await generateReading(apiKey, autoBand, '', vocabArg);
       setResults(prev => [result, ...prev]);
       setActiveTab(0);
-      setSaveTitle(`${result.type === 'sentences' ? 'Câu ví dụ' : 'Bài đọc'} tự động — ${result.topic}`);
+      setSaveTitle(`${TYPE_LABEL[result.type]} tự động — ${result.topic}`);
       setMainTab('generate');
     } catch (e) {
       setError((e as Error).message);
@@ -363,7 +443,15 @@ export const AIGeneratorModule: React.FC<Props> = ({ vocabulary, progress }) => 
   const suggestTopics = TOPICS[band] ?? [];
 
   return (
-    <div>
+    <div className="ai-workspace">
+      <div className="module-intro module-intro--compact">
+        <span className="module-intro__index">07</span>
+        <div>
+          <p className="module-intro__eyebrow">{{ vi: 'BÀN SOẠN BÀI', zh: '內容工作台', en: 'WRITING DESK' }[lang]}</p>
+          <h1>{{ vi: 'Tạo bài học', zh: '建立學習內容', en: 'Create a lesson' }[lang]}</h1>
+          <p>{{ vi: 'Biến kho từ của bạn thành câu mẫu, hội thoại và bài đọc.', zh: '將您的詞彙庫轉成例句、對話與閱讀文章。', en: 'Turn your vocabulary library into examples, dialogues, and readings.' }[lang]}</p>
+        </div>
+      </div>
       {/* ── Main tab switcher ── */}
       <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
         {([
@@ -486,10 +574,11 @@ export const AIGeneratorModule: React.FC<Props> = ({ vocabulary, progress }) => 
             {/* Content type */}
             <div style={{ marginBottom: 14 }}>
               <div className="filter-label" style={{ marginBottom: 6 }}>Loại nội dung</div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
                 {([
-                  { v: 'sentences', Icon: IconEdit,     label: 'Câu ví dụ từ vựng', desc: 'Câu mẫu kèm từ khoá & ngữ pháp' },
-                  { v: 'reading',   Icon: IconBookOpen, label: 'Đoạn đọc hiểu',    desc: 'Bài đọc + câu hỏi + giải thích' },
+                  { v: 'sentences', Icon: IconEdit,          label: 'Câu ví dụ từ vựng', desc: 'Câu mẫu kèm từ khoá & ngữ pháp' },
+                  { v: 'dialogue',  Icon: IconMessageSquare, label: 'Hội thoại',         desc: 'Đối thoại 2 người + câu hỏi' },
+                  { v: 'reading',   Icon: IconBookOpen,      label: 'Đoạn đọc hiểu',     desc: 'Bài đọc + câu hỏi + giải thích' },
                 ] as const).map(opt => (
                   <button key={opt.v} onClick={() => setContentType(opt.v)} style={{
                     padding: '12px 14px', borderRadius: 'var(--radius)', textAlign: 'left', cursor: 'pointer',
@@ -593,7 +682,7 @@ export const AIGeneratorModule: React.FC<Props> = ({ vocabulary, progress }) => 
               >
                 {loading
                   ? <><IconLoader size={15} /> Đang tạo…</>
-                  : <><IconRocket size={15} style={{ marginRight: 5 }} />Tạo {contentType === 'sentences' ? `${count} câu` : 'bài đọc'}</>
+                  : <><IconRocket size={15} style={{ marginRight: 5 }} />Tạo {contentType === 'sentences' ? `${count} câu` : contentType === 'dialogue' ? 'hội thoại' : 'bài đọc'}</>
                 }
               </button>
             </div>
@@ -612,7 +701,7 @@ export const AIGeneratorModule: React.FC<Props> = ({ vocabulary, progress }) => 
                     color: activeTab === i ? 'var(--accent)' : 'var(--text-secondary)',
                     cursor: 'pointer',
                   }}>
-                    {r.type === 'sentences' ? <IconEdit size={11} /> : <IconBookOpen size={11} />} {r.topic.slice(0, 16)} — Band {r.band}
+                    {typeIcon(r.type)} {r.topic.slice(0, 16)} — Band {r.band}
                   </button>
                 ))}
               </div>
@@ -626,7 +715,7 @@ export const AIGeneratorModule: React.FC<Props> = ({ vocabulary, progress }) => 
                     <button
                       className="btn btn-success btn-sm"
                       onClick={() => {
-                        setSaveTitle(`${results[activeTab].type === 'sentences' ? 'Câu ví dụ' : 'Bài đọc'} — ${results[activeTab].topic}`);
+                        setSaveTitle(`${TYPE_LABEL[results[activeTab].type]} — ${results[activeTab].topic}`);
                         setShowSave(true);
                       }}
                       title={isLoggedIn ? 'Lưu vào thư viện' : 'Đăng nhập để lưu'}
@@ -716,4 +805,3 @@ export const AIGeneratorModule: React.FC<Props> = ({ vocabulary, progress }) => 
     </div>
   );
 };
-

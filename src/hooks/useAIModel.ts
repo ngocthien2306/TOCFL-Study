@@ -7,7 +7,12 @@ import { useState, useCallback } from 'react';
 const MODEL_KEY = 'tocfl_ai_model';
 
 export const AI_MODELS = [
-  // ── GPT-5.4 series (Latest - March 2026) ───────────────────────────────────
+  // ── GPT-5.6 series (Latest - July 2026) ────────────────────────────────────
+  { id: 'gpt-5.6-luna',  label: 'GPT-5.6 Luna',  desc: 'Tiết kiệm · Tạo số lượng lớn', group: 'GPT-5.6' },
+  { id: 'gpt-5.6-terra', label: 'GPT-5.6 Terra', desc: 'Cân bằng · Khuyên dùng',       group: 'GPT-5.6' },
+  { id: 'gpt-5.6-sol',   label: 'GPT-5.6 Sol',   desc: 'Mạnh nhất · Chất lượng cao',  group: 'GPT-5.6' },
+
+  // ── GPT-5.4 series ─────────────────────────────────────────────────────────
   { id: 'gpt-5.4-nano',  label: 'GPT-5.4 Nano',  desc: 'Siêu tốc · Tối ưu chi phí',    group: 'GPT-5.4' },
   { id: 'gpt-5.4-mini',  label: 'GPT-5.4 Mini',  desc: 'Nhanh · Hỗ trợ Agentic',       group: 'GPT-5.4' },
   { id: 'gpt-5.4',       label: 'GPT-5.4 Standard', desc: 'Cân bằng · Thông minh',    group: 'GPT-5.4' },

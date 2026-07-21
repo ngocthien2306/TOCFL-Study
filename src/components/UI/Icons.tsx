@@ -160,6 +160,36 @@ export const IconHourglass = icon(
   </>
 );
 
+export const IconMeaning = icon(
+  <>
+    <path d="M5 4h8M9 4v3M6 8h7M7 8c.7 2.8 2.5 5 5.5 6.5" />
+    <path d="M13 20l3.5-9 3.5 9M14.4 17h4.2" />
+    <path d="M5 14c2.8-.3 5.2-1.7 7-4" />
+  </>
+);
+
+export const IconPinyin = icon(
+  <>
+    <path d="M4 19V7.5a3.5 3.5 0 0 1 7 0V19M4 13h7" />
+    <path d="M15 9v10M15 13.5c.8-1 1.8-1.5 3-1.5 1.7 0 3 1.4 3 3.5S19.7 19 18 19c-1.2 0-2.2-.5-3-1.5" />
+  </>
+);
+
+export const IconReverse = icon(
+  <>
+    <path d="M7 7h11l-3-3M17 17H6l3 3" />
+    <path d="M18 7a5 5 0 0 1 1 8M6 17a5 5 0 0 1-1-8" />
+  </>
+);
+
+export const IconMatch = icon(
+  <>
+    <rect x="3" y="4" width="7" height="7" rx="1.5" />
+    <rect x="14" y="13" width="7" height="7" rx="1.5" />
+    <path d="M10 7.5h2.5a4 4 0 0 1 4 4V13M14 16.5h-2.5a4 4 0 0 1-4-4V11" />
+  </>
+);
+
 // ── Content / Files ──────────────────────────────────────────────────────────
 
 export const IconBook = icon(

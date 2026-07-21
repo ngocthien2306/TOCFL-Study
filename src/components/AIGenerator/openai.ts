@@ -1,4 +1,4 @@
-import type { AISentenceResult, AIReadingResult, AIVocabItem } from '../../types';
+import type { AISentenceResult, AIReadingResult, AIDialogueResult, AIVocabItem } from '../../types';
 
 const API_URL = 'https://api.openai.com/v1/chat/completions';
 
@@ -78,6 +78,57 @@ Trả về JSON chính xác (KHÔNG thêm text ngoài JSON):
 }`;
 }
 
+function dialoguePrompt(band: string, topic: string, vocab: VocabWord[]): string {
+  const turns  = band === 'A' ? '6-8' : '8-12';
+  const qCount = band === 'A' ? 3 : 4;
+  const vocabSection = vocab.length > 0
+    ? `\nBẮT BUỘC dùng các từ vựng sau trong hội thoại (mỗi từ ít nhất 1 lần, phân bổ tự nhiên giữa các lượt thoại):\n${
+        vocab.map(w => `- ${w.hanzi} (${w.pinyin}): ${w.meaning}`).join('\n')
+      }\n`
+    : '';
+
+  return `Bạn là giáo viên tiếng Trung chuyên luyện thi TOCFL.
+Hãy tạo một đoạn HỘI THOẠI (đối thoại) bằng tiếng Trung phồn thể (Traditional Chinese) phù hợp với trình độ TOCFL Band ${band}.
+${topic ? `Tình huống/chủ đề: ${topic}.` : 'Chọn một tình huống đời thường phù hợp với trình độ.'}${vocabSection}
+Yêu cầu:
+- Hội thoại tự nhiên giữa 2 nhân vật, ${turns} lượt thoại, qua lại hợp lý
+- Đặt tên người nói bằng tiếng Trung (ví dụ 小明 / 小華), giữ nhất quán
+- Mỗi lượt thoại dài ${band === 'A' ? '6-14' : '12-24'} chữ Hán
+- Ngữ pháp và từ vựng chuẩn TOCFL Band ${band}
+- ${qCount} câu hỏi trắc nghiệm 4 đáp án (A/B/C/D) kiểm tra hiểu nội dung hội thoại
+- Giải thích đáp án chi tiết bằng tiếng Việt
+- Danh sách từ vựng quan trọng trong hội thoại (ưu tiên các từ đã cho), kèm pinyin, nghĩa tiếng Việt, ví dụ ngắn
+
+Trả về JSON chính xác (KHÔNG thêm text ngoài JSON):
+{
+  "title": "Tiêu đề ngắn cho hội thoại (tiếng Việt)",
+  "dialogue": [
+    {
+      "speaker": "小明",
+      "chinese": "...",
+      "pinyin": "...",
+      "vietnamese": "Dịch tiếng Việt"
+    }
+  ],
+  "questions": [
+    {
+      "question": "Câu hỏi bằng tiếng Trung?",
+      "options": { "A": "...", "B": "...", "C": "...", "D": "..." },
+      "answer": "A",
+      "explanation": "Giải thích chi tiết (bằng tiếng Việt)"
+    }
+  ],
+  "vocabulary": [
+    {
+      "word": "chữ Hán",
+      "pinyin": "pīn yīn",
+      "meaning": "nghĩa tiếng Việt",
+      "example": "ví dụ câu ngắn dùng từ này"
+    }
+  ]
+}`;
+}
+
 // ─── API call ─────────────────────────────────────────────────────────────────
 async function callOpenAI(apiKey: string, prompt: string): Promise<string> {
   const res = await fetch(API_URL, {
@@ -135,6 +186,27 @@ export async function generateReading(
     topic: topic || `Band ${band} — đọc hiểu`,
     band,
     ...parsed,
+    createdAt: new Date().toLocaleString('vi-VN'),
+  };
+}
+
+export async function generateDialogue(
+  apiKey: string,
+  band: string,
+  topic: string,
+  vocab: VocabWord[] = [],
+): Promise<AIDialogueResult> {
+  const prompt = dialoguePrompt(band, topic, vocab);
+  const raw    = await callOpenAI(apiKey, prompt);
+  const parsed = JSON.parse(raw) as Omit<AIDialogueResult, 'type' | 'topic' | 'band' | 'createdAt'>;
+  return {
+    type: 'dialogue',
+    topic: topic || `Band ${band} — hội thoại`,
+    band,
+    title:      parsed.title,
+    dialogue:   parsed.dialogue,
+    questions:  parsed.questions,
+    vocabulary: (parsed as { vocabulary?: AIVocabItem[] }).vocabulary ?? [],
     createdAt: new Date().toLocaleString('vi-VN'),
   };
 }

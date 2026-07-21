@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import type { AIResult, AISentenceResult, AIReadingResult, AIQuestion, AIVocabItem } from '../../types';
+import type { AIResult, AISentenceResult, AIReadingResult, AIDialogueResult, AIQuestion, AIVocabItem } from '../../types';
 import { SpeakButton } from '../UI/SpeakButton';
-import { IconLightbulb, IconCheck, IconBookOpen, IconFlagVN } from '../UI/Icons';
+import { IconLightbulb, IconCheck, IconBookOpen, IconFlagVN, IconMessageSquare } from '../UI/Icons';
 import { HighlightableText } from '../HighlightableText';
 
 // ─── Vocab table (shared between ReadingResult and library view) ───────────────
@@ -40,7 +40,99 @@ interface Props {
 
 export const ResultCard: React.FC<Props> = ({ result }) => {
   if (result.type === 'sentences') return <SentenceResult r={result} />;
+  if (result.type === 'dialogue')  return <DialogueResult r={result} />;
   return <ReadingResult r={result} />;
+};
+
+// ─── Dialogue result ──────────────────────────────────────────────────────────
+const DialogueResult: React.FC<{ r: AIDialogueResult }> = ({ r }) => {
+  const [showPinyin, setShowPinyin] = useState(false);
+  const [showVietnamese, setShowVi] = useState(false);
+
+  // Stable color per speaker (alternating accent / secondary tone)
+  const speakers = Array.from(new Set(r.dialogue.map(l => l.speaker)));
+  const fullText = r.dialogue.map(l => l.chinese).join('。');
+
+  return (
+    <div>
+      <div className="flex-between mb-12">
+        <div>
+          <span className={`badge badge-${r.band}`}>Band {r.band}</span>
+          <span className="text-sm text-muted" style={{ marginLeft: 8 }}>
+            {r.title || r.topic} · {r.createdAt}
+          </span>
+        </div>
+        <span className="text-sm text-muted">{r.questions.length} câu hỏi</span>
+      </div>
+
+      {/* Dialogue */}
+      <div className="card">
+        <div className="flex-between mb-12">
+          <h3 style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <IconMessageSquare size={16} /> Hội thoại
+          </h3>
+          <div className="flex gap-8" style={{ alignItems: 'center' }}>
+            <SpeakButton text={fullText} size="md" />
+            <button className={`chip ${showPinyin ? 'active' : ''}`} onClick={() => setShowPinyin(v => !v)}>Pinyin</button>
+            <button className={`chip ${showVietnamese ? 'active' : ''}`} onClick={() => setShowVi(v => !v)}>Dịch nghĩa</button>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {r.dialogue.map((line, i) => {
+            const isFirst = speakers.indexOf(line.speaker) === 0;
+            return (
+              <div key={i} style={{
+                borderLeft: `3px solid ${isFirst ? 'var(--accent)' : 'var(--text-muted)'}`,
+                paddingLeft: 12,
+              }}>
+                <div style={{
+                  fontSize: '.78rem', fontWeight: 700, marginBottom: 2,
+                  color: isFirst ? 'var(--accent)' : 'var(--text-secondary)',
+                  fontFamily: 'var(--font-zh)',
+                }}>
+                  {line.speaker}
+                </div>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+                  <div style={{ flex: 1, fontFamily: 'var(--font-zh)', fontSize: '1.1rem', lineHeight: 1.7 }}>
+                    <HighlightableText
+                      text={line.chinese}
+                      page_key={`ai_dialogue_${r.band}_${r.topic}_${i}`}
+                    />
+                  </div>
+                  <SpeakButton text={line.chinese} size="sm" />
+                </div>
+                {showPinyin && line.pinyin && (
+                  <div className="text-sm rc-reveal" style={{ color: 'var(--accent)', marginTop: 3 }}>
+                    {line.pinyin}
+                  </div>
+                )}
+                {showVietnamese && line.vietnamese && (
+                  <div className="rc-reveal" style={{ fontStyle: 'italic', color: 'var(--text-secondary)', fontSize: '.88rem', marginTop: 3, display: 'flex', alignItems: 'flex-start', gap: 6 }}>
+                    <IconFlagVN size={13} style={{ flexShrink: 0, marginTop: 2 }} />
+                    {line.vietnamese}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Questions */}
+      <div>
+        <h3 style={{ marginBottom: 10 }}>Câu hỏi</h3>
+        {r.questions.map((q, i) => (
+          <QuestionItem key={i} q={q} num={i + 1} />
+        ))}
+      </div>
+
+      {/* Vocabulary */}
+      {r.vocabulary && r.vocabulary.length > 0 && (
+        <VocabTable vocab={r.vocabulary} />
+      )}
+    </div>
+  );
 };
 
 // ─── Sentence result ──────────────────────────────────────────────────────────
