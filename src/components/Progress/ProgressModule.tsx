@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Progress, Word } from '../../types';
 import { IconBook, IconBookOpen, IconSave } from '../UI/Icons';
+import { useLang } from '../../i18n/LangContext';
 
 interface Props {
   progress: Progress;
@@ -9,6 +10,7 @@ interface Props {
 }
 
 export const ProgressModule: React.FC<Props> = ({ progress, vocabulary, onReset }) => {
+  const { lang } = useLang();
   const totalVocab = vocabulary.length;
   const totalA     = vocabulary.filter(w => w.band === 'A').length;
   const totalB     = vocabulary.filter(w => w.band === 'B').length;
@@ -29,7 +31,15 @@ export const ProgressModule: React.FC<Props> = ({ progress, vocabulary, onReset 
   }
 
   return (
-    <div>
+    <div className="progress-workspace">
+      <div className="module-intro module-intro--compact">
+        <span className="module-intro__index">08</span>
+        <div>
+          <p className="module-intro__eyebrow">{{ vi: 'NHẬT KÝ HỌC TẬP', zh: '學習紀錄', en: 'LEARNING RECORD' }[lang]}</p>
+          <h1>{{ vi: 'Tiến độ học tập', zh: '學習進度', en: 'Learning progress' }[lang]}</h1>
+          <p>{{ vi: 'Một nơi để xem nhịp học, kết quả và phần cần tập trung tiếp theo.', zh: '集中查看學習節奏、成績與下一步重點。', en: 'See your study rhythm, results, and what to focus on next.' }[lang]}</p>
+        </div>
+      </div>
       {/* Summary */}
       <div className="stats-row">
         <div className="stat-box">

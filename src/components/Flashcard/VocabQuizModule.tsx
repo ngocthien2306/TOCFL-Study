@@ -9,6 +9,7 @@ import React, { useMemo, useState, useCallback } from 'react';
 import type { Word, Progress } from '../../types';
 import { useLang } from '../../i18n/LangContext';
 import { SpeakButton } from '../UI/SpeakButton';
+import { IconBook, IconMatch, IconMeaning, IconPinyin, IconReverse } from '../UI/Icons';
 
 interface Props {
   vocabulary: Word[];
@@ -345,7 +346,7 @@ export const VocabQuizModule: React.FC<Props> = ({ vocabulary, markWord }) => {
     }, 900);
   }
 
-  function handleMatchComplete(score: number, _attempts: number) {
+  function handleMatchComplete(score: number) {
     // For matching game: award each correctly matched word
     session.forEach(w => markWord(w.hanzi, true));
     const fakeResults = Array(score).fill(true).concat(Array(MATCH_SIZE - score).fill(false));
@@ -399,11 +400,11 @@ export const VocabQuizModule: React.FC<Props> = ({ vocabulary, markWord }) => {
     q_of: 'Q',
   };
 
-  const QUIZ_TYPES: { type: QuizType; icon: string; label: string; desc: string }[] = [
-    { type: 'meaning',  icon: '🈯', label: lbl.q_meaning,  desc: lbl.q_meaning_desc },
-    { type: 'pinyin',   icon: '🔤', label: lbl.q_pinyin,   desc: lbl.q_pinyin_desc },
-    { type: 'reverse',  icon: '🔄', label: lbl.q_reverse,  desc: lbl.q_reverse_desc },
-    { type: 'matching', icon: '🧩', label: lbl.q_matching,  desc: lbl.q_matching_desc },
+  const QUIZ_TYPES = [
+    { type: 'meaning' as const,  Icon: IconMeaning, label: lbl.q_meaning,  desc: lbl.q_meaning_desc },
+    { type: 'pinyin' as const,   Icon: IconPinyin,  label: lbl.q_pinyin,   desc: lbl.q_pinyin_desc },
+    { type: 'reverse' as const,  Icon: IconReverse, label: lbl.q_reverse,  desc: lbl.q_reverse_desc },
+    { type: 'matching' as const, Icon: IconMatch,   label: lbl.q_matching, desc: lbl.q_matching_desc },
   ];
 
   const canStart = quizType === 'matching' ? pool.filter(w => w.meaning).length >= MATCH_SIZE : pool.length >= 4;
@@ -411,35 +412,34 @@ export const VocabQuizModule: React.FC<Props> = ({ vocabulary, markWord }) => {
   // ── Setup screen ─────────────────────────────────────────────────────────
   if (phase === 'setup') {
     return (
-      <div>
-        <div style={{ marginBottom: 20 }}>
-          <h2 style={{ margin: '0 0 4px', fontSize: '1.1rem' }}>{lbl.title}</h2>
-          <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '.82rem' }}>{lbl.subtitle}</p>
+      <div className="quiz-setup">
+        <div className="module-intro">
+          <span className="module-intro__index">02</span>
+          <div>
+            <p className="module-intro__eyebrow">{{ vi: 'BÀI TẬP TỪ VỰNG', zh: '詞彙練習', en: 'VOCABULARY DRILLS' }[lang]}</p>
+            <h1>{lbl.title}</h1>
+            <p>{lbl.subtitle}</p>
+          </div>
         </div>
 
         {/* Quiz type cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 20 }}>
-          {QUIZ_TYPES.map(({ type, icon, label, desc }) => {
+        <div className="quiz-type-grid">
+          {QUIZ_TYPES.map(({ type, Icon, label, desc }, index) => {
             const active = quizType === type;
             return (
               <button key={type} onClick={() => setQuizType(type)}
-                style={{
-                  borderRadius: 14, padding: '16px 12px', textAlign: 'left',
-                  border: `2px solid ${active ? 'var(--accent)' : 'var(--border)'}`,
-                  background: active ? 'var(--accent-light)' : 'var(--surface)',
-                  cursor: 'pointer', fontFamily: 'inherit',
-                  transition: 'all .15s',
-                }}>
-                <div style={{ fontSize: '1.6rem', marginBottom: 8 }}>{icon}</div>
-                <div style={{ fontWeight: 700, fontSize: '.88rem', color: active ? 'var(--accent)' : 'var(--text)', marginBottom: 4 }}>{label}</div>
-                <div style={{ fontSize: '.72rem', color: 'var(--text-muted)' }}>{desc}</div>
+                className={`quiz-type-card${active ? ' active' : ''}`}>
+                <span className="quiz-type-card__number">0{index + 1}</span>
+                <span className="quiz-type-card__icon"><Icon size={24} /></span>
+                <strong>{label}</strong>
+                <small>{desc}</small>
               </button>
             );
           })}
         </div>
 
         {/* Filters */}
-        <div className="card card--compact" style={{ marginBottom: 16 }}>
+        <div className="card card--compact quiz-filter-panel" style={{ marginBottom: 16 }}>
           <div style={{ marginBottom: 10 }}>
             <div style={{ fontSize: '.65rem', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '.06em' }}>{lbl.filter_band}</div>
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
@@ -501,14 +501,10 @@ export const VocabQuizModule: React.FC<Props> = ({ vocabulary, markWord }) => {
         </div>
 
         {/* Pool info */}
-        <div style={{
-          padding: '10px 14px', borderRadius: 10, marginBottom: 16,
-          background: canStart ? 'var(--accent-light)' : '#fef9e7',
-          border: `1px solid ${canStart ? 'var(--accent)' : '#f0c040'}30`,
-          fontSize: '.82rem', color: canStart ? 'var(--accent)' : '#b45309',
-        }}>
+        <div className={`quiz-pool-note${canStart ? '' : ' is-warning'}`}>
+          <IconBook size={17} />
           {canStart
-            ? ({ vi: `📚 ${pool.length} từ trong pool · Mỗi phiên ${quizType === 'matching' ? MATCH_SIZE : SESSION_SIZE} từ`, zh: `📚 ${pool.length} 個詞 · 每次 ${quizType === 'matching' ? MATCH_SIZE : SESSION_SIZE} 題`, en: `📚 ${pool.length} words in pool · ${quizType === 'matching' ? MATCH_SIZE : SESSION_SIZE} per session` }[lang] ?? '')
+            ? ({ vi: `${pool.length} từ phù hợp · Mỗi phiên ${quizType === 'matching' ? MATCH_SIZE : SESSION_SIZE} từ`, zh: `${pool.length} 個符合條件的詞 · 每次 ${quizType === 'matching' ? MATCH_SIZE : SESSION_SIZE} 題`, en: `${pool.length} matching words · ${quizType === 'matching' ? MATCH_SIZE : SESSION_SIZE} per session` }[lang] ?? '')
             : lbl.pool_warn
           }
         </div>
@@ -516,12 +512,7 @@ export const VocabQuizModule: React.FC<Props> = ({ vocabulary, markWord }) => {
         <button
           disabled={!canStart}
           onClick={startSession}
-          style={{
-            width: '100%', minHeight: 52, borderRadius: 14, cursor: canStart ? 'pointer' : 'not-allowed',
-            border: 'none', fontFamily: 'inherit', fontSize: '1rem', fontWeight: 700,
-            background: canStart ? 'var(--accent)' : 'var(--border)',
-            color: canStart ? '#fff' : 'var(--text-muted)',
-          }}>
+          className="quiz-start-btn">
           {lbl.start} →
         </button>
       </div>

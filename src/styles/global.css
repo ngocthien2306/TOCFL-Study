@@ -1858,6 +1858,18 @@ button { cursor: pointer; font-family: inherit; }
   z-index: 1000;
   animation: dropIn .15s ease;
 }
+@media (max-width: 480px) {
+  .apikey-panel {
+    position: fixed;
+    top: calc(var(--header-h) + 8px);
+    right: var(--content-pad-x);
+    left: var(--content-pad-x);
+    width: auto;
+    max-height: calc(100dvh - var(--header-h) - var(--nav-h) - 24px);
+    overflow-y: auto;
+  }
+  .apikey-panel-arrow { display: none; }
+}
 @keyframes dropIn {
   from { opacity: 0; transform: translateY(-6px); }
   to   { opacity: 1; transform: translateY(0); }

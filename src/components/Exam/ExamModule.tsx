@@ -617,7 +617,15 @@ const SelectPhase: React.FC<{
   };
 
   return (
-    <div>
+    <div className="exam-select-workspace">
+      <div className="module-intro module-intro--compact">
+        <span className="module-intro__index">05</span>
+        <div>
+          <p className="module-intro__eyebrow">{{ vi: 'THI THỬ', zh: '模擬測驗', en: 'MOCK TEST' }[lang]}</p>
+          <h1>{{ vi: 'Phòng thi thử', zh: '模擬測驗', en: 'Mock test room' }[lang]}</h1>
+          <p>{{ vi: 'Chọn cấp độ và bộ đề phù hợp trước khi bắt đầu.', zh: '開始前先選擇適合的級別與試卷。', en: 'Choose the right level and test set before you begin.' }[lang]}</p>
+        </div>
+      </div>
       {/* ── Resume banner ─────────────────────────────────────────────────── */}
       {draft && (() => {
         const elapsed = Math.floor((Date.now() - draft.savedAt) / 1000);
@@ -660,7 +668,7 @@ const SelectPhase: React.FC<{
       </div>
 
       {/* ── Band poster cards (horizontal scroll) ─────────────────────────── */}
-      <div style={{
+      <div className="exam-band-grid" style={{
         display: 'flex', gap: 12, overflowX: 'auto', paddingBottom: 4, marginBottom: 28,
         scrollbarWidth: 'none', msOverflowStyle: 'none',
       }}>
@@ -671,6 +679,7 @@ const SelectPhase: React.FC<{
           return (
             <button
               key={b}
+              className={`exam-band-card${isActive ? ' active' : ''}`}
               onClick={() => onBandChange(b)}
               style={{
                 flexShrink: 0,
@@ -689,13 +698,21 @@ const SelectPhase: React.FC<{
                 outline: 'none',
               }}
             >
+              <img
+                className="exam-band-card__art"
+                src={`${import.meta.env.BASE_URL}artwork/band-${b.toLowerCase()}.webp`}
+                alt=""
+                loading="lazy"
+                aria-hidden="true"
+              />
+              <div className="exam-band-card__shade" />
               {/* Decorative circles */}
               <div style={{ position: 'absolute', top: -18, right: -18, width: 90, height: 90, borderRadius: '50%', background: 'rgba(255,255,255,.13)', pointerEvents: 'none' }} />
               <div style={{ position: 'absolute', bottom: 28, left: -22, width: 70, height: 70, borderRadius: '50%', background: 'rgba(255,255,255,.09)', pointerEvents: 'none' }} />
               <div style={{ position: 'absolute', top: 36, left: -10, width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,.07)', pointerEvents: 'none' }} />
 
               {/* Content */}
-              <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '14px 14px 16px', color: '#fff', textAlign: 'left' }}>
+              <div className="exam-band-card__content" style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '14px 14px 16px', color: '#fff', textAlign: 'left' }}>
                 <div style={{ fontSize: '2rem', fontWeight: 900, lineHeight: 1, letterSpacing: '-.02em', textShadow: '0 2px 8px rgba(0,0,0,.2)' }}>
                   Band {b}
                 </div>
@@ -725,7 +742,7 @@ const SelectPhase: React.FC<{
       </div>
 
       {/* ── Exam book-cover cards ─────────────────────────────────────────── */}
-      <div style={{
+      <div className="exam-paper-grid" style={{
         display: 'flex', gap: 12, overflowX: 'auto', paddingBottom: 8, marginBottom: 24,
         scrollbarWidth: 'none', msOverflowStyle: 'none',
       }}>
@@ -741,6 +758,7 @@ const SelectPhase: React.FC<{
           return (
             <button
               key={ek}
+              className="exam-paper-card"
               onClick={() => onStart(selectedBand, ek)}
               style={{
                 flexShrink: 0,
@@ -762,7 +780,7 @@ const SelectPhase: React.FC<{
               onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = ''; (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 2px 12px rgba(0,0,0,.10)'; }}
             >
               {/* Cover image area */}
-              <div style={{
+              <div className="exam-paper-cover exam-paper-cover--reading" style={{
                 background: `linear-gradient(150deg, ${th.grad} 0%, ${th.gradDark} 100%)`,
                 padding: '18px 12px 14px',
                 position: 'relative',
@@ -772,6 +790,13 @@ const SelectPhase: React.FC<{
                 flexDirection: 'column',
                 justifyContent: 'flex-end',
               }}>
+                <img
+                  className="exam-paper-cover__art"
+                  src={`${import.meta.env.BASE_URL}artwork/reading-exam-${idx}.webp`}
+                  alt=""
+                  loading="lazy"
+                  aria-hidden="true"
+                />
                 {/* Decorative circles */}
                 <div style={{ position: 'absolute', top: -14, right: -14, width: 64, height: 64, borderRadius: '50%', background: 'rgba(255,255,255,.15)' }} />
                 <div style={{ position: 'absolute', top: 20, right: 18, width: 30, height: 30, borderRadius: '50%', background: 'rgba(255,255,255,.10)' }} />

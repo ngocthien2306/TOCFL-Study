@@ -14,6 +14,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import type { Word } from '../../types';
 import { useLang } from '../../i18n/LangContext';
 import { useApiKey } from '../../contexts/ApiKeyContext';
+import { IconWarning } from '../UI/Icons';
 
 const EXTRA_KEY   = 'tocfl_vocab_extra_meanings';   // localStorage key
 const BATCH_SIZE  = 100;
@@ -256,10 +257,14 @@ export const VocabAdminTool: React.FC<Props> = ({ vocabulary, onVocabUpdated }) 
   const extraCount = Object.keys(extra).length;
 
   return (
-    <div>
-      <div style={{ marginBottom: 20 }}>
-        <h2 style={{ margin: '0 0 4px', fontSize: '1.1rem' }}>{lbl.title}</h2>
-        <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '.82rem' }}>{lbl.subtitle}</p>
+    <div className="vocab-admin-workspace">
+      <div className="module-intro module-intro--compact">
+        <span className="module-intro__index">10</span>
+        <div>
+          <p className="module-intro__eyebrow">{{ vi: 'CÔNG CỤ TỪ VỰNG', zh: '詞彙工具', en: 'VOCABULARY TOOL' }[lang]}</p>
+          <h1>{lbl.title}</h1>
+          <p>{lbl.subtitle}</p>
+        </div>
       </div>
 
       {!hasKey && (
@@ -268,7 +273,7 @@ export const VocabAdminTool: React.FC<Props> = ({ vocabulary, onVocabUpdated }) 
           background: '#fef9e7', border: '1px solid #f0c040',
           color: '#92400e', fontSize: '.85rem', fontWeight: 600,
         }}>
-          ⚠ {lbl.no_key}
+          <IconWarning size={15} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 6 }} /> {lbl.no_key}
         </div>
       )}
 
@@ -286,7 +291,8 @@ export const VocabAdminTool: React.FC<Props> = ({ vocabulary, onVocabUpdated }) 
               <button key={lvl}
                 onClick={() => setSelected(prev => {
                   const next = new Set(prev);
-                  next.has(lvl) ? next.delete(lvl) : next.add(lvl);
+                  if (next.has(lvl)) next.delete(lvl);
+                  else next.add(lvl);
                   return next;
                 })}
                 disabled={running}

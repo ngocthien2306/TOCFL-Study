@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useLang } from '../../i18n/LangContext';
 
-export type TabId = 'flashcard' | 'quiz' | 'reading' | 'exam' | 'cat' | 'ai' | 'progress' | 'interview' | 'vocab-admin';
+export type TabId = 'flashcard' | 'quiz' | 'reading' | 'guided-reading' | 'exam' | 'cat' | 'ai' | 'progress' | 'interview' | 'vocab-admin';
 
 interface Props {
   active:   TabId;
@@ -21,6 +21,14 @@ const IconReading = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
     <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+  </svg>
+);
+
+const IconGuidedReading = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="4" width="18" height="14" rx="2" />
+    <path d="M8 8h8M7 12h10" />
+    <path d="m10 22 2-4 2 4" />
   </svg>
 );
 
@@ -85,6 +93,7 @@ const TABS: {
   { id: 'flashcard', icon: IconFlashcard, label: { vi: 'Flashcard',  zh: '單詞卡', en: 'Flashcard' } },
   { id: 'quiz',      icon: IconQuiz,      label: { vi: 'Luyện từ',  zh: '詞彙練', en: 'Quiz'      } },
   { id: 'reading',   icon: IconReading,   label: { vi: 'Đoạn văn', zh: '閱讀',   en: 'Paragraph'  } },
+  { id: 'guided-reading', icon: IconGuidedReading, label: { vi: 'Đọc theo', zh: '跟讀', en: 'Read Along' } },
   { id: 'exam',      icon: IconExam,      label: { vi: 'Thi thử', zh: '考試',   en: 'Mock Test'   } },
   { id: 'cat',       icon: IconCAT,       label: { vi: 'CAT',       zh: '適性測', en: 'CAT'       } },
   { id: 'ai',        icon: IconAI,        label: { vi: 'AI Tạo',    zh: 'AI生成', en: 'AI Gen'   } },
@@ -97,10 +106,16 @@ const TABS: {
 
 export const AppNav: React.FC<Props> = ({ active, onChange }) => {
   const { lang } = useLang();
+  const navRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    navRef.current?.querySelector<HTMLElement>('.nav-tab--active')
+      ?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }, [active]);
 
   return (
     <nav className="app-nav">
-      <div className="nav-inner">
+      <div className="nav-inner" ref={navRef}>
         {TABS.map(tab => {
           const Icon = tab.icon;
           return (
@@ -108,6 +123,7 @@ export const AppNav: React.FC<Props> = ({ active, onChange }) => {
               key={tab.id}
               className={`nav-tab${active === tab.id ? ' nav-tab--active' : ''}`}
               onClick={() => onChange(tab.id)}
+              aria-current={active === tab.id ? 'page' : undefined}
             >
               <span className="nav-tab-icon"><Icon /></span>
               <span className="nav-tab-label">{tab.label[lang]}</span>

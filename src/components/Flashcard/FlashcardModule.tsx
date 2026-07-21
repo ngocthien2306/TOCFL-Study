@@ -115,9 +115,17 @@ export const FlashcardModule: React.FC<Props> = ({ vocabulary, progress, markWor
   const bandColor = word ? BAND_COLORS[word.band as 'A'|'B'|'C'] ?? BAND_COLORS['A'] : BAND_COLORS['A'];
 
   return (
-    <div>
+    <div className="flashcard-workspace">
+      <div className="module-intro module-intro--compact">
+        <span className="module-intro__index">01</span>
+        <div>
+          <p className="module-intro__eyebrow">{{ vi: 'ÔN TẬP HẰNG NGÀY', zh: '每日複習', en: 'DAILY REVIEW' }[lang]}</p>
+          <h1>{{ vi: 'Ôn từ vựng', zh: '詞彙複習', en: 'Vocabulary review' }[lang]}</h1>
+          <p>{{ vi: 'Học theo nhịp của bạn, lọc đúng nhóm từ cần ôn.', zh: '依自己的節奏，專注複習需要加強的詞彙。', en: 'Review at your own pace and focus on the words that matter.' }[lang]}</p>
+        </div>
+      </div>
       {/* ── Stats row ─────────────────────────────────────────────────────── */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 16, overflowX: 'auto', scrollbarWidth: 'none' }}>
+      <div className="band-progress-strip" style={{ display: 'flex', gap: 8, marginBottom: 16, overflowX: 'auto', scrollbarWidth: 'none' }}>
         {(['A','B','C'] as const).map(b => {
           const cnt  = vocabulary.filter(w => w.band === b).length;
           const knwn = Object.keys(progress.known).filter(h => {
@@ -127,7 +135,7 @@ export const FlashcardModule: React.FC<Props> = ({ vocabulary, progress, markWor
           const pct = cnt > 0 ? Math.round(knwn / cnt * 100) : 0;
           const bc  = BAND_COLORS[b];
           return (
-            <div key={b} style={{
+            <div key={b} className="band-progress-card" style={{
               flex: 1, minWidth: 90, borderRadius: 12,
               background: `${bc.grad}28`, border: `1.5px solid ${bc.dark}28`,
               padding: '10px 12px',
@@ -143,7 +151,7 @@ export const FlashcardModule: React.FC<Props> = ({ vocabulary, progress, markWor
             </div>
           );
         })}
-        <div style={{
+        <div className="band-progress-card band-progress-card--total" style={{
           flex: 1, minWidth: 80, borderRadius: 12,
           background: 'var(--accent-light)', border: '1.5px solid var(--accent)',
           padding: '10px 12px',
@@ -155,7 +163,7 @@ export const FlashcardModule: React.FC<Props> = ({ vocabulary, progress, markWor
       </div>
 
       {/* ── Filters ───────────────────────────────────────────────────────── */}
-      <div className="card card--compact" style={{ marginBottom: 14 }}>
+      <div className="card card--compact study-filter-panel" style={{ marginBottom: 14 }}>
         {/* Band */}
         <div style={{ marginBottom: 10 }}>
           <div style={{ fontSize: '.65rem', fontWeight: 700, color: 'var(--text-muted)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '.06em' }}>{lbl.filter_band}</div>
@@ -290,6 +298,7 @@ export const FlashcardModule: React.FC<Props> = ({ vocabulary, progress, markWor
 
           {/* Card face */}
           <div
+            className="flashcard-stage"
             onClick={() => setFlipped(v => !v)}
             style={{
               position: 'relative', borderRadius: 20, overflow: 'hidden', cursor: 'pointer',

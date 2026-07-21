@@ -923,6 +923,14 @@ export const InterviewModule: React.FC = () => {
 
   return (
     <div className="iv-module">
+      <div className="module-intro module-intro--compact">
+        <span className="module-intro__index">09</span>
+        <div>
+          <p className="module-intro__eyebrow">{{ vi: 'PHÒNG LUYỆN PHỎNG VẤN', zh: '面試練習室', en: 'INTERVIEW STUDIO' }[lang]}</p>
+          <h1>{{ vi: 'Luyện phỏng vấn', zh: '面試練習', en: 'Interview practice' }[lang]}</h1>
+          <p>{{ vi: 'Chuẩn bị hồ sơ và luyện trả lời trong một không gian tập trung.', zh: '整理履歷並在專注的空間中練習回答。', en: 'Prepare your profile and practise answers in one focused workspace.' }[lang]}</p>
+        </div>
+      </div>
       {/* Tab switcher */}
       <div className="iv-tab-bar">
         <button

@@ -3,11 +3,12 @@ import { useLang } from '../../i18n/LangContext';
 import type { Lang } from '../../i18n/translations';
 import { useApiKey } from '../../contexts/ApiKeyContext';
 import { useAIModel } from '../../hooks/useAIModel';
+import { useSonioxKey } from '../../contexts/SonioxKeyContext';
 import type { AIModelId } from '../../hooks/useAIModel';
 import { AI_MODELS } from '../../hooks/useAIModel';
 import {
   IconKey, IconLock, IconUnlock, IconEye, IconEyeOff,
-  IconClose, IconCheck, IconWarning,
+  IconClose, IconCheck, IconWarning, IconMic,
 } from '../UI/Icons';
 
 interface AuthUser { name: string; email: string }
@@ -30,13 +31,17 @@ const TX = {
   logout:       { vi: 'Đăng xuất',     zh: '登出',       en: 'Log out'        },
   tagline:      { vi: 'Luyện thi TOCFL hiệu quả', zh: '高效備考 TOCFL', en: 'Master TOCFL effectively' },
   words:        { vi: 'từ vựng',       zh: '詞彙',       en: 'words'          },
-  apiKey:       { vi: 'API Key',       zh: 'API 金鑰',    en: 'API Key'        },
-  apiKeySet:    { vi: 'Đã cài API Key', zh: '已設定金鑰', en: 'API Key set'    },
+  apiKey:       { vi: 'API Keys',       zh: 'API 金鑰',    en: 'API Keys'        },
+  apiKeySet:    { vi: 'Đã cài API Key', zh: '已設定金鑰', en: 'API key set'    },
   apiKeySave:   { vi: 'Lưu',           zh: '儲存',        en: 'Save'           },
   apiKeyClear:  { vi: 'Xóa key',       zh: '清除金鑰',    en: 'Clear key'      },
   apiKeyRemember:{ vi: 'Nhớ key khi mở lại trình duyệt', zh: '重啟後記住金鑰', en: 'Remember after restart' },
-  apiKeyNote:   { vi: 'Key chỉ dùng trong trình duyệt, không gửi lên server.', zh: '金鑰僅在瀏覽器中使用，不會上傳至伺服器。', en: 'Key is used only in your browser, never sent to any server.' },
+  apiKeyNote:   { vi: 'Key chỉ dùng trong trình duyệt và không gửi lên backend của ứng dụng.', zh: '金鑰僅在瀏覽器中使用，不會傳送至本應用程式的後端。', en: 'Keys stay in your browser and are never sent to this app’s backend.' },
   apiKeyPlaceholder: { vi: 'sk-…', zh: 'sk-…', en: 'sk-…' },
+  openAIModel: { vi: 'Model OpenAI', zh: 'OpenAI 模型', en: 'OpenAI model' },
+  currentModel: { vi: 'Model hiện tại', zh: '目前模型', en: 'Current model' },
+  sonioxCoach: { vi: 'Soniox · AI nghe đọc', zh: 'Soniox · AI 跟讀', en: 'Soniox · AI read-along' },
+  sessionOnly: { vi: 'Key tự xóa khi đóng tab.', zh: '關閉分頁後將自動清除金鑰。', en: 'Keys are cleared when this tab closes.' },
 } as const;
 
 function initials(name: string) {
@@ -47,11 +52,19 @@ function initials(name: string) {
 const ApiKeyPanel: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { lang } = useLang();
   const { apiKey, hasKey, persisted, setKey, clearKey } = useApiKey();
+  const {
+    sonioxKey, hasSonioxKey, persisted: sonioxPersisted,
+    setSonioxKey, clearSonioxKey,
+  } = useSonioxKey();
   const { model, setModel } = useAIModel();
   const [input,   setInput  ] = useState('');
   const [persist, setPersist] = useState(persisted);
   const [showKey, setShowKey] = useState(false);
   const [saved,   setSaved  ] = useState(false);
+  const [sonioxInput, setSonioxInput] = useState('');
+  const [sonioxPersist, setSonioxPersist] = useState(sonioxPersisted);
+  const [showSonioxKey, setShowSonioxKey] = useState(false);
+  const [sonioxSaved, setSonioxSaved] = useState(false);
 
   const maskedKey = apiKey ? `${apiKey.slice(0, 7)}${'•'.repeat(20)}` : '';
 
@@ -65,6 +78,14 @@ const ApiKeyPanel: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const handleClear = () => { clearKey(); setInput(''); };
 
+  const handleSonioxSave = () => {
+    if (!sonioxInput.trim()) return;
+    setSonioxKey(sonioxInput, sonioxPersist);
+    setSonioxInput('');
+    setSonioxSaved(true);
+    setTimeout(() => setSonioxSaved(false), 2000);
+  };
+
   return (
     <div className="apikey-panel">
       <div className="apikey-panel-arrow" />
@@ -72,7 +93,7 @@ const ApiKeyPanel: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       <div className="apikey-header">
         <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           <IconKey size={15} />
-          OpenAI API Key
+          API Keys
         </span>
         <button className="apikey-close" onClick={onClose} aria-label="Close">
           <IconClose size={14} />
@@ -132,7 +153,7 @@ const ApiKeyPanel: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       {/* AI Model selector */}
       <div style={{ borderTop: '1px solid var(--border)', marginTop: 8, paddingTop: 10 }}>
         <label style={{ fontSize: '.72rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '.04em', display: 'block', marginBottom: 6 }}>
-          🤖 Model AI giải thích
+          {TX.openAIModel[lang]}
         </label>
         <select
           value={model}
@@ -157,8 +178,42 @@ const ApiKeyPanel: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           ))}
         </select>
         <div style={{ fontSize: '.68rem', color: 'var(--text-muted)', marginTop: 4 }}>
-          Model hiện tại: <strong style={{ color: 'var(--accent)' }}>{AI_MODELS.find(m => m.id === model)?.label}</strong>
+          {TX.currentModel[lang]}: <strong style={{ color: 'var(--accent)' }}>{AI_MODELS.find(m => m.id === model)?.label}</strong>
         </div>
+      </div>
+
+      {/* Soniox key for Guided Reading live transcription */}
+      <div className="apikey-service-section">
+        <label className="apikey-service-label"><IconMic size={13} /> {TX.sonioxCoach[lang]}</label>
+        {hasSonioxKey && (
+          <div className="apikey-status">
+            <span className="apikey-status-dot" />
+            <span className="apikey-masked">{showSonioxKey ? sonioxKey : `${sonioxKey.slice(0, 6)}${'•'.repeat(18)}`}</span>
+            <button className="apikey-show-btn" onClick={() => setShowSonioxKey(value => !value)} aria-label="Toggle Soniox key visibility">
+              {showSonioxKey ? <IconEyeOff size={14} /> : <IconEye size={14} />}
+            </button>
+            <button className="apikey-clear-btn" onClick={clearSonioxKey}>{TX.apiKeyClear[lang]}</button>
+          </div>
+        )}
+        <div className="apikey-input-row">
+          <input
+            type="password"
+            className="apikey-input"
+            placeholder="Soniox API Key…"
+            value={sonioxInput}
+            onChange={event => setSonioxInput(event.target.value)}
+            onKeyDown={event => event.key === 'Enter' && handleSonioxSave()}
+            autoComplete="off"
+            spellCheck={false}
+          />
+          <button className={`apikey-save-btn${sonioxSaved ? ' saved' : ''}`} onClick={handleSonioxSave} disabled={!sonioxInput.trim()}>
+            {sonioxSaved ? <IconCheck size={14} /> : TX.apiKeySave[lang]}
+          </button>
+        </div>
+        <label className="apikey-persist-row">
+          <input type="checkbox" checked={sonioxPersist} onChange={event => setSonioxPersist(event.target.checked)} />
+          <span>{TX.apiKeyRemember[lang]}</span>
+        </label>
       </div>
 
       {/* Security note */}
@@ -166,7 +221,7 @@ const ApiKeyPanel: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <IconLock size={12} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 4 }} />
         {TX.apiKeyNote[lang]}
         {!persist && (
-          <span className="apikey-session-note"> Key tự xóa khi đóng tab.</span>
+          <span className="apikey-session-note"> {TX.sessionOnly[lang]}</span>
         )}
       </p>
     </div>
@@ -177,6 +232,8 @@ const ApiKeyPanel: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 export const AppHeader: React.FC<Props> = ({ vocabCount, user, onLoginClick, onLogout }) => {
   const { lang, setLang } = useLang();
   const { hasKey } = useApiKey();
+  const { hasSonioxKey } = useSonioxKey();
+  const hasAnyKey = hasKey || hasSonioxKey;
   const [menuOpen,     setMenuOpen    ] = useState(false);
   const [keyPanelOpen, setKeyPanelOpen] = useState(false);
   const keyBtnRef = useRef<HTMLButtonElement>(null);
@@ -226,17 +283,17 @@ export const AppHeader: React.FC<Props> = ({ vocabCount, user, onLoginClick, onL
           <div className="apikey-area">
             <button
               ref={keyBtnRef}
-              className={`apikey-btn${hasKey ? ' apikey-btn--set' : ''}${keyPanelOpen ? ' active' : ''}`}
+              className={`apikey-btn${hasAnyKey ? ' apikey-btn--set' : ''}${keyPanelOpen ? ' active' : ''}`}
               onClick={() => setKeyPanelOpen(v => !v)}
-              title={hasKey ? TX.apiKeySet[lang] : TX.apiKey[lang]}
+              title={hasAnyKey ? TX.apiKeySet[lang] : TX.apiKey[lang]}
             >
               <span className="apikey-btn-icon">
-                {hasKey ? <IconKey size={15} /> : <IconUnlock size={15} />}
+                {hasAnyKey ? <IconKey size={15} /> : <IconUnlock size={15} />}
               </span>
               <span className="apikey-btn-label">
-                {hasKey ? TX.apiKeySet[lang] : TX.apiKey[lang]}
+                {hasAnyKey ? TX.apiKeySet[lang] : TX.apiKey[lang]}
               </span>
-              {hasKey && <span className="apikey-dot" />}
+              {hasAnyKey && <span className="apikey-dot" />}
             </button>
 
             {keyPanelOpen && (
