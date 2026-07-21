@@ -1,5 +1,5 @@
 // ── API base URL ──────────────────────────────────────────────────────────────
-export const API_BASE = "https://tocflapi.a.pinggy.link";
+export const API_BASE = "https://audiobook.a.pinggy.link";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 export interface AuthResponse {
@@ -224,6 +224,60 @@ export const examExplanationsApi = {
     apiFetch<{ synced: number }>("/exam-explanations/bulk-sync", {
       method: "POST",
       body: JSON.stringify({ items }),
+    }, token),
+};
+
+// ── Guided Reading TTS cache ──────────────────────────────────────────────────
+export const guidedTtsApi = {
+  get: async (token: string, cacheKey: string): Promise<Blob | null> => {
+    const response = await fetch(`${API_BASE}/guided-tts/${encodeURIComponent(cacheKey)}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "true",
+      },
+    });
+    if (response.status === 404) return null;
+    if (!response.ok) throw new Error(`TTS cache error (${response.status})`);
+    return response.blob();
+  },
+
+  put: async (token: string, cacheKey: string, audio: Blob): Promise<void> => {
+    const formData = new FormData();
+    formData.append("file", audio, `${cacheKey}.mp3`);
+    const response = await fetch(`${API_BASE}/guided-tts/${encodeURIComponent(cacheKey)}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "true",
+      },
+      body: formData,
+    });
+    if (!response.ok) throw new Error(`TTS cache upload failed (${response.status})`);
+  },
+};
+
+// ── Guided Reading article storage ───────────────────────────────────────────
+export interface GuidedReadingRecord<T> {
+  article_id: string;
+  article: T;
+  created_at: string;
+  updated_at: string;
+}
+
+export const guidedReadingsApi = {
+  list: <T>(token: string) =>
+    apiFetch<GuidedReadingRecord<T>[]>("/guided-readings", {}, token),
+
+  upsert: <T extends { id: string }>(token: string, article: T) =>
+    apiFetch<GuidedReadingRecord<T>>(`/guided-readings/${encodeURIComponent(article.id)}`, {
+      method: "PUT",
+      body: JSON.stringify({ article }),
+    }, token),
+
+  sync: <T>(token: string, articles: T[]) =>
+    apiFetch<GuidedReadingRecord<T>[]>("/guided-readings/sync", {
+      method: "POST",
+      body: JSON.stringify({ articles }),
     }, token),
 };
 

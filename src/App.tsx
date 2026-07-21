@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import './styles/global.css';
 import { ApiKeyProvider }      from './contexts/ApiKeyContext';
 import { HighlightsProvider }  from './contexts/HighlightsContext';
+import { SonioxKeyProvider }   from './contexts/SonioxKeyContext';
 
 import { useData }     from './hooks/useData';
 import { useProgress } from './hooks/useProgress';
@@ -21,8 +22,10 @@ import { CATModule }         from './components/CAT/CATModule';
 import { ProgressModule }    from './components/Progress/ProgressModule';
 import { AIGeneratorModule } from './components/AIGenerator/AIGeneratorModule';
 import { InterviewModule }   from './components/Interview/InterviewModule';
+import { GuidedReadingModule } from './components/GuidedReading/GuidedReadingModule';
 import { AuthModal }         from './components/Auth/AuthModal';
 import { WordLookupTooltip } from './components/WordLookupTooltip';
+import './styles/redesign.css';
 
 export default function App() {
   const [tab,      setTab     ] = useState<TabId>('flashcard');
@@ -105,6 +108,7 @@ export default function App() {
 
   return (
     <ApiKeyProvider>
+    <SonioxKeyProvider>
     <HighlightsProvider token={auth.token}>
     {/* Global word-lookup tooltip — triggers on any CJK text selection */}
     <WordLookupTooltip />
@@ -164,6 +168,15 @@ export default function App() {
 
           {tab === 'ai' && <AIGeneratorModule vocabulary={vocabulary} progress={progress} />}
 
+          {tab === 'guided-reading' && (
+            <GuidedReadingModule
+              key={auth.user?.user_id ?? 'anonymous'}
+              vocabulary={vocabulary}
+              token={auth.token}
+              userId={auth.user?.user_id}
+            />
+          )}
+
           {tab === 'interview' && <InterviewModule />}
 
           {tab === 'vocab-admin' && (
@@ -199,6 +212,7 @@ export default function App() {
       )}
     </div>
     </HighlightsProvider>
+    </SonioxKeyProvider>
     </ApiKeyProvider>
   );
 }
