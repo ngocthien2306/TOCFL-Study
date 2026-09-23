@@ -1,0 +1,788 @@
+<header>
+      <p>繁體中文 · Pinyin · Tiếng Việt · English</p>
+      <p class="role">AI Engineer / AI Solution Engineer</p>
+      <div class="toolbar" aria-label="Tùy chọn hiển thị">
+        <button id="toggle-pinyin" type="button" aria-pressed="true">Ẩn pinyin</button>
+        <button id="toggle-meaning" type="button" aria-pressed="true">Ẩn nghĩa Việt</button>
+        <button id="toggle-english" type="button" aria-pressed="true">Ẩn tiếng Anh</button>
+        <button id="clear-progress" type="button">Xóa dấu đã học</button>
+      </div>
+    </header>
+
+    <section>
+      <h2>Lộ trình học</h2>
+      <div class="note">
+        <p>Học theo thứ tự: hiểu nghĩa từng từ trước, rồi mới ghép thành câu, rồi nói liền đoạn, cuối cùng mới vào tình huống phỏng vấn. Bỏ qua giai đoạn 1 mà học thẳng câu thì thuộc vẹt — khi người phỏng vấn đưa tình huống mới sẽ không ghép được câu mới.</p>
+      </div>
+      <div class="roadmap">
+        <div><strong>Giai đoạn 1 · Từ vựng</strong> — nghĩa từng từ, rút thẳng từ các câu bên dưới. Đây là gạch xây, thuộc rồi mới tự ghép được câu mới trong lúc phỏng vấn.</div>
+        <div><strong>Giai đoạn 2 · Câu liền mạch</strong> — từng câu hoàn chỉnh, nói trôi một câu một.</div>
+        <div><strong>Giai đoạn 3 · Đoạn liền mạch</strong> — nối thành đoạn 40-60 giây, nói không ngắt.</div>
+        <div><strong>Giai đoạn 4 · Phỏng vấn</strong> — khung dẫn dắt và mẫu câu ứng biến khi có tình huống mới.</div>
+      </div>
+    </section>
+    <div class="stage">
+      <span class="stage-num">GIAI ĐOẠN 1</span>
+      <h2>Từ vựng — hiểu nghĩa từng từ</h2>
+      <p>Học nhóm này trước. Các từ dưới đây được rút thẳng từ chính những câu ở giai đoạn 2 và 3.</p>
+    </div>
+    <section>
+      <h2>1.1 · Từ nối &amp; khung câu</h2>
+      <div class="note">
+        <p>Nhóm quan trọng nhất. Đây là bộ khung để ghép câu mới khi gặp tình huống chưa gặp bao giờ — thuộc nhóm này thì dù thiếu từ chuyên môn vẫn diễn đạt được ý.</p>
+      </div>
+      <table>
+        <thead><tr><th>繁體中文</th><th>Pinyin</th><th>Nghĩa tiếng Việt</th><th>English</th></tr></thead>
+        <tbody>
+          <tr><td>為了</td><td class="pinyin">wèile</td><td class="meaning">để, nhằm</td><td class="english">in order to</td></tr>
+          <tr><td>因此</td><td class="pinyin">yīncǐ</td><td class="meaning">vì vậy, do đó</td><td class="english">therefore</td></tr>
+          <tr><td>除此之外</td><td class="pinyin">chúcǐ zhīwài</td><td class="meaning">ngoài ra</td><td class="english">besides that</td></tr>
+          <tr><td>除了……之外</td><td class="pinyin">chúle…zhīwài</td><td class="meaning">ngoài … ra</td><td class="english">apart from …</td></tr>
+          <tr><td>在……中</td><td class="pinyin">zài…zhōng</td><td class="meaning">trong …</td><td class="english">within / during</td></tr>
+          <tr><td>在此之前</td><td class="pinyin">zài cǐ zhīqián</td><td class="meaning">trước đó</td><td class="english">before that</td></tr>
+          <tr><td>剛剛</td><td class="pinyin">gānggāng</td><td class="meaning">vừa nãy</td><td class="english">just now</td></tr>
+          <tr><td>過去幾年</td><td class="pinyin">guòqù jǐ nián</td><td class="meaning">mấy năm qua</td><td class="english">over the past few years</td></tr>
+          <tr><td>目前</td><td class="pinyin">mùqián</td><td class="meaning">hiện tại</td><td class="english">currently</td></tr>
+          <tr><td>最近</td><td class="pinyin">zuìjìn</td><td class="meaning">gần đây</td><td class="english">recently</td></tr>
+          <tr><td>已經</td><td class="pinyin">yǐjīng</td><td class="meaning">đã (rồi)</td><td class="english">already</td></tr>
+          <tr><td>還沒有</td><td class="pinyin">hái méiyǒu</td><td class="meaning">vẫn chưa</td><td class="english">not yet</td></tr>
+          <tr><td>雖然……但</td><td class="pinyin">suīrán…dàn</td><td class="meaning">tuy … nhưng</td><td class="english">although … but</td></tr>
+          <tr><td>而不是</td><td class="pinyin">ér búshì</td><td class="meaning">chứ không phải</td><td class="english">rather than</td></tr>
+          <tr><td>也就是</td><td class="pinyin">yě jiùshì</td><td class="meaning">tức là</td><td class="english">that is to say</td></tr>
+          <tr><td>像是</td><td class="pinyin">xiàng shì</td><td class="meaning">như là, chẳng hạn</td><td class="english">such as</td></tr>
+          <tr><td>其中</td><td class="pinyin">qízhōng</td><td class="meaning">trong đó</td><td class="english">among which</td></tr>
+          <tr><td>其餘</td><td class="pinyin">qíyú</td><td class="meaning">phần còn lại</td><td class="english">the rest</td></tr>
+          <tr><td>只有</td><td class="pinyin">zhǐyǒu</td><td class="meaning">chỉ có</td><td class="english">only</td></tr>
+          <tr><td>首先</td><td class="pinyin">shǒuxiān</td><td class="meaning">trước tiên</td><td class="english">first of all</td></tr>
+          <tr><td>最後</td><td class="pinyin">zuìhòu</td><td class="meaning">cuối cùng</td><td class="english">finally</td></tr>
+          <tr><td>如果……就</td><td class="pinyin">rúguǒ…jiù</td><td class="meaning">nếu … thì</td><td class="english">if … then</td></tr>
+          <tr><td>還是</td><td class="pinyin">háishì</td><td class="meaning">hay là</td><td class="english">or (in a question)</td></tr>
+          <tr><td>並且</td><td class="pinyin">bìngqiě</td><td class="meaning">đồng thời, và</td><td class="english">and also</td></tr>
+          <tr><td>以及</td><td class="pinyin">yǐjí</td><td class="meaning">cùng với</td><td class="english">as well as</td></tr>
+          <tr><td>與</td><td class="pinyin">yǔ</td><td class="meaning">và (văn viết)</td><td class="english">and (formal)</td></tr>
+          <tr><td>跟</td><td class="pinyin">gēn</td><td class="meaning">và, với (khẩu ngữ)</td><td class="english">with / and (spoken)</td></tr>
+          <tr><td>用來</td><td class="pinyin">yònglái</td><td class="meaning">dùng để</td><td class="english">used to</td></tr>
+          <tr><td>這樣才</td><td class="pinyin">zhèyàng cái</td><td class="meaning">như vậy mới</td><td class="english">only then</td></tr>
+          <tr><td>通常</td><td class="pinyin">tōngcháng</td><td class="meaning">thông thường</td><td class="english">usually</td></tr>
+          <tr><td>比</td><td class="pinyin">bǐ</td><td class="meaning">hơn (so sánh)</td><td class="english">than</td></tr>
+          <tr><td>一起</td><td class="pinyin">yìqǐ</td><td class="meaning">cùng nhau</td><td class="english">together</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>1.2 · Động từ cốt lõi</h2>
+      <table>
+        <thead><tr><th>繁體中文</th><th>Pinyin</th><th>Nghĩa tiếng Việt</th><th>English</th></tr></thead>
+        <tbody>
+          <tr><td>參與</td><td class="pinyin">cānyù</td><td class="meaning">tham gia</td><td class="english">participate in</td></tr>
+          <tr><td>開發</td><td class="pinyin">kāifā</td><td class="meaning">phát triển</td><td class="english">develop</td></tr>
+          <tr><td>設計</td><td class="pinyin">shèjì</td><td class="meaning">thiết kế</td><td class="english">design</td></tr>
+          <tr><td>解析</td><td class="pinyin">jiěxī</td><td class="meaning">phân tích, bóc tách</td><td class="english">parse</td></tr>
+          <tr><td>負責</td><td class="pinyin">fùzé</td><td class="meaning">phụ trách</td><td class="english">be responsible for</td></tr>
+          <tr><td>證明</td><td class="pinyin">zhèngmíng</td><td class="meaning">chứng minh</td><td class="english">prove</td></tr>
+          <tr><td>驗證</td><td class="pinyin">yànzhèng</td><td class="meaning">kiểm chứng</td><td class="english">validate</td></tr>
+          <tr><td>檢測</td><td class="pinyin">jiǎncè</td><td class="meaning">kiểm tra, phát hiện</td><td class="english">detect, inspect</td></tr>
+          <tr><td>檢索</td><td class="pinyin">jiǎnsuǒ</td><td class="meaning">truy hồi, tra cứu</td><td class="english">retrieve</td></tr>
+          <tr><td>核對</td><td class="pinyin">héduì</td><td class="meaning">đối chiếu</td><td class="english">cross-check</td></tr>
+          <tr><td>標示</td><td class="pinyin">biāoshì</td><td class="meaning">đánh dấu, ghi nhãn</td><td class="english">mark, label</td></tr>
+          <tr><td>產生</td><td class="pinyin">chǎnshēng</td><td class="meaning">sinh ra, tạo ra</td><td class="english">generate</td></tr>
+          <tr><td>輸出</td><td class="pinyin">shūchū</td><td class="meaning">xuất ra, đầu ra</td><td class="english">output</td></tr>
+          <tr><td>輸入</td><td class="pinyin">shūrù</td><td class="meaning">nhập vào, đầu vào</td><td class="english">input</td></tr>
+          <tr><td>整合</td><td class="pinyin">zhěnghé</td><td class="meaning">tích hợp</td><td class="english">integrate</td></tr>
+          <tr><td>部署</td><td class="pinyin">bùshǔ</td><td class="meaning">triển khai</td><td class="english">deploy</td></tr>
+          <tr><td>處理</td><td class="pinyin">chǔlǐ</td><td class="meaning">xử lý</td><td class="english">handle, process</td></tr>
+          <tr><td>確認</td><td class="pinyin">quèrèn</td><td class="meaning">xác nhận</td><td class="english">confirm</td></tr>
+          <tr><td>採用</td><td class="pinyin">cǎiyòng</td><td class="meaning">áp dụng, dùng</td><td class="english">adopt</td></tr>
+          <tr><td>避免</td><td class="pinyin">bìmiǎn</td><td class="meaning">tránh</td><td class="english">avoid</td></tr>
+          <tr><td>限制</td><td class="pinyin">xiànzhì</td><td class="meaning">giới hạn</td><td class="english">limit</td></tr>
+          <tr><td>呼叫</td><td class="pinyin">hūjiào</td><td class="meaning">gọi (công cụ)</td><td class="english">call</td></tr>
+          <tr><td>回傳</td><td class="pinyin">huíchuán</td><td class="meaning">trả về</td><td class="english">return</td></tr>
+          <tr><td>重試</td><td class="pinyin">chóngshì</td><td class="meaning">thử lại</td><td class="english">retry</td></tr>
+          <tr><td>交給</td><td class="pinyin">jiāo gěi</td><td class="meaning">giao cho</td><td class="english">hand over to</td></tr>
+          <tr><td>提出</td><td class="pinyin">tíchū</td><td class="meaning">đưa ra, đề xuất</td><td class="english">propose</td></tr>
+          <tr><td>定義</td><td class="pinyin">dìngyì</td><td class="meaning">định nghĩa</td><td class="english">define</td></tr>
+          <tr><td>釐清</td><td class="pinyin">líqīng</td><td class="meaning">làm rõ</td><td class="english">clarify</td></tr>
+          <tr><td>屬於</td><td class="pinyin">shǔyú</td><td class="meaning">thuộc về</td><td class="english">belong to</td></tr>
+          <tr><td>包含</td><td class="pinyin">bāohán</td><td class="meaning">bao gồm</td><td class="english">include</td></tr>
+          <tr><td>涵蓋</td><td class="pinyin">hángài</td><td class="meaning">bao phủ, trải rộng</td><td class="english">cover</td></tr>
+          <tr><td>提供</td><td class="pinyin">tígōng</td><td class="meaning">cung cấp</td><td class="english">provide</td></tr>
+          <tr><td>查詢</td><td class="pinyin">cháxún</td><td class="meaning">truy vấn, tra cứu</td><td class="english">query</td></tr>
+          <tr><td>匯出</td><td class="pinyin">huìchū</td><td class="meaning">xuất file</td><td class="english">export</td></tr>
+          <tr><td>留下</td><td class="pinyin">liú xià</td><td class="meaning">để lại</td><td class="english">leave behind</td></tr>
+          <tr><td>跑出</td><td class="pinyin">pǎochū</td><td class="meaning">chạy ra (kết quả)</td><td class="english">run and produce</td></tr>
+          <tr><td>做出來</td><td class="pinyin">zuò chūlái</td><td class="meaning">làm ra được</td><td class="english">actually build it</td></tr>
+          <tr><td>停留</td><td class="pinyin">tíngliú</td><td class="meaning">dừng lại ở</td><td class="english">remain at</td></tr>
+          <tr><td>分成</td><td class="pinyin">fēnchéng</td><td class="meaning">chia thành</td><td class="english">divide into</td></tr>
+          <tr><td>列為</td><td class="pinyin">lièwéi</td><td class="meaning">xếp vào</td><td class="english">classify as</td></tr>
+          <tr><td>調整</td><td class="pinyin">tiáozhěng</td><td class="meaning">điều chỉnh</td><td class="english">adjust</td></tr>
+          <tr><td>影響</td><td class="pinyin">yǐngxiǎng</td><td class="meaning">ảnh hưởng</td><td class="english">affect</td></tr>
+          <tr><td>維護</td><td class="pinyin">wéihù</td><td class="meaning">bảo trì</td><td class="english">maintain</td></tr>
+          <tr><td>解決</td><td class="pinyin">jiějué</td><td class="meaning">giải quyết</td><td class="english">solve</td></tr>
+          <tr><td>了解</td><td class="pinyin">liǎojiě</td><td class="meaning">tìm hiểu, nắm được</td><td class="english">understand</td></tr>
+          <tr><td>熟悉</td><td class="pinyin">shúxī</td><td class="meaning">quen thuộc</td><td class="english">be familiar with</td></tr>
+          <tr><td>認為</td><td class="pinyin">rènwéi</td><td class="meaning">cho rằng</td><td class="english">consider that</td></tr>
+          <tr><td>覺得</td><td class="pinyin">juéde</td><td class="meaning">thấy rằng</td><td class="english">feel that</td></tr>
+          <tr><td>動手做</td><td class="pinyin">dòngshǒu zuò</td><td class="meaning">bắt tay vào làm</td><td class="english">build hands-on</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>1.3 · Danh từ — hệ thống &amp; quy trình</h2>
+      <div class="note">
+        <p>Chú ý phân biệt: <strong>流程</strong> (liúchéng) là cả quy trình, <strong>步驟</strong> (bùzhòu) là từng bước bên trong quy trình đó, còn <strong>架構</strong> (jiàgòu) là kiến trúc tổng thể.</p>
+      </div>
+      <table>
+        <thead><tr><th>繁體中文</th><th>Pinyin</th><th>Nghĩa tiếng Việt</th><th>English</th></tr></thead>
+        <tbody>
+          <tr><td>流程</td><td class="pinyin">liúchéng</td><td class="meaning">quy trình, pipeline</td><td class="english">process, pipeline</td></tr>
+          <tr><td>步驟</td><td class="pinyin">bùzhòu</td><td class="meaning">bước</td><td class="english">step</td></tr>
+          <tr><td>架構</td><td class="pinyin">jiàgòu</td><td class="meaning">kiến trúc</td><td class="english">architecture</td></tr>
+          <tr><td>系統</td><td class="pinyin">xìtǒng</td><td class="meaning">hệ thống</td><td class="english">system</td></tr>
+          <tr><td>模型</td><td class="pinyin">móxíng</td><td class="meaning">mô hình</td><td class="english">model</td></tr>
+          <tr><td>需求</td><td class="pinyin">xūqiú</td><td class="meaning">yêu cầu</td><td class="english">requirement</td></tr>
+          <tr><td>資料</td><td class="pinyin">zīliào</td><td class="meaning">dữ liệu</td><td class="english">data</td></tr>
+          <tr><td>格式</td><td class="pinyin">géshì</td><td class="meaning">định dạng</td><td class="english">format</td></tr>
+          <tr><td>結構</td><td class="pinyin">jiégòu</td><td class="meaning">cấu trúc</td><td class="english">structure</td></tr>
+          <tr><td>程式碼</td><td class="pinyin">chéngshìmǎ</td><td class="meaning">mã nguồn</td><td class="english">source code</td></tr>
+          <tr><td>程式邏輯</td><td class="pinyin">chéngshì luóji</td><td class="meaning">logic chương trình</td><td class="english">program logic</td></tr>
+          <tr><td>工具</td><td class="pinyin">gōngjù</td><td class="meaning">công cụ</td><td class="english">tool</td></tr>
+          <tr><td>規則</td><td class="pinyin">guīzé</td><td class="meaning">quy tắc</td><td class="english">rule</td></tr>
+          <tr><td>依據</td><td class="pinyin">yījù</td><td class="meaning">căn cứ</td><td class="english">basis</td></tr>
+          <tr><td>證據</td><td class="pinyin">zhèngjù</td><td class="meaning">bằng chứng</td><td class="english">evidence</td></tr>
+          <tr><td>案例</td><td class="pinyin">ànlì</td><td class="meaning">case, ca ví dụ</td><td class="english">case</td></tr>
+          <tr><td>示範</td><td class="pinyin">shìfàn</td><td class="meaning">bản demo</td><td class="english">demo</td></tr>
+          <tr><td>專案</td><td class="pinyin">zhuān'àn</td><td class="meaning">dự án</td><td class="english">project</td></tr>
+          <tr><td>產品</td><td class="pinyin">chǎnpǐn</td><td class="meaning">sản phẩm</td><td class="english">product</td></tr>
+          <tr><td>功能</td><td class="pinyin">gōngnéng</td><td class="meaning">tính năng</td><td class="english">feature</td></tr>
+          <tr><td>清單</td><td class="pinyin">qīngdān</td><td class="meaning">danh sách</td><td class="english">list</td></tr>
+          <tr><td>紀錄</td><td class="pinyin">jìlù</td><td class="meaning">bản ghi, nhật ký</td><td class="english">record, log</td></tr>
+          <tr><td>判斷</td><td class="pinyin">pànduàn</td><td class="meaning">phán đoán</td><td class="english">judgment</td></tr>
+          <tr><td>概念</td><td class="pinyin">gàiniàn</td><td class="meaning">khái niệm</td><td class="english">concept</td></tr>
+          <tr><td>階段</td><td class="pinyin">jiēduàn</td><td class="meaning">giai đoạn</td><td class="english">stage</td></tr>
+          <tr><td>範圍</td><td class="pinyin">fànwéi</td><td class="meaning">phạm vi</td><td class="english">scope</td></tr>
+          <tr><td>項目</td><td class="pinyin">xiàngmù</td><td class="meaning">hạng mục</td><td class="english">item</td></tr>
+          <tr><td>差別</td><td class="pinyin">chābié</td><td class="meaning">sự khác biệt</td><td class="english">difference</td></tr>
+          <tr><td>期待</td><td class="pinyin">qídài</td><td class="meaning">kỳ vọng</td><td class="english">expectation</td></tr>
+          <tr><td>經驗</td><td class="pinyin">jīngyàn</td><td class="meaning">kinh nghiệm</td><td class="english">experience</td></tr>
+          <tr><td>領域</td><td class="pinyin">lǐngyù</td><td class="meaning">lĩnh vực</td><td class="english">domain, field</td></tr>
+          <tr><td>決策</td><td class="pinyin">juécè</td><td class="meaning">quyết định (lớn)</td><td class="english">decision</td></tr>
+          <tr><td>假設</td><td class="pinyin">jiǎshè</td><td class="meaning">giả định</td><td class="english">assumption</td></tr>
+          <tr><td>方式</td><td class="pinyin">fāngshì</td><td class="meaning">cách thức</td><td class="english">way, method</td></tr>
+          <tr><td>角色</td><td class="pinyin">juésè</td><td class="meaning">vai trò</td><td class="english">role</td></tr>
+          <tr><td>邊界</td><td class="pinyin">biānjiè</td><td class="meaning">ranh giới</td><td class="english">boundary</td></tr>
+          <tr><td>數值</td><td class="pinyin">shùzhí</td><td class="meaning">giá trị số</td><td class="english">numeric value</td></tr>
+          <tr><td>數字</td><td class="pinyin">shùzì</td><td class="meaning">con số</td><td class="english">number</td></tr>
+          <tr><td>圖面</td><td class="pinyin">túmiàn</td><td class="meaning">bản vẽ</td><td class="english">drawing</td></tr>
+          <tr><td>圖檔</td><td class="pinyin">túdǎng</td><td class="meaning">file bản vẽ</td><td class="english">drawing file</td></tr>
+          <tr><td>文件</td><td class="pinyin">wénjiàn</td><td class="meaning">tài liệu</td><td class="english">document</td></tr>
+          <tr><td>規格</td><td class="pinyin">guīgé</td><td class="meaning">quy cách</td><td class="english">specification</td></tr>
+          <tr><td>標準</td><td class="pinyin">biāozhǔn</td><td class="meaning">tiêu chuẩn</td><td class="english">standard</td></tr>
+          <tr><td>目錄</td><td class="pinyin">mùlù</td><td class="meaning">danh mục</td><td class="english">catalog</td></tr>
+          <tr><td>零件</td><td class="pinyin">língjiàn</td><td class="meaning">linh kiện</td><td class="english">component, part</td></tr>
+          <tr><td>背景</td><td class="pinyin">bèijǐng</td><td class="meaning">nền tảng (cá nhân)</td><td class="english">background</td></tr>
+          <tr><td>場景</td><td class="pinyin">chǎngjǐng</td><td class="meaning">bối cảnh</td><td class="english">scenario</td></tr>
+          <tr><td>問題</td><td class="pinyin">wèntí</td><td class="meaning">vấn đề, câu hỏi</td><td class="english">problem, question</td></tr>
+          <tr><td>部分</td><td class="pinyin">bùfèn</td><td class="meaning">phần</td><td class="english">part</td></tr>
+          <tr><td>對方</td><td class="pinyin">duìfāng</td><td class="meaning">đối phương, phía bên kia</td><td class="english">the other party</td></tr>
+          <tr><td>使用者</td><td class="pinyin">shǐyòngzhě</td><td class="meaning">người dùng</td><td class="english">user</td></tr>
+          <tr><td>現場人員</td><td class="pinyin">xiànchǎng rényuán</td><td class="meaning">nhân viên hiện trường</td><td class="english">on-site operator</td></tr>
+          <tr><td>正確性</td><td class="pinyin">zhèngquèxìng</td><td class="meaning">tính chính xác</td><td class="english">correctness</td></tr>
+          <tr><td>可行性</td><td class="pinyin">kěxíngxìng</td><td class="meaning">tính khả thi</td><td class="english">feasibility</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>1.4 · Tính từ &amp; trạng từ</h2>
+      <table>
+        <thead><tr><th>繁體中文</th><th>Pinyin</th><th>Nghĩa tiếng Việt</th><th>English</th></tr></thead>
+        <tbody>
+          <tr><td>確定性</td><td class="pinyin">quèdìngxìng</td><td class="meaning">mang tính xác định</td><td class="english">deterministic</td></tr>
+          <tr><td>結構化</td><td class="pinyin">jiégòuhuà</td><td class="meaning">có cấu trúc</td><td class="english">structured</td></tr>
+          <tr><td>主要</td><td class="pinyin">zhǔyào</td><td class="meaning">chủ yếu</td><td class="english">mainly</td></tr>
+          <tr><td>實際</td><td class="pinyin">shíjì</td><td class="meaning">thực tế</td><td class="english">actual, practical</td></tr>
+          <tr><td>真正</td><td class="pinyin">zhēnzhèng</td><td class="meaning">thật sự</td><td class="english">truly, genuine</td></tr>
+          <tr><td>正式</td><td class="pinyin">zhèngshì</td><td class="meaning">chính thức</td><td class="english">formal, official</td></tr>
+          <tr><td>快速</td><td class="pinyin">kuàisù</td><td class="meaning">nhanh</td><td class="english">quick</td></tr>
+          <tr><td>清楚</td><td class="pinyin">qīngchǔ</td><td class="meaning">rõ ràng</td><td class="english">clear</td></tr>
+          <tr><td>誠實</td><td class="pinyin">chéngshí</td><td class="meaning">trung thực</td><td class="english">honest</td></tr>
+          <tr><td>重要</td><td class="pinyin">zhòngyào</td><td class="meaning">quan trọng</td><td class="english">important</td></tr>
+          <tr><td>關鍵</td><td class="pinyin">guānjiàn</td><td class="meaning">mấu chốt</td><td class="english">critical, key</td></tr>
+          <tr><td>簡單</td><td class="pinyin">jiǎndān</td><td class="meaning">đơn giản</td><td class="english">simple</td></tr>
+          <tr><td>容易</td><td class="pinyin">róngyì</td><td class="meaning">dễ</td><td class="english">easy</td></tr>
+          <tr><td>可行</td><td class="pinyin">kěxíng</td><td class="meaning">khả thi</td><td class="english">feasible</td></tr>
+          <tr><td>概念性</td><td class="pinyin">gàiniànxìng</td><td class="meaning">mang tính khái niệm</td><td class="english">conceptual</td></tr>
+          <tr><td>進階</td><td class="pinyin">jìnjiē</td><td class="meaning">nâng cao</td><td class="english">advanced</td></tr>
+          <tr><td>錯誤</td><td class="pinyin">cuòwù</td><td class="meaning">sai, lỗi</td><td class="english">wrong, error</td></tr>
+          <tr><td>不確定</td><td class="pinyin">bú quèdìng</td><td class="meaning">không chắc chắn</td><td class="english">uncertain</td></tr>
+          <tr><td>密切</td><td class="pinyin">mìqiè</td><td class="meaning">chặt chẽ</td><td class="english">close, closely</td></tr>
+          <tr><td>逐一</td><td class="pinyin">zhúyī</td><td class="meaning">từng cái một</td><td class="english">one by one</td></tr>
+          <tr><td>特別</td><td class="pinyin">tèbié</td><td class="meaning">đặc biệt</td><td class="english">especially</td></tr>
+          <tr><td>直接</td><td class="pinyin">zhíjiē</td><td class="meaning">trực tiếp</td><td class="english">directly</td></tr>
+          <tr><td>優先</td><td class="pinyin">yōuxiān</td><td class="meaning">ưu tiên</td><td class="english">prioritize</td></tr>
+          <tr><td>最多</td><td class="pinyin">zuìduō</td><td class="meaning">tối đa</td><td class="english">at most</td></tr>
+          <tr><td>無限</td><td class="pinyin">wúxiàn</td><td class="meaning">vô hạn</td><td class="english">infinite</td></tr>
+          <tr><td>整個</td><td class="pinyin">zhěnggè</td><td class="meaning">toàn bộ</td><td class="english">the whole</td></tr>
+          <tr><td>每一個</td><td class="pinyin">měi yí ge</td><td class="meaning">mỗi một</td><td class="english">every single</td></tr>
+          <tr><td>單一</td><td class="pinyin">dānyī</td><td class="meaning">đơn lẻ, duy nhất</td><td class="english">single</td></tr>
+          <tr><td>多個</td><td class="pinyin">duō ge</td><td class="meaning">nhiều</td><td class="english">multiple</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>1.5 · Thuật ngữ AI / RAG</h2>
+
+      <table>
+        <thead><tr><th>繁體中文</th><th>Pinyin</th><th>Nghĩa tiếng Việt</th><th>English</th></tr></thead>
+        <tbody>
+          <tr><td>檢索增強生成</td><td class="pinyin">jiǎnsuǒ zēngqiáng shēngchéng</td><td class="meaning">truy hồi tăng cường sinh (RAG)</td><td class="english">retrieval-augmented generation</td></tr>
+          <tr><td>向量資料庫</td><td class="pinyin">xiàngliàng zīliàokù</td><td class="meaning">cơ sở dữ liệu vector</td><td class="english">vector database</td></tr>
+          <tr><td>嵌入</td><td class="pinyin">qiànrù</td><td class="meaning">embedding</td><td class="english">embedding</td></tr>
+          <tr><td>語意搜尋</td><td class="pinyin">yǔyì sōuxún</td><td class="meaning">tìm kiếm theo ngữ nghĩa</td><td class="english">semantic search</td></tr>
+          <tr><td>知識庫</td><td class="pinyin">zhīshìkù</td><td class="meaning">kho tri thức</td><td class="english">knowledge base</td></tr>
+          <tr><td>提示工程</td><td class="pinyin">tíshì gōngchéng</td><td class="meaning">kỹ thuật viết prompt</td><td class="english">prompt engineering</td></tr>
+          <tr><td>微調</td><td class="pinyin">wéitiáo</td><td class="meaning">tinh chỉnh mô hình</td><td class="english">fine-tuning</td></tr>
+          <tr><td>幻覺</td><td class="pinyin">huànjué</td><td class="meaning">ảo giác của mô hình</td><td class="english">model hallucination</td></tr>
+          <tr><td>工具呼叫</td><td class="pinyin">gōngjù hūjiào</td><td class="meaning">gọi công cụ</td><td class="english">tool calling</td></tr>
+          <tr><td>代理人 / 智能體</td><td class="pinyin">dàilǐrén / zhìnéngtǐ</td><td class="meaning">tác nhân AI</td><td class="english">agent</td></tr>
+          <tr><td>多代理系統</td><td class="pinyin">duō dàilǐ xìtǒng</td><td class="meaning">hệ thống đa tác nhân</td><td class="english">multi-agent system</td></tr>
+          <tr><td>確定性系統</td><td class="pinyin">quèdìngxìng xìtǒng</td><td class="meaning">hệ thống mang tính xác định</td><td class="english">deterministic system</td></tr>
+          <tr><td>規則引擎</td><td class="pinyin">guīzé yǐnqíng</td><td class="meaning">bộ máy quy tắc</td><td class="english">rule engine</td></tr>
+          <tr><td>設備選型</td><td class="pinyin">shèbèi xuǎnxíng</td><td class="meaning">chọn/định cỡ thiết bị</td><td class="english">equipment selection / sizing</td></tr>
+          <tr><td>可行性評估</td><td class="pinyin">kěxíngxìng pínggū</td><td class="meaning">đánh giá tính khả thi</td><td class="english">feasibility assessment</td></tr>
+          <tr><td>概念驗證</td><td class="pinyin">gàiniàn yànzhèng</td><td class="meaning">chứng minh khái niệm (PoC)</td><td class="english">proof of concept</td></tr>
+          <tr><td>最小可行產品</td><td class="pinyin">zuìxiǎo kěxíng chǎnpǐn</td><td class="meaning">sản phẩm khả dụng tối thiểu (MVP)</td><td class="english">minimum viable product</td></tr>
+          <tr><td>範疇界定</td><td class="pinyin">fànchóu jièdìng</td><td class="meaning">xác định phạm vi</td><td class="english">scope definition</td></tr>
+          <tr><td>排除項目</td><td class="pinyin">páichú xiàngmù</td><td class="meaning">hạng mục loại trừ</td><td class="english">exclusion items</td></tr>
+          <tr><td>需求釐清</td><td class="pinyin">xūqiú líqīng</td><td class="meaning">làm rõ yêu cầu</td><td class="english">requirement clarification</td></tr>
+          <tr><td>過度設計</td><td class="pinyin">guòdù shèjì</td><td class="meaning">thiết kế quá mức</td><td class="english">over-engineering</td></tr>
+          <tr><td>權責劃分</td><td class="pinyin">quánzé huàfēn</td><td class="meaning">phân định trách nhiệm</td><td class="english">division of responsibilities</td></tr>
+          <tr><td>系統架構師</td><td class="pinyin">xìtǒng jiàgòushī</td><td class="meaning">kiến trúc sư hệ thống (SA)</td><td class="english">solution architect</td></tr>
+          <tr><td>專案經理</td><td class="pinyin">zhuān'àn jīnglǐ</td><td class="meaning">quản lý dự án (PM)</td><td class="english">project manager</td></tr>
+          <tr><td>領域專家</td><td class="pinyin">lǐngyù zhuānjiā</td><td class="meaning">chuyên gia lĩnh vực (SME)</td><td class="english">domain expert</td></tr>
+          <tr><td>結構化資料</td><td class="pinyin">jiégòuhuà zīliào</td><td class="meaning">dữ liệu có cấu trúc</td><td class="english">structured data</td></tr>
+          <tr><td>非結構化資料</td><td class="pinyin">fēijiégòuhuà zīliào</td><td class="meaning">dữ liệu phi cấu trúc</td><td class="english">unstructured data</td></tr>
+          <tr><td>工程規則</td><td class="pinyin">gōngchéng guīzé</td><td class="meaning">quy tắc kỹ thuật</td><td class="english">engineering rule</td></tr>
+          <tr><td>單線圖</td><td class="pinyin">dānxiàntú</td><td class="meaning">sơ đồ đơn tuyến (SLD)</td><td class="english">single-line diagram</td></tr>
+          <tr><td>電氣圖</td><td class="pinyin">diànqì tú</td><td class="meaning">bản vẽ điện</td><td class="english">electrical drawing</td></tr>
+          <tr><td>標準規範</td><td class="pinyin">biāozhǔn guīfàn</td><td class="meaning">tiêu chuẩn quy phạm</td><td class="english">standards / specifications</td></tr>
+          <tr><td>雲端模型</td><td class="pinyin">yúnduān móxíng</td><td class="meaning">mô hình trên nền tảng đám mây</td><td class="english">cloud-based model</td></tr>
+          <tr><td>本地部署模型</td><td class="pinyin">běndì bùshǔ móxíng</td><td class="meaning">mô hình triển khai cục bộ</td><td class="english">locally-deployed model</td></tr>
+          <tr><td>成本效益</td><td class="pinyin">chéngběn xiàoyì</td><td class="meaning">hiệu quả chi phí</td><td class="english">cost-effectiveness</td></tr>
+          <tr><td>可解釋性</td><td class="pinyin">kě jiěshìxìng</td><td class="meaning">tính khả giải thích</td><td class="english">explainability</td></tr>
+          <tr><td>資料外洩</td><td class="pinyin">zīliào wàixiè</td><td class="meaning">rò rỉ dữ liệu</td><td class="english">data leakage</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>1.6 · Thuật ngữ xây dựng Agent</h2>
+
+      <div class="note">
+        <p>Từ vựng dùng khi mô tả cách thiết kế và vận hành một Agent — trọng tâm của công việc "build agent mạch điện".</p>
+      </div>
+      <table>
+        <thead><tr><th>繁體中文</th><th>Pinyin</th><th>Nghĩa tiếng Việt</th><th>English</th></tr></thead>
+        <tbody>
+          <tr><td>系統提示</td><td class="pinyin">xìtǒng tíshì</td><td class="meaning">prompt hệ thống</td><td class="english">system prompt</td></tr>
+          <tr><td>使用者提示</td><td class="pinyin">shǐyòngzhě tíshì</td><td class="meaning">prompt người dùng</td><td class="english">user prompt</td></tr>
+          <tr><td>代理迴圈</td><td class="pinyin">dàilǐ húiquān</td><td class="meaning">vòng lặp của agent</td><td class="english">agent loop</td></tr>
+          <tr><td>停止條件</td><td class="pinyin">tíngzhǐ tiáojiàn</td><td class="meaning">điều kiện dừng</td><td class="english">stopping condition</td></tr>
+          <tr><td>最大迭代次數</td><td class="pinyin">zuìdà diédài cìshù</td><td class="meaning">số lần lặp tối đa</td><td class="english">maximum iterations</td></tr>
+          <tr><td>工具定義 / 工具規格</td><td class="pinyin">gōngjù dìngyì / gōngjù guīgé</td><td class="meaning">định nghĩa / đặc tả công cụ</td><td class="english">tool definition / tool schema</td></tr>
+          <tr><td>上下文長度</td><td class="pinyin">shàngxiàwén chángdù</td><td class="meaning">độ dài ngữ cảnh (context window)</td><td class="english">context window / length</td></tr>
+          <tr><td>狀態管理</td><td class="pinyin">zhuàngtài guǎnlǐ</td><td class="meaning">quản lý trạng thái</td><td class="english">state management</td></tr>
+          <tr><td>錯誤處理與重試</td><td class="pinyin">cuòwù chǔlǐ yǔ chóngshì</td><td class="meaning">xử lý lỗi và thử lại</td><td class="english">error handling & retry</td></tr>
+          <tr><td>護欄機制</td><td class="pinyin">hùlán jīzhì</td><td class="meaning">cơ chế "hàng rào bảo vệ" (guardrail)</td><td class="english">guardrail mechanism</td></tr>
+          <tr><td>人工覆核</td><td class="pinyin">réngōng fùhé</td><td class="meaning">con người kiểm duyệt lại</td><td class="english">human review</td></tr>
+          <tr><td>可追蹤性</td><td class="pinyin">kě zhuīzōngxìng</td><td class="meaning">tính khả truy vết</td><td class="english">traceability</td></tr>
+          <tr><td>稽核紀錄</td><td class="pinyin">jīhé jìlù</td><td class="meaning">nhật ký kiểm toán</td><td class="english">audit trail / log</td></tr>
+          <tr><td>冪等性</td><td class="pinyin">mìděngxìng</td><td class="meaning">tính bất biến khi lặp lại (idempotency)</td><td class="english">idempotency</td></tr>
+          <tr><td>編排</td><td class="pinyin">biānpái</td><td class="meaning">điều phối (orchestration)</td><td class="english">orchestration</td></tr>
+          <tr><td>單一代理架構</td><td class="pinyin">dānyī dàilǐ jiàgòu</td><td class="meaning">kiến trúc một agent duy nhất</td><td class="english">single-agent architecture</td></tr>
+          <tr><td>多代理架構</td><td class="pinyin">duō dàilǐ jiàgòu</td><td class="meaning">kiến trúc đa agent</td><td class="english">multi-agent architecture</td></tr>
+          <tr><td>工具呼叫邊界</td><td class="pinyin">gōngjù hūjiào biānjiè</td><td class="meaning">ranh giới gọi công cụ</td><td class="english">tool-calling boundary</td></tr>
+          <tr><td>輸出格式驗證</td><td class="pinyin">shūchū géshì yànzhèng</td><td class="meaning">kiểm tra định dạng đầu ra</td><td class="english">output format validation</td></tr>
+          <tr><td>結構化輸出</td><td class="pinyin">jiégòuhuà shūchū</td><td class="meaning">đầu ra có cấu trúc</td><td class="english">structured output</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>1.7 · Thuật ngữ tủ điện &amp; bằng sáng chế</h2>
+
+      <table>
+        <thead><tr><th>繁體中文</th><th>Pinyin</th><th>Nghĩa tiếng Việt</th><th>English</th></tr></thead>
+        <tbody>
+          <tr><td>配電盤</td><td class="pinyin">pèidiànpán</td><td class="meaning">tủ điện phân phối</td><td class="english">switchboard / distribution panel</td></tr>
+          <tr><td>分段</td><td class="pinyin">fēnduàn</td><td class="meaning">phân đoạn (section)</td><td class="english">section</td></tr>
+          <tr><td>變壓器</td><td class="pinyin">biànyāqì</td><td class="meaning">máy biến áp</td><td class="english">transformer</td></tr>
+          <tr><td>電表</td><td class="pinyin">diànbiǎo</td><td class="meaning">đồng hồ đo điện</td><td class="english">metering</td></tr>
+          <tr><td>發電機</td><td class="pinyin">fādiànjī</td><td class="meaning">máy phát điện</td><td class="english">generator</td></tr>
+          <tr><td>自動切換開關</td><td class="pinyin">zìdòng qiēhuàn kāiguān (ATS)</td><td class="meaning">bộ chuyển nguồn tự động (ATS)</td><td class="english">automatic transfer switch (ATS)</td></tr>
+          <tr><td>子配電盤</td><td class="pinyin">zǐ pèidiànpán</td><td class="meaning">tủ điện phụ</td><td class="english">sub-panel</td></tr>
+          <tr><td>功因補償</td><td class="pinyin">gōngyīn bǔcháng</td><td class="meaning">bù công suất phản kháng</td><td class="english">power-factor correction</td></tr>
+          <tr><td>不斷電系統</td><td class="pinyin">búduàndiàn xìtǒng (UPS)</td><td class="meaning">hệ thống lưu điện (UPS)</td><td class="english">uninterruptible power supply (UPS)</td></tr>
+          <tr><td>電焊機</td><td class="pinyin">diànhànjī</td><td class="meaning">máy hàn điện</td><td class="english">welding machine</td></tr>
+          <tr><td>總開關</td><td class="pinyin">zǒngkāiguān</td><td class="meaning">cầu dao tổng</td><td class="english">main incomer / main breaker</td></tr>
+          <tr><td>佔位數值</td><td class="pinyin">zhànwèi shùzhí</td><td class="meaning">giá trị chỗ trống (placeholder)</td><td class="english">placeholder value</td></tr>
+          <tr><td>篩選搜尋</td><td class="pinyin">shāixuǎn sōuxún</td><td class="meaning">tìm kiếm sàng lọc sơ bộ</td><td class="english">screening search</td></tr>
+          <tr><td>請求項</td><td class="pinyin">qǐngqiú xiàng</td><td class="meaning">điều khoản yêu cầu bảo hộ (claim)</td><td class="english">patent claim</td></tr>
+          <tr><td>修訂紀錄</td><td class="pinyin">xiūdìng jìlù</td><td class="meaning">bản ghi chỉnh sửa</td><td class="english">revision record</td></tr>
+          <tr><td>非正式草圖</td><td class="pinyin">fēizhèngshì cǎotú</td><td class="meaning">bản phác thảo không chính thức</td><td class="english">informal drawing</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>1.8 · Từ vựng IT nền tảng</h2>
+
+      <div class="note">
+        <p>Các từ dưới đây ưu tiên cách dùng tại Đài Loan, chẳng hạn như <strong>軟體</strong>, <strong>程式碼</strong>, <strong>資料庫</strong> và <strong>快取</strong>.</p>
+      </div>
+
+      <h3 class="group-title">CRUD và thao tác cơ bản</h3>
+      <div class="note">
+        <p><strong>CRUD:</strong> Create = <strong>新增</strong>, Read = <strong>讀取／查詢</strong>, Update = <strong>更新</strong>, Delete = <strong>刪除</strong>. Dùng <strong>建立</strong> khi tạo một hệ thống, dự án hoặc kết nối; dùng <strong>新增</strong> khi thêm bản ghi hay nội dung mới.</p>
+      </div>
+      <table style="margin-top:14px">
+        <thead><tr><th>繁體中文</th><th>Pinyin</th><th>Nghĩa tiếng Việt</th><th>English</th></tr></thead>
+        <tbody>
+          <tr><td>建立</td><td class="pinyin">jiànlì</td><td class="meaning">tạo, xây dựng</td><td class="english">create, build</td></tr>
+          <tr><td>新增</td><td class="pinyin">xīnzēng</td><td class="meaning">thêm mới</td><td class="english">create, add</td></tr>
+          <tr><td>讀取</td><td class="pinyin">dúqǔ</td><td class="meaning">đọc, lấy dữ liệu</td><td class="english">read, retrieve</td></tr>
+          <tr><td>查詢</td><td class="pinyin">cháxún</td><td class="meaning">truy vấn, tra cứu</td><td class="english">query, look up</td></tr>
+          <tr><td>更新</td><td class="pinyin">gēngxīn</td><td class="meaning">cập nhật</td><td class="english">update</td></tr>
+          <tr><td>刪除</td><td class="pinyin">shānchú</td><td class="meaning">xóa</td><td class="english">delete</td></tr>
+          <tr><td>儲存</td><td class="pinyin">chúcún</td><td class="meaning">lưu</td><td class="english">save</td></tr>
+          <tr><td>修改</td><td class="pinyin">xiūgǎi</td><td class="meaning">sửa đổi</td><td class="english">modify</td></tr>
+          <tr><td>編輯</td><td class="pinyin">biānjí</td><td class="meaning">chỉnh sửa nội dung</td><td class="english">edit</td></tr>
+          <tr><td>搜尋</td><td class="pinyin">sōuxún</td><td class="meaning">tìm kiếm</td><td class="english">search</td></tr>
+          <tr><td>篩選</td><td class="pinyin">shāixuǎn</td><td class="meaning">lọc</td><td class="english">filter</td></tr>
+          <tr><td>提交</td><td class="pinyin">tíjiāo</td><td class="meaning">gửi, nộp, commit</td><td class="english">submit, commit</td></tr>
+          <tr><td>執行</td><td class="pinyin">zhíxíng</td><td class="meaning">chạy, thực thi</td><td class="english">run, execute</td></tr>
+          <tr><td>設定</td><td class="pinyin">shèdìng</td><td class="meaning">thiết lập, cấu hình</td><td class="english">configure, settings</td></tr>
+          <tr><td>連線</td><td class="pinyin">liánxiàn</td><td class="meaning">kết nối</td><td class="english">connect</td></tr>
+        </tbody>
+      </table>
+
+      <h3 class="group-title">Lập trình và phát triển phần mềm</h3>
+      <table>
+        <thead><tr><th>繁體中文</th><th>Pinyin</th><th>Nghĩa tiếng Việt</th><th>English</th></tr></thead>
+        <tbody>
+          <tr><td>軟體開發</td><td class="pinyin">ruǎntǐ kāifā</td><td class="meaning">phát triển phần mềm</td><td class="english">software development</td></tr>
+          <tr><td>程式語言</td><td class="pinyin">chéngshì yǔyán</td><td class="meaning">ngôn ngữ lập trình</td><td class="english">programming language</td></tr>
+          <tr><td>原始碼</td><td class="pinyin">yuánshǐmǎ</td><td class="meaning">mã nguồn</td><td class="english">source code</td></tr>
+          <tr><td>資料結構</td><td class="pinyin">zīliào jiégòu</td><td class="meaning">cấu trúc dữ liệu</td><td class="english">data structure</td></tr>
+          <tr><td>演算法</td><td class="pinyin">yǎnsuànfǎ</td><td class="meaning">thuật toán</td><td class="english">algorithm</td></tr>
+          <tr><td>版本控制</td><td class="pinyin">bǎnběn kòngzhì</td><td class="meaning">quản lý phiên bản</td><td class="english">version control</td></tr>
+          <tr><td>程式碼審查</td><td class="pinyin">chéngshìmǎ shěnchá</td><td class="meaning">kiểm tra mã nguồn</td><td class="english">code review</td></tr>
+          <tr><td>單元測試</td><td class="pinyin">dānyuán cèshì</td><td class="meaning">kiểm thử đơn vị</td><td class="english">unit testing</td></tr>
+          <tr><td>整合測試</td><td class="pinyin">zhěnghé cèshì</td><td class="meaning">kiểm thử tích hợp</td><td class="english">integration testing</td></tr>
+          <tr><td>除錯</td><td class="pinyin">chúcuò</td><td class="meaning">gỡ lỗi</td><td class="english">debugging</td></tr>
+          <tr><td>技術債</td><td class="pinyin">jìshùzhài</td><td class="meaning">nợ kỹ thuật</td><td class="english">technical debt</td></tr>
+        </tbody>
+      </table>
+
+      <h3 class="group-title">Web, backend và kiến trúc hệ thống</h3>
+      <table>
+        <thead><tr><th>繁體中文</th><th>Pinyin</th><th>Nghĩa tiếng Việt</th><th>English</th></tr></thead>
+        <tbody>
+          <tr><td>前端</td><td class="pinyin">qiánduān</td><td class="meaning">frontend</td><td class="english">frontend</td></tr>
+          <tr><td>後端</td><td class="pinyin">hòuduān</td><td class="meaning">backend</td><td class="english">backend</td></tr>
+          <tr><td>應用程式介面</td><td class="pinyin">yìngyòng chéngshì jièmiàn</td><td class="meaning">giao diện lập trình ứng dụng (API)</td><td class="english">application programming interface</td></tr>
+          <tr><td>微服務架構</td><td class="pinyin">wēifúwù jiàgòu</td><td class="meaning">kiến trúc microservices</td><td class="english">microservices architecture</td></tr>
+          <tr><td>分散式系統</td><td class="pinyin">fēnsànshì xìtǒng</td><td class="meaning">hệ thống phân tán</td><td class="english">distributed system</td></tr>
+          <tr><td>快取</td><td class="pinyin">kuàiqǔ</td><td class="meaning">bộ nhớ đệm</td><td class="english">cache</td></tr>
+          <tr><td>非同步處理</td><td class="pinyin">fēitóngbù chǔlǐ</td><td class="meaning">xử lý bất đồng bộ</td><td class="english">asynchronous processing</td></tr>
+          <tr><td>延展性</td><td class="pinyin">yánzhǎnxìng</td><td class="meaning">khả năng mở rộng</td><td class="english">scalability</td></tr>
+          <tr><td>容錯能力</td><td class="pinyin">róngcuò nénglì</td><td class="meaning">khả năng chịu lỗi</td><td class="english">fault tolerance</td></tr>
+        </tbody>
+      </table>
+
+      <h3 class="group-title">Cơ sở dữ liệu và xử lý dữ liệu</h3>
+      <table>
+        <thead><tr><th>繁體中文</th><th>Pinyin</th><th>Nghĩa tiếng Việt</th><th>English</th></tr></thead>
+        <tbody>
+          <tr><td>資料庫</td><td class="pinyin">zīliàokù</td><td class="meaning">cơ sở dữ liệu</td><td class="english">database</td></tr>
+          <tr><td>關聯式資料庫</td><td class="pinyin">guānliánshì zīliàokù</td><td class="meaning">cơ sở dữ liệu quan hệ</td><td class="english">relational database</td></tr>
+          <tr><td>索引</td><td class="pinyin">suǒyǐn</td><td class="meaning">chỉ mục</td><td class="english">index</td></tr>
+          <tr><td>正規化</td><td class="pinyin">zhèngguīhuà</td><td class="meaning">chuẩn hóa dữ liệu</td><td class="english">normalization</td></tr>
+          <tr><td>資料管線</td><td class="pinyin">zīliào guǎnxiàn</td><td class="meaning">đường ống dữ liệu</td><td class="english">data pipeline</td></tr>
+          <tr><td>資料清理</td><td class="pinyin">zīliào qīnglǐ</td><td class="meaning">làm sạch dữ liệu</td><td class="english">data cleaning</td></tr>
+          <tr><td>資料驗證</td><td class="pinyin">zīliào yànzhèng</td><td class="meaning">xác thực dữ liệu</td><td class="english">data validation</td></tr>
+        </tbody>
+      </table>
+
+      <h3 class="group-title">Triển khai, vận hành và bảo mật</h3>
+      <table>
+        <thead><tr><th>繁體中文</th><th>Pinyin</th><th>Nghĩa tiếng Việt</th><th>English</th></tr></thead>
+        <tbody>
+          <tr><td>系統部署</td><td class="pinyin">xìtǒng bùshǔ</td><td class="meaning">triển khai hệ thống</td><td class="english">system deployment</td></tr>
+          <tr><td>持續整合</td><td class="pinyin">chíxù zhěnghé</td><td class="meaning">tích hợp liên tục (CI)</td><td class="english">continuous integration</td></tr>
+          <tr><td>容器</td><td class="pinyin">róngqì</td><td class="meaning">container</td><td class="english">container</td></tr>
+          <tr><td>雲端服務</td><td class="pinyin">yúnduān fúwù</td><td class="meaning">dịch vụ đám mây</td><td class="english">cloud service</td></tr>
+          <tr><td>系統監控</td><td class="pinyin">xìtǒng jiānkòng</td><td class="meaning">giám sát hệ thống</td><td class="english">system monitoring</td></tr>
+          <tr><td>身分驗證</td><td class="pinyin">shēnfèn yànzhèng</td><td class="meaning">xác thực danh tính</td><td class="english">authentication</td></tr>
+          <tr><td>授權</td><td class="pinyin">shòuquán</td><td class="meaning">phân quyền</td><td class="english">authorization</td></tr>
+          <tr><td>資料加密</td><td class="pinyin">zīliào jiāmì</td><td class="meaning">mã hóa dữ liệu</td><td class="english">data encryption</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <div class="stage">
+      <span class="stage-num">GIAI ĐOẠN 2</span>
+      <h2>Câu liền mạch</h2>
+      <p>Khi đã hiểu nghĩa từng từ, sang ghép câu. Tick vào ô khi nói trôi được cả câu mà không nhìn pinyin.</p>
+    </div>
+    <section>
+      <h2>2.1 · Câu giới thiệu bản thân</h2>
+
+      <div class="note">
+        <p><strong>Nhớ:</strong> dùng <strong>參與</strong> (tham gia) chứ không dùng <strong>贊助</strong> (tài trợ). Nhấn mạnh cụm <strong>確定性</strong> (mang tính xác định) khi nói về phần code, để phân biệt rõ với phần LLM.</p>
+      </div>
+      <div class="sentence-list" id="sentences" style="margin-top:16px">
+        <article class="sentence" data-key="s1">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu 1 đã học">
+          <div><p class="hanzi">大家好，我叫阮裕善，來自越南。</p><p class="pinyin">Dàjiā hǎo, wǒ jiào Ruǎn Yùshàn, láizì Yuènán.</p><p class="meaning">Xin chào mọi người, tôi tên là Nguyễn Ngọc Thiện, đến từ Việt Nam.</p><p class="english">Hello everyone. My name is Nguyen Ngoc Thien, and I am from Vietnam.</p></div>
+        </article>
+        <article class="sentence" data-key="s2">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu 2 đã học">
+          <div><p class="hanzi">我畢業於國立中央大學資訊工程研究所，取得碩士學位。</p><p class="pinyin">Wǒ bìyè yú Guólì Zhōngyāng Dàxué Zīxùn Gōngchéng Yánjiūsuǒ, qǔdé shuòshì xuéwèi.</p><p class="meaning">Tôi tốt nghiệp Viện cao học Kỹ thuật Thông tin, Đại học Quốc lập Trung ương và nhận bằng thạc sĩ.</p><p class="english">I graduated from the Graduate Institute of Computer Science and Information Engineering at National Central University with a master's degree.</p></div>
+        </article>
+        <article class="sentence" data-key="s3">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu 3 đã học">
+          <div><p class="hanzi">我的背景主要是軟體工程與人工智慧，特別專注在如何把 AI 應用到實際的工程流程中。</p><p class="pinyin">Wǒ de bèijǐng zhǔyào shì ruǎntǐ gōngchéng yǔ réngōng zhìhuì, tèbié zhuānzhù zài rúhé bǎ AI yìngyòng dào shíjì de gōngchéng liúchéng zhōng.</p><p class="meaning">Nền tảng của tôi chủ yếu là kỹ thuật phần mềm và trí tuệ nhân tạo, đặc biệt tập trung vào việc ứng dụng AI vào các quy trình kỹ thuật thực tế.</p><p class="english">My background is mainly in software engineering and AI, with a particular focus on applying AI to real engineering workflows.</p></div>
+        </article>
+        <article class="sentence" data-key="s4">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu 4 đã học">
+          <div><p class="hanzi">過去幾年，我參與過多個 AI 落地專案，涵蓋電腦視覺、OCR 檢測，以及大型語言模型的應用開發。</p><p class="pinyin">Guòqù jǐ nián, wǒ cānyù guò duō ge AI luòdì zhuān'àn, hángài diànnǎo shìjué, OCR jiǎncè, yǐjí dàxíng yǔyán móxíng de yìngyòng kāifā.</p><p class="meaning">Trong vài năm qua, tôi đã tham gia nhiều dự án ứng dụng AI thực tế, bao gồm thị giác máy tính, kiểm tra bằng OCR và phát triển ứng dụng mô hình ngôn ngữ lớn.</p><p class="english">Over the past few years, I have worked on several applied AI projects, covering computer vision, OCR-based inspection, and large language model application development.</p></div>
+        </article>
+        <article class="sentence" data-key="s5">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu 5 đã học">
+          <div><p class="hanzi">為了證明自己有能力處理這類型的 AI 工程專案，我最近自己動手做了一個 Agent 設計系統的快速示範。</p><p class="pinyin">Wèile zhèngmíng zìjǐ yǒu nénglì chǔlǐ zhè lèixíng de AI gōngchéng zhuān'àn, wǒ zuìjìn zìjǐ dòngshǒu zuò le yí ge Agent shèjì xìtǒng de kuàisù shìfàn.</p><p class="meaning">Để chứng minh mình có khả năng xử lý loại dự án AI kỹ thuật này, gần đây tôi đã tự tay làm một bản demo nhanh về hệ thống Agent thiết kế kỹ thuật.</p><p class="english">To demonstrate that I'm capable of handling this kind of AI engineering project, I recently built a quick demo of an engineering-design agent system myself.</p></div>
+        </article>
+        <article class="sentence" data-key="s6">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu 6 đã học">
+          <div><p class="hanzi">這個示範系統會用大型語言模型解析工程需求，再由確定性的程式邏輯負責選型計算與規則驗證。</p><p class="pinyin">Zhège shìfàn xìtǒng huì yòng dàxíng yǔyán móxíng jiěxī gōngchéng xūqiú, zài yóu quèdìngxìng de chéngshì luóji fùzé xuǎnxíng jìsuàn yǔ guīzé yànzhèng.</p><p class="meaning">Hệ thống demo này dùng mô hình ngôn ngữ lớn để phân tích yêu cầu kỹ thuật, sau đó logic mang tính xác định sẽ đảm nhiệm việc tính toán chọn thiết bị và kiểm tra theo quy tắc.</p><p class="english">This demo system uses a large language model to parse engineering requirements, while deterministic program logic handles equipment-selection calculations and rule-based validation.</p></div>
+        </article>
+        <article class="sentence" data-key="s7">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu 7 đã học">
+          <div><p class="hanzi">我認為 AI 不應該直接決定工程上的數字，而是負責理解與整理結構，真正的計算與驗證要交給程式碼。</p><p class="pinyin">Wǒ rènwéi AI bù yīnggāi zhíjiē juédìng gōngchéng shàng de shùzì, ér shì fùzé lǐjiě yǔ zhěnglǐ jiégòu, zhēnzhèng de jìsuàn yǔ yànzhèng yào jiāo gěi chéngshìmǎ.</p><p class="meaning">Tôi cho rằng AI không nên trực tiếp quyết định các con số kỹ thuật, mà nên chịu trách nhiệm hiểu và tổ chức cấu trúc, còn việc tính toán và kiểm chứng thật sự nên giao cho mã nguồn.</p><p class="english">I believe AI should not directly decide engineering numbers — it should focus on understanding and structuring information, while actual calculation and validation are handled by code.</p></div>
+        </article>
+        <article class="sentence" data-key="s8">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu 8 đã học">
+          <div><p class="hanzi">除此之外，我也熟悉 RAG 檢索增強生成的架構，可以把工程標準與零件目錄整合進系統中，作為判斷的依據。</p><p class="pinyin">Chúcǐ zhīwài, wǒ yě shúxī RAG jiǎnsuǒ zēngqiáng shēngchéng de jiàgòu, kěyǐ bǎ gōngchéng biāozhǔn yǔ língjiàn mùlù zhěnghé jìn xìtǒng zhōng, zuòwéi pànduàn de yījù.</p><p class="meaning">Ngoài ra, tôi cũng quen thuộc với kiến trúc RAG (truy hồi tăng cường sinh), có thể tích hợp tiêu chuẩn kỹ thuật và danh mục linh kiện vào hệ thống làm căn cứ phán đoán.</p><p class="english">I am also familiar with retrieval-augmented generation (RAG) architecture, which can integrate engineering standards and component catalogs into the system as a basis for decision-making.</p></div>
+        </article>
+        <article class="sentence" data-key="s9">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu 9 đã học">
+          <div><p class="hanzi">雖然這只是一個快速示範，但我很清楚正式的專案會需要跟軟體工程師、專案經理和領域專家密切合作，一起釐清哪些判斷屬於工程知識，哪些屬於系統邏輯。</p><p class="pinyin">Suīrán zhè zhǐshì yí ge kuàisù shìfàn, dàn wǒ hěn qīngchǔ zhèngshì de zhuān'àn huì xūyào gēn ruǎntǐ gōngchéngshī, zhuān'àn jīnglǐ hé lǐngyù zhuānjiā mìqiè hézuò, yìqǐ líqīng nǎxiē pànduàn shǔyú gōngchéng zhīshì, nǎxiē shǔyú xìtǒng luóji.</p><p class="meaning">Mặc dù đây chỉ là một bản demo nhanh, nhưng tôi hiểu rõ một dự án chính thức sẽ cần phối hợp chặt chẽ với kỹ sư phần mềm, quản lý dự án và chuyên gia lĩnh vực, cùng làm rõ phần nào là tri thức kỹ thuật, phần nào thuộc về logic hệ thống.</p><p class="english">Although this was just a quick demo, I understand that a formal project would require working closely with software engineers, project managers, and domain experts to clarify which decisions belong to engineering knowledge versus system logic.</p></div>
+        </article>
+        <article class="sentence" data-key="s10">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu 10 đã học">
+          <div><p class="hanzi">在此之前，我也做過一個以 AI 為核心的產品外觀檢測系統，並將模型部署到邊緣裝置上。</p><p class="pinyin">Zài cǐ zhīqián, wǒ yě zuò guò yí ge yǐ AI wéi héxīn de chǎnpǐn wàiguān jiǎncè xìtǒng, bìng jiāng móxíng bùshǔ dào biānyuán zhuāngzhì shàng.</p><p class="meaning">Trước đó, tôi cũng từng làm một hệ thống kiểm tra ngoại quan sản phẩm lấy AI làm cốt lõi, và triển khai mô hình lên thiết bị biên.</p><p class="english">Before that, I also built an AI-based visual product inspection system and deployed the model on edge devices.</p></div>
+        </article>
+        <article class="sentence" data-key="s11">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu 11 đã học">
+          <div><p class="hanzi">我喜歡把 AI 應用在真實的工程場景，用實際可行的方式解決問題，而不是為了炫技而過度設計。</p><p class="pinyin">Wǒ xǐhuān bǎ AI yìngyòng zài zhēnshí de gōngchéng chǎngjǐng, yòng shíjì kěxíng de fāngshì jiějué wèntí, ér búshì wèile xuànjì ér guòdù shèjì.</p><p class="meaning">Tôi thích ứng dụng AI vào các bối cảnh kỹ thuật thực tế, giải quyết vấn đề theo cách khả thi thực sự, chứ không thiết kế quá mức chỉ để phô diễn kỹ thuật.</p><p class="english">I enjoy applying AI to real engineering scenarios, solving problems in a practically feasible way rather than over-engineering just to show off technical skill.</p></div>
+        </article>
+        <article class="sentence" data-key="s12">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu 12 đã học">
+          <div><p class="hanzi">很高興有機會參加今天的面試，謝謝。</p><p class="pinyin">Hěn gāoxìng yǒu jīhuì cānjiā jīntiān de miànshì, xièxie.</p><p class="meaning">Tôi rất vui khi có cơ hội tham gia buổi phỏng vấn hôm nay. Xin cảm ơn.</p><p class="english">I am pleased to have the opportunity to attend today's interview. Thank you.</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>2.2 · Câu kể dự án</h2>
+
+
+      <h3 class="group-title">Bản demo tự làm: Agent thiết kế sơ đồ đơn tuyến điện (SLD)</h3>
+      <div class="note">
+        <p>Đây là bản demo tự làm để chứng minh năng lực khi ứng tuyển, <strong>không phải</strong> dự án chính thức đang làm ở công ty hiện tại — công việc thật sự cần làm (nếu trúng tuyển) mới là xây dựng Agent thiết kế mạch điện. Vì vậy các câu dưới đây dùng thì quá khứ/hoàn thành (「做了」「做過」), không dùng 「正在」/「目前負責」.</p>
+      </div>
+      <div class="sentence-list">
+        <article class="sentence" data-key="p1">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu dự án 1 đã học">
+          <div><p class="hanzi">為了證明我有能力做這類型的專案，我最近自己動手做了一個電機單線圖設計代理系統的快速示範。</p><p class="pinyin">Wèile zhèngmíng wǒ yǒu nénglì zuò zhè lèixíng de zhuān'àn, wǒ zuìjìn zìjǐ dòngshǒu zuò le yí ge diànjī dānxiàntú shèjì dàilǐ xìtǒng de kuàisù shìfàn.</p><p class="meaning">Để chứng minh tôi có khả năng làm loại dự án này, gần đây tôi đã tự tay làm một bản demo nhanh về hệ thống Agent thiết kế sơ đồ đơn tuyến điện (SLD).</p><p class="english">To prove that I'm capable of this kind of project, I recently built a quick demo of a single-line-diagram design agent system myself.</p></div>
+        </article>
+        <article class="sentence" data-key="p2">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu dự án 2 đã học">
+          <div><p class="hanzi">這只是一個概念性的示範，不是正式上線的產品或量產系統。</p><p class="pinyin">Zhè zhǐshì yí ge gàiniànxìng de shìfàn, búshì zhèngshì shàngxiàn de chǎnpǐn huò liàngchǎn xìtǒng.</p><p class="meaning">Đây chỉ là một bản demo mang tính khái niệm, không phải sản phẩm chính thức hay hệ thống đã đưa vào vận hành thực tế.</p><p class="english">This is only a conceptual demo, not a formally launched product or production system.</p></div>
+        </article>
+        <article class="sentence" data-key="p3">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu dự án 3 đã học">
+          <div><p class="hanzi">整個流程我設計成五個步驟：解析需求、計算選型、規則驗證、佈線，最後產生圖面。</p><p class="pinyin">Zhěnggè liúchéng wǒ shèjì chéng wǔ ge bùzhòu: jiěxī xūqiú, jìsuàn xuǎnxíng, guīzé yànzhèng, bùxiàn, zuìhòu chǎnshēng túmiàn.</p><p class="meaning">Toàn bộ quy trình tôi thiết kế thành 5 bước: phân tích yêu cầu, tính toán chọn thiết bị, kiểm tra theo quy tắc, đi dây, và cuối cùng là sinh bản vẽ.</p><p class="english">I designed the pipeline with five steps: requirement parsing, sizing/equipment selection, rule-based validation, routing, and finally drawing rendering.</p></div>
+        </article>
+        <article class="sentence" data-key="p4">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu dự án 4 đã học">
+          <div><p class="hanzi">在這個示範裡，只有第一個步驟，也就是解析需求，用到大型語言模型；其餘的計算與驗證都是用確定性的程式碼完成的。</p><p class="pinyin">Zài zhège shìfàn lǐ, zhǐyǒu dì yī ge bùzhòu, yě jiùshì jiěxī xūqiú, yòngdào dàxíng yǔyán móxíng; qíyú de jìsuàn yǔ yànzhèng dōu shì yòng quèdìngxìng de chéngshìmǎ wánchéng de.</p><p class="meaning">Trong bản demo này, chỉ có bước đầu tiên, tức phân tích yêu cầu, mới dùng đến mô hình ngôn ngữ lớn; các bước tính toán và kiểm tra còn lại đều do mã nguồn mang tính xác định thực hiện.</p><p class="english">In this demo, only the first step, requirement parsing, uses a large language model; all remaining calculation and validation is handled by deterministic code.</p></div>
+        </article>
+        <article class="sentence" data-key="p5">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu dự án 5 đã học">
+          <div><p class="hanzi">這個示範已經能跑出一個案例，並輸出符合規格的 DXF 圖檔，用來證明整個概念是可行的。</p><p class="pinyin">Zhège shìfàn yǐjīng néng pǎochū yí ge ànlì, bìng shūchū fúhé guīgé de DXF túdǎng, yònglái zhèngmíng zhěnggè gàiniàn shì kěxíng de.</p><p class="meaning">Bản demo này đã chạy được một case, và xuất ra file bản vẽ DXF đúng quy cách, để chứng minh toàn bộ ý tưởng là khả thi.</p><p class="english">This demo can already run one case end-to-end and export a properly formatted DXF file, to prove the concept is feasible.</p></div>
+        </article>
+        <article class="sentence" data-key="p6">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu dự án 6 đã học">
+          <div><p class="hanzi">像是文件檢索、AI 覆核這類進階功能，我只有在架構上規劃過，還沒有真正做出來。</p><p class="pinyin">Xiàng shì wénjiàn jiǎnsuǒ, AI fùhé zhè lèi jìnjiē gōngnéng, wǒ zhǐyǒu zài jiàgòu shàng guīhuà guò, hái méiyǒu zhēnzhèng zuò chūlái.</p><p class="meaning">Còn những tính năng nâng cao như truy hồi tài liệu hay AI tự kiểm tra lại, tôi mới chỉ lên kế hoạch kiến trúc, chưa thực sự làm ra.</p><p class="english">More advanced features like document retrieval and an AI review step, I have only planned at the architecture level — I haven't actually built them yet.</p></div>
+        </article>
+        <article class="sentence" data-key="p7">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu dự án 7 đã học">
+          <div><p class="hanzi">我覺得誠實地說明「這是示範」跟「這是正式產品」的差別很重要，這樣才不會讓對方有錯誤的期待。</p><p class="pinyin">Wǒ juéde chéngshí de shuōmíng "zhè shì shìfàn" gēn "zhè shì zhèngshì chǎnpǐn" de chābié hěn zhòngyào, zhèyàng cái bú huì ràng duìfāng yǒu cuòwù de qídài.</p><p class="meaning">Tôi nghĩ việc trung thực giải thích rõ sự khác biệt giữa "đây là demo" và "đây là sản phẩm chính thức" rất quan trọng, để tránh khiến đối phương có kỳ vọng sai lệch.</p><p class="english">I think it's important to be honest about the difference between "this is a demo" and "this is a formal product," so the other side doesn't end up with the wrong expectations.</p></div>
+        </article>
+        <article class="sentence" data-key="p7b">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu dự án 8 đã học">
+          <div><p class="hanzi">這個經驗也讓我更清楚知道，做 PoC 的時候，最關鍵的是先定義清楚範圍內跟範圍外的項目。</p><p class="pinyin">Zhège jīngyàn yě ràng wǒ gèng qīngchǔ zhīdào, zuò PoC de shíhòu, zuì guānjiàn de shì xiān dìngyì qīngchǔ fànwéi nèi gēn fànwéi wài de xiàngmù.</p><p class="meaning">Kinh nghiệm này cũng giúp tôi hiểu rõ hơn rằng, khi làm PoC, điều quan trọng nhất là xác định rõ ngay từ đầu những gì nằm trong phạm vi và những gì nằm ngoài phạm vi.</p><p class="english">This experience also made it clear to me that when building a PoC, the most critical thing is to clearly define what's in scope and out of scope from the start.</p></div>
+        </article>
+      </div>
+
+      <h3 class="group-title" style="margin-top:26px">Dự án kiểm tra sản phẩm bằng AI (AOI/OCR)</h3>
+      <div class="sentence-list">
+        <article class="sentence" data-key="p8">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu dự án 8 đã học">
+          <div><p class="hanzi">我也參與過一個以 AI 為核心的產品檢測系統專案，用來自動檢測產品表面的瑕疵與皺褶。</p><p class="pinyin">Wǒ yě cānyù guò yí ge yǐ AI wéi héxīn de chǎnpǐn jiǎncè xìtǒng zhuān'àn, yònglái zìdòng jiǎncè chǎnpǐn biǎomiàn de xiácī yǔ zhòuzhé.</p><p class="meaning">Tôi cũng từng tham gia một dự án hệ thống kiểm tra sản phẩm lấy AI làm cốt lõi, dùng để tự động phát hiện khuyết tật và nếp nhăn trên bề mặt sản phẩm.</p><p class="english">I also worked on an AI-based product inspection system used to automatically detect surface defects and wrinkles.</p></div>
+        </article>
+        <article class="sentence" data-key="p9">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu dự án 9 đã học">
+          <div><p class="hanzi">我也整合了光學字元辨識，也就是 OCR，用來檢查印刷文字的內容與品質。</p><p class="pinyin">Wǒ yě zhěnghé le guāngxué zìyuán biànshí, yě jiùshì OCR, yònglái jiǎnchá yìnshuā wénzì de nèiróng yǔ pǐnzhí.</p><p class="meaning">Tôi cũng tích hợp nhận dạng ký tự quang học, tức OCR, để kiểm tra nội dung và chất lượng chữ in.</p><p class="english">I also integrated optical character recognition (OCR) to inspect printed text and its quality.</p></div>
+        </article>
+        <article class="sentence" data-key="p10">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu dự án 10 đã học">
+          <div><p class="hanzi">我負責開發檢測功能，並將 AI 模型部署到邊緣裝置上。</p><p class="pinyin">Wǒ fùzé kāifā jiǎncè gōngnéng, bìng jiāng AI móxíng bùshǔ dào biānyuán zhuāngzhì shàng.</p><p class="meaning">Tôi phụ trách phát triển chức năng kiểm tra và triển khai mô hình AI lên thiết bị biên.</p><p class="english">I was responsible for developing inspection features and deploying AI models on edge devices.</p></div>
+        </article>
+      </div>
+
+      <h3 class="group-title" style="margin-top:26px">Dự án Agent hỗ trợ vận hành sản xuất</h3>
+      <div class="sentence-list">
+        <article class="sentence" data-key="p11">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu dự án 11 đã học">
+          <div><p class="hanzi">此外，我也開發了一套提供現場人員使用的 Agent 系統。</p><p class="pinyin">Cǐwài, wǒ yě kāifā le yí tào tígōng xiànchǎng rényuán shǐyòng de Agent xìtǒng.</p><p class="meaning">Ngoài ra, tôi còn phát triển một hệ thống Agent dành cho nhân viên tại hiện trường.</p><p class="english">In addition, I developed an agent system for on-site operators.</p></div>
+        </article>
+        <article class="sentence" data-key="p12">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu dự án 12 đã học">
+          <div><p class="hanzi">使用者可以透過自然語言查詢生產時間與產量，並產生報表。</p><p class="pinyin">Shǐyòngzhě kěyǐ tòuguò zìrán yǔyán cháxún shēngchǎn shíjiān yǔ chǎnliàng, bìng chǎnshēng bàobiǎo.</p><p class="meaning">Người dùng có thể dùng ngôn ngữ tự nhiên để hỏi thời gian, sản lượng và tạo báo cáo.</p><p class="english">Users could query production time and output in natural language and generate reports.</p></div>
+        </article>
+        <article class="sentence" data-key="p13">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu dự án 13 đã học">
+          <div><p class="hanzi">系統也可以查詢使用者的存取紀錄與操作紀錄。</p><p class="pinyin">Xìtǒng yě kěyǐ cháxún shǐyòngzhě de cúnqǔ jìlù yǔ cāozuò jìlù.</p><p class="meaning">Hệ thống cũng có thể tra cứu lịch sử truy cập và thao tác của người dùng.</p><p class="english">The system could also retrieve user access and activity logs.</p></div>
+        </article>
+      </div>
+
+      <h3 class="group-title" style="margin-top:26px">Dự án hệ thống soạn thảo bằng sáng chế (đã triển khai thật)</h3>
+      <div class="note">
+        <p>Khác với bản demo SLD ở trên, đây là hệ thống <strong>thật, đã đưa vào sử dụng</strong> — dùng thì hoàn thành bình thường (「開發並上線過」), không cần thòng thêm "chỉ là demo". Đây là bằng chứng mạnh nhất cho câu hỏi "cái gì đã fully implemented" mà người phỏng vấn sẽ hỏi.</p>
+      </div>
+      <div class="sentence-list">
+        <article class="sentence" data-key="pt1">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu dự án bằng sáng chế 1 đã học">
+          <div><p class="hanzi">除了剛剛提到的示範之外，我也實際開發並上線過一個專利撰寫輔助系統，這是真正投入使用的系統，不是示範。</p><p class="pinyin">Chúle gānggāng tídào de shìfàn zhīwài, wǒ yě shíjì kāifā bìng shàngxiàn guò yí ge zhuānlì zhuànxiě fǔzhù xìtǒng, zhè shì zhēnzhèng tóurù shǐyòng de xìtǒng, búshì shìfàn.</p><p class="meaning">Ngoài bản demo vừa nói ở trên, tôi cũng đã thực sự phát triển và đưa vào vận hành một hệ thống hỗ trợ soạn thảo bằng sáng chế — đây là hệ thống thật sự được sử dụng, không phải demo.</p><p class="english">Besides the demo I just mentioned, I also actually built and deployed a patent-drafting assistant system — this is a real system in actual use, not a demo.</p></div>
+        </article>
+        <article class="sentence" data-key="pt2">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu dự án bằng sáng chế 2 đã học">
+          <div><p class="hanzi">這個系統會在將近一千萬份文件中做檢索，我們把它定位成「初步篩選搜尋」，而不是正式的法律意見。</p><p class="pinyin">Zhège xìtǒng huì zài jiāngjìn yìqiān wàn fèn wénjiàn zhōng zuò jiǎnsuǒ, wǒmen bǎ tā dìngwèi chéng "chūbù shāixuǎn sōuxún", ér búshì zhèngshì de fǎlǜ yìjiàn.</p><p class="meaning">Hệ thống này thực hiện truy hồi trên gần 10 triệu tài liệu, chúng tôi định vị nó là "tìm kiếm sàng lọc sơ bộ", chứ không phải ý kiến pháp lý chính thức.</p><p class="english">This system retrieves from close to ten million documents; we position it as a "preliminary screening search," not a formal legal opinion.</p></div>
+        </article>
+        <article class="sentence" data-key="pt3">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu dự án bằng sáng chế 3 đã học">
+          <div><p class="hanzi">每一個專利請求項都會對照檢索到的文件逐一核對，系統會標示出重疊的部分，並且提出修改建議，但最後的決定權在律師手上。</p><p class="pinyin">Měi yí ge zhuānlì qǐngqiú xiàng dōu huì duìzhào jiǎnsuǒ dào de wénjiàn zhúyī héduì, xìtǒng huì biāoshì chū chóngdié de bùfèn, bìngqiě tíchū xiūgǎi jiànyì, dàn zuìhòu de juédìngquán zài lǜshī shǒushàng.</p><p class="meaning">Mỗi điều khoản yêu cầu bảo hộ (claim) sẽ được đối chiếu từng cái với tài liệu truy hồi được, hệ thống đánh dấu phần trùng lặp và đề xuất chỉnh sửa, nhưng quyết định cuối cùng vẫn thuộc về luật sư.</p><p class="english">Every patent claim is checked one by one against the retrieved documents; the system marks the overlapping parts and proposes an amendment, but the final decision stays with the attorney.</p></div>
+        </article>
+        <article class="sentence" data-key="pt4">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu dự án bằng sáng chế 4 đã học">
+          <div><p class="hanzi">系統產生的圖也會清楚標示為非正式草圖，正式匯出之前還會跑過一個確定性的檢查清單，每一次修改也都會留下紀錄。</p><p class="pinyin">Xìtǒng chǎnshēng de tú yě huì qīngchǔ biāoshì wéi fēizhèngshì cǎotú, zhèngshì huìchū zhīqián hái huì pǎoguò yí ge quèdìngxìng de jiǎnchá qīngdān, měi yí cì xiūgǎi yě dōu huì liú xià jìlù.</p><p class="meaning">Hình vẽ do hệ thống sinh ra cũng được đánh dấu rõ là bản phác thảo không chính thức, trước khi xuất chính thức sẽ chạy qua một checklist mang tính xác định, và mỗi lần chỉnh sửa đều được lưu lại thành bản ghi.</p><p class="english">Figures generated by the system are also clearly labeled as informal drawings; before formal export, it runs through a deterministic checklist, and every edit is kept as a revision record.</p></div>
+        </article>
+        <article class="sentence" data-key="pt5">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu dự án bằng sáng chế 5 đã học">
+          <div><p class="hanzi">這套系統的架構其實跟電機設計 Agent 很像：檢索、比對規則、標示信心程度、留下紀錄，只是應用的領域跟規則內容不同。</p><p class="pinyin">Zhè tào xìtǒng de jiàgòu qíshí gēn diànjī shèjì Agent hěn xiàng: jiǎnsuǒ, bǐduì guīzé, biāoshì xìnxīn chéngdù, liú xià jìlù, zhǐshì yìngyòng de lǐngyù gēn guīzé nèiróng bùtóng.</p><p class="meaning">Kiến trúc của hệ thống này thực ra rất giống với Agent thiết kế kỹ thuật điện: truy hồi, đối chiếu quy tắc, đánh dấu mức độ tin cậy, lưu lại nhật ký — chỉ khác nhau ở lĩnh vực áp dụng và nội dung quy tắc.</p><p class="english">This system's architecture is actually very similar to the electrical design agent: retrieval, rule comparison, confidence flagging, record-keeping — only the domain and the rule content differ.</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>2.3 · Cụm ý ngắn để luyện phản xạ</h2>
+
+      <h3 class="group-title">Câu nối ý khi giới thiệu</h3>
+      <div class="chunks">
+        <article class="chunk"><p class="hanzi">在工作過程中</p><p class="pinyin">Zài gōngzuò guòchéng zhōng</p><p class="meaning">Trong quá trình làm việc</p><p class="english">During the course of my work</p></article>
+        <article class="chunk"><p class="hanzi">為了證明自己有能力</p><p class="pinyin">Wèile zhèngmíng zìjǐ yǒu nénglì</p><p class="meaning">Để chứng minh mình có khả năng</p><p class="english">To prove that I'm capable of</p></article>
+        <article class="chunk"><p class="hanzi">自己動手做了一個快速示範</p><p class="pinyin">Zìjǐ dòngshǒu zuò le yí ge kuàisù shìfàn</p><p class="meaning">Tự tay làm một bản demo nhanh</p><p class="english">Built a quick demo myself</p></article>
+        <article class="chunk"><p class="hanzi">這只是概念性的示範，不是正式產品</p><p class="pinyin">Zhè zhǐshì gàiniànxìng de shìfàn, búshì zhèngshì chǎnpǐn</p><p class="meaning">Đây chỉ là demo mang tính khái niệm, không phải sản phẩm chính thức</p><p class="english">This is only a conceptual demo, not a formal product</p></article>
+        <article class="chunk"><p class="hanzi">整個流程分成……個步驟</p><p class="pinyin">Zhěnggè liúchéng fēnchéng …… ge bùzhòu</p><p class="meaning">Toàn bộ quy trình chia thành … bước</p><p class="english">The whole pipeline is divided into … steps</p></article>
+        <article class="chunk"><p class="hanzi">只有這一步會用到大型語言模型</p><p class="pinyin">Zhǐyǒu zhè yí bù huì yòngdào dàxíng yǔyán móxíng</p><p class="meaning">Chỉ bước này mới dùng đến mô hình ngôn ngữ lớn</p><p class="english">Only this step uses a large language model</p></article>
+        <article class="chunk"><p class="hanzi">已經跑出一個真實的示範案例</p><p class="pinyin">Yǐjīng pǎochū yí ge zhēnshí de shìfàn ànlì</p><p class="meaning">Đã chạy ra một case demo thực tế</p><p class="english">Already run a real demo case</p></article>
+        <article class="chunk"><p class="hanzi">還停留在架構設計的階段</p><p class="pinyin">Hái tíngliú zài jiàgòu shèjì de jiēduàn</p><p class="meaning">Vẫn còn ở giai đoạn thiết kế kiến trúc</p><p class="english">Still at the architecture-design stage</p></article>
+      </div>
+
+      <h3 class="group-title">RAG · Embedding · Vector DB</h3>
+      <div class="chunks">
+        <article class="chunk"><p class="hanzi">檢索增強生成</p><p class="pinyin">Jiǎnsuǒ zēngqiáng shēngchéng</p><p class="meaning">Truy hồi tăng cường sinh (RAG)</p><p class="english">Retrieval-augmented generation</p></article>
+        <article class="chunk"><p class="hanzi">語意搜尋</p><p class="pinyin">Yǔyì sōuxún</p><p class="meaning">Tìm kiếm theo ngữ nghĩa</p><p class="english">Semantic search</p></article>
+        <article class="chunk"><p class="hanzi">文件切塊</p><p class="pinyin">Wénjiàn qiēkuài</p><p class="meaning">Chia đoạn tài liệu</p><p class="english">Document chunking</p></article>
+        <article class="chunk"><p class="hanzi">整合工程標準與零件目錄</p><p class="pinyin">Zhěnghé gōngchéng biāozhǔn yǔ língjiàn mùlù</p><p class="meaning">Tích hợp tiêu chuẩn kỹ thuật và danh mục linh kiện</p><p class="english">Integrate engineering standards and component catalogs</p></article>
+      </div>
+
+      <h3 class="group-title">Agent · Function calling · Prompt Engineering</h3>
+      <div class="chunks">
+        <article class="chunk"><p class="hanzi">代理人 / 智能體</p><p class="pinyin">Dàilǐrén / zhìnéngtǐ</p><p class="meaning">Tác nhân AI (agent)</p><p class="english">Agent</p></article>
+        <article class="chunk"><p class="hanzi">工具呼叫</p><p class="pinyin">Gōngjù hūjiào</p><p class="meaning">Gọi công cụ</p><p class="english">Tool calling</p></article>
+        <article class="chunk"><p class="hanzi">提示工程</p><p class="pinyin">Tíshì gōngchéng</p><p class="meaning">Kỹ thuật viết prompt</p><p class="english">Prompt engineering</p></article>
+        <article class="chunk"><p class="hanzi">模型幻覺</p><p class="pinyin">Móxíng huànjué</p><p class="meaning">Ảo giác của mô hình</p><p class="english">Model hallucination</p></article>
+        <article class="chunk"><p class="hanzi">我會設計一個工具，讓 Agent 可以呼叫它來完成……</p><p class="pinyin">Wǒ huì shèjì yí ge gōngjù, ràng Agent kěyǐ hūjiào tā lái wánchéng ……</p><p class="meaning">Tôi sẽ thiết kế một công cụ để Agent có thể gọi nó nhằm hoàn thành……</p><p class="english">I would design a tool that the agent can call to accomplish …</p></article>
+        <article class="chunk"><p class="hanzi">每個工具都會定義清楚的輸入與輸出格式。</p><p class="pinyin">Měi ge gōngjù dōu huì dìngyì qīngchǔ de shūrù yǔ shūchū géshì.</p><p class="meaning">Mỗi công cụ đều có định nghĩa rõ ràng về định dạng đầu vào và đầu ra.</p><p class="english">Each tool has a clearly defined input and output format.</p></article>
+        <article class="chunk"><p class="hanzi">我會限制 Agent 最多執行……次工具呼叫，避免無限迴圈。</p><p class="pinyin">Wǒ huì xiànzhì Agent zuìduō zhíxíng …… cì gōngjù hūjiào, bìmiǎn wúxiàn húiquān.</p><p class="meaning">Tôi sẽ giới hạn Agent tối đa thực hiện … lần gọi công cụ, để tránh vòng lặp vô hạn.</p><p class="english">I would limit the agent to at most … tool calls, to avoid an infinite loop.</p></article>
+        <article class="chunk"><p class="hanzi">如果工具回傳錯誤，Agent 會重試一次，而不是無限重試。</p><p class="pinyin">Rúguǒ gōngjù huíchuán cuòwù, Agent huì chóngshì yí cì, ér búshì wúxiàn chóngshì.</p><p class="meaning">Nếu công cụ trả về lỗi, Agent sẽ thử lại một lần, chứ không thử lại vô hạn.</p><p class="english">If a tool returns an error, the agent retries once, not endlessly.</p></article>
+        <article class="chunk"><p class="hanzi">系統提示負責定義角色與邊界，使用者提示負責帶入具體需求。</p><p class="pinyin">Xìtǒng tíshì fùzé dìngyì juésè yǔ biānjiè, shǐyòngzhě tíshì fùzé dàirù jùtǐ xūqiú.</p><p class="meaning">Prompt hệ thống chịu trách nhiệm định nghĩa vai trò và ranh giới, prompt người dùng mang theo yêu cầu cụ thể.</p><p class="english">The system prompt defines the role and boundaries; the user prompt carries the specific request.</p></article>
+        <article class="chunk"><p class="hanzi">Agent 只負責產生結構，實際的數值計算交給工具內部的程式碼。</p><p class="pinyin">Agent zhǐ fùzé chǎnshēng jiégòu, shíjì de shùzhí jìsuàn jiāo gěi gōngjù nèibù de chéngshìmǎ.</p><p class="meaning">Agent chỉ chịu trách nhiệm sinh ra cấu trúc, còn việc tính toán số liệu thực tế giao cho mã nguồn bên trong công cụ.</p><p class="english">The agent is only responsible for producing structure; actual numeric calculation is handled by code inside the tool.</p></article>
+        <article class="chunk"><p class="hanzi">我會把 Agent 不確定的結果標記出來，交給人工覆核。</p><p class="pinyin">Wǒ huì bǎ Agent bú quèdìng de jiéguǒ biāojì chūlái, jiāo gěi réngōng fùhé.</p><p class="meaning">Tôi sẽ đánh dấu những kết quả mà Agent không chắc chắn, giao cho con người kiểm duyệt lại.</p><p class="english">I would flag results the agent is uncertain about and hand them to human review.</p></article>
+        <article class="chunk"><p class="hanzi">單一 Agent 加多個工具，通常比多個 Agent 分工更簡單、更容易維護。</p><p class="pinyin">Dānyī Agent jiā duō ge gōngjù, tōngcháng bǐ duō ge Agent fēngōng gèng jiǎndān, gèng róngyì wéihù.</p><p class="meaning">Một Agent duy nhất kèm nhiều công cụ thường đơn giản hơn và dễ bảo trì hơn so với chia nhiều Agent.</p><p class="english">A single agent with multiple tools is usually simpler and easier to maintain than splitting the work across multiple agents.</p></article>
+      </div>
+
+      <h3 class="group-title">Xác định phạm vi PoC & tránh over-engineering</h3>
+      <div class="chunks">
+        <article class="chunk"><p class="hanzi">範疇界定</p><p class="pinyin">Fànchóu jièdìng</p><p class="meaning">Xác định phạm vi</p><p class="english">Scope definition</p></article>
+        <article class="chunk"><p class="hanzi">排除項目</p><p class="pinyin">Páichú xiàngmù</p><p class="meaning">Hạng mục loại trừ</p><p class="english">Exclusion items</p></article>
+        <article class="chunk"><p class="hanzi">最小可行產品</p><p class="pinyin">Zuìxiǎo kěxíng chǎnpǐn</p><p class="meaning">Sản phẩm khả dụng tối thiểu (MVP)</p><p class="english">Minimum viable product</p></article>
+        <article class="chunk"><p class="hanzi">避免過度設計</p><p class="pinyin">Bìmiǎn guòdù shèjì</p><p class="meaning">Tránh thiết kế quá mức</p><p class="english">Avoid over-engineering</p></article>
+      </div>
+
+      <h3 class="group-title">Cách trả lời trung thực khi thiếu kinh nghiệm</h3>
+      <div class="chunks">
+        <article class="chunk"><p class="hanzi">受到保密協議限制</p><p class="pinyin">Shòudào bǎomì xiéyì xiànzhì</p><p class="meaning">Bị giới hạn bởi thỏa thuận bảo mật</p><p class="english">Be restricted by a nondisclosure agreement</p></article>
+        <article class="chunk"><p class="hanzi">只能說明研究方向</p><p class="pinyin">Zhǐ néng shuōmíng yánjiū fāngxiàng</p><p class="meaning">Chỉ có thể trình bày hướng nghiên cứu</p><p class="english">Can only explain the research direction</p></article>
+        <article class="chunk"><p class="hanzi">尚未在正式量產環境使用過</p><p class="pinyin">Shàngwèi zài zhèngshì liàngchǎn huánjìng shǐyòng guò</p><p class="meaning">Chưa từng dùng trong môi trường sản xuất hàng loạt chính thức</p><p class="english">Have not used it in a formal mass-production environment</p></article>
+        <article class="chunk"><p class="hanzi">這部分還在架構設計階段，還沒正式實作</p><p class="pinyin">Zhè bùfèn hái zài jiàgòu shèjì jiēduàn, hái méi zhèngshì shízuò</p><p class="meaning">Phần này vẫn ở giai đoạn thiết kế kiến trúc, chưa chính thức triển khai</p><p class="english">This part is still at the architecture-design stage and not yet formally implemented</p></article>
+        <article class="chunk"><p class="hanzi">這是我自己做的示範，不是公司正式的專案</p><p class="pinyin">Zhè shì wǒ zìjǐ zuò de shìfàn, búshì gōngsī zhèngshì de zhuān'àn</p><p class="meaning">Đây là demo tôi tự làm, không phải dự án chính thức của công ty</p><p class="english">This is a demo I built myself, not a formal project from the company</p></article>
+      </div>
+    </section>
+    <div class="stage">
+      <span class="stage-num">GIAI ĐOẠN 3</span>
+      <h2>Đoạn liền mạch</h2>
+      <p>Nối câu thành đoạn 40-60 giây. Mục tiêu là nói hết đoạn không ngắt, không đệm 那個 / 就是.</p>
+    </div>
+    <section>
+      <h2>3.1 · Bốn đoạn phải thuộc</h2>
+      <div class="note">
+        <p>Luyện theo ba lượt: lượt một nhìn cả chữ Hán và pinyin, lượt hai tắt pinyin, lượt ba chỉ nhìn nghĩa tiếng Việt rồi tự nói ra tiếng Trung. Bấm nút ở đầu trang để ẩn từng lớp.</p>
+      </div>
+      <div class="sentence-list" style="margin-top:16px">
+      <article class="sentence passage" data-key="psg1">
+        <input class="check" type="checkbox" aria-label="Đánh dấu Đoạn 1 · Giới thiệu bản thân (khoảng 60 giây) đã học">
+        <div>
+          <h3 class="passage-title">Đoạn 1 · Giới thiệu bản thân (khoảng 60 giây)</h3>
+          <p class="hanzi">大家好，我叫阮裕善，來自越南。我畢業於國立中央大學資訊工程研究所，取得碩士學位。我的背景主要是軟體工程與人工智慧，特別專注在如何把 AI 應用到實際的工程流程中。過去幾年，我參與過多個 AI 落地專案，涵蓋電腦視覺、OCR 檢測，以及大型語言模型的應用開發。我認為 AI 不應該直接決定工程上的數字，而是負責理解與整理結構，真正的計算與驗證要交給程式碼。我喜歡把 AI 應用在真實的工程場景，用實際可行的方式解決問題，而不是為了炫技而過度設計。很高興有機會參加今天的面試，謝謝。</p>
+          <p class="pinyin">Dàjiā hǎo, wǒ jiào Ruǎn Yùshàn, láizì Yuènán. Wǒ bìyè yú Guólì Zhōngyāng Dàxué Zīxùn Gōngchéng Yánjiūsuǒ, qǔdé shuòshì xuéwèi. Wǒ de bèijǐng zhǔyào shì ruǎntǐ gōngchéng yǔ réngōng zhìhuì, tèbié zhuānzhù zài rúhé bǎ AI yìngyòng dào shíjì de gōngchéng liúchéng zhōng. Guòqù jǐ nián, wǒ cānyù guò duō ge AI luòdì zhuān'àn, hángài diànnǎo shìjué, OCR jiǎncè, yǐjí dàxíng yǔyán móxíng de yìngyòng kāifā. Wǒ rènwéi AI bù yīnggāi zhíjiē juédìng gōngchéng shàng de shùzì, ér shì fùzé lǐjiě yǔ zhěnglǐ jiégòu, zhēnzhèng de jìsuàn yǔ yànzhèng yào jiāo gěi chéngshìmǎ. Wǒ xǐhuān bǎ AI yìngyòng zài zhēnshí de gōngchéng chǎngjǐng, yòng shíjì kěxíng de fāngshì jiějué wèntí, ér búshì wèile xuànjì ér guòdù shèjì. Hěn gāoxìng yǒu jīhuì cānjiā jīntiān de miànshì, xièxie.</p>
+          <p class="meaning">Mở đầu bằng thông tin cá nhân và học vấn, rồi chuyển sang nền tảng chuyên môn, liệt kê kinh nghiệm, nêu quan điểm cốt lõi về vai trò của AI, và kết bằng lời cảm ơn. Đây là đoạn phải nói trôi chảy nhất vì nó mở đầu buổi phỏng vấn.</p>
+        </div>
+      </article>
+      <article class="sentence passage" data-key="psg2">
+        <input class="check" type="checkbox" aria-label="Đánh dấu Đoạn 2 · Kể về bản demo SLD (khoảng 45 giây) đã học">
+        <div>
+          <h3 class="passage-title">Đoạn 2 · Kể về bản demo SLD (khoảng 45 giây)</h3>
+          <p class="hanzi">為了證明我有能力做這類型的專案，我最近自己動手做了一個電機單線圖設計代理系統的快速示範。這只是一個概念性的示範，不是正式上線的產品。整個流程我設計成五個步驟：解析需求、計算選型、規則驗證、佈線，最後產生圖面。在這個示範裡，只有第一個步驟用到大型語言模型；其餘的計算與驗證都是用確定性的程式碼完成的。這個示範已經能跑出一個案例，並輸出符合規格的 DXF 圖檔。像是文件檢索、AI 覆核這類進階功能，我只有在架構上規劃過，還沒有真正做出來。</p>
+          <p class="pinyin">Wèile zhèngmíng wǒ yǒu nénglì zuò zhè lèixíng de zhuān'àn, wǒ zuìjìn zìjǐ dòngshǒu zuò le yí ge diànjī dānxiàntú shèjì dàilǐ xìtǒng de kuàisù shìfàn. Zhè zhǐshì yí ge gàiniànxìng de shìfàn, búshì zhèngshì shàngxiàn de chǎnpǐn. Zhěnggè liúchéng wǒ shèjì chéng wǔ ge bùzhòu: jiěxī xūqiú, jìsuàn xuǎnxíng, guīzé yànzhèng, bùxiàn, zuìhòu chǎnshēng túmiàn. Zài zhège shìfàn lǐ, zhǐyǒu dì yī ge bùzhòu yòngdào dàxíng yǔyán móxíng; qíyú de jìsuàn yǔ yànzhèng dōu shì yòng quèdìngxìng de chéngshìmǎ wánchéng de. Zhège shìfàn yǐjīng néng pǎochū yí ge ànlì, bìng shūchū fúhé guīgé de DXF túdǎng. Xiàng shì wénjiàn jiǎnsuǒ, AI fùhé zhè lèi jìnjiē gōngnéng, wǒ zhǐyǒu zài jiàgòu shàng guīhuà guò, hái méiyǒu zhēnzhèng zuò chūlái.</p>
+          <p class="meaning">Nêu lý do làm demo, khẳng định ngay đây chỉ là demo, mô tả 5 bước, nhấn mạnh chỉ 1 bước dùng LLM, nói kết quả đạt được, rồi chủ động nêu phần chưa làm. Trình tự này quan trọng: nói giới hạn trước khi bị hỏi thì được tính là trung thực, bị hỏi mới nói thì thành biện minh.</p>
+        </div>
+      </article>
+      <article class="sentence passage" data-key="psg3">
+        <input class="check" type="checkbox" aria-label="Đánh dấu Đoạn 3 · Hệ thống bằng sáng chế — dự án thật (khoảng 40 giây) đã học">
+        <div>
+          <h3 class="passage-title">Đoạn 3 · Hệ thống bằng sáng chế — dự án thật (khoảng 40 giây)</h3>
+          <p class="hanzi">除了剛剛提到的示範之外，我也實際開發並上線過一個專利撰寫輔助系統，這是真正投入使用的系統。這個系統會在將近一千萬份文件中做檢索，我們把它定位成初步篩選搜尋，而不是正式的法律意見。每一個專利請求項都會對照檢索到的文件逐一核對，系統會標示出重疊的部分，並且提出修改建議，但最後的決定權在律師手上。正式匯出之前還會跑過一個確定性的檢查清單，每一次修改也都會留下紀錄。這套系統的架構其實跟電機設計 Agent 很像，只是應用的領域跟規則內容不同。</p>
+          <p class="pinyin">Chúle gānggāng tídào de shìfàn zhīwài, wǒ yě shíjì kāifā bìng shàngxiàn guò yí ge zhuānlì zhuànxiě fǔzhù xìtǒng, zhè shì zhēnzhèng tóurù shǐyòng de xìtǒng. Zhège xìtǒng huì zài jiāngjìn yìqiān wàn fèn wénjiàn zhōng zuò jiǎnsuǒ, wǒmen bǎ tā dìngwèi chéng chūbù shāixuǎn sōuxún, ér búshì zhèngshì de fǎlǜ yìjiàn. Měi yí ge zhuānlì qǐngqiú xiàng dōu huì duìzhào jiǎnsuǒ dào de wénjiàn zhúyī héduì, xìtǒng huì biāoshì chū chóngdié de bùfèn, bìngqiě tíchū xiūgǎi jiànyì, dàn zuìhòu de juédìngquán zài lǜshī shǒushàng. Zhèngshì huìchū zhīqián hái huì pǎoguò yí ge quèdìngxìng de jiǎnchá qīngdān, měi yí cì xiūgǎi yě dōu huì liú xià jìlù. Zhè tào xìtǒng de jiàgòu qíshí gēn diànjī shèjì Agent hěn xiàng, zhǐshì yìngyòng de lǐngyù gēn guīzé nèiróng bùtóng.</p>
+          <p class="meaning">Đoạn này đối lập trực tiếp với đoạn 2: đây là hệ thống thật đã chạy. Nói rõ quy mô, cách định vị khiêm tốn (sàng lọc chứ không phải ý kiến pháp lý), cơ chế đối chiếu bằng chứng, và kết bằng câu nối sang lĩnh vực điện — đây là câu chốt thuyết phục nhất.</p>
+        </div>
+      </article>
+      <article class="sentence passage" data-key="psg4">
+        <input class="check" type="checkbox" aria-label="Đánh dấu Đoạn 4 · Mô tả demo-sheet theo khung 5 bước (khoảng 50 giây) đã học">
+        <div>
+          <h3 class="passage-title">Đoạn 4 · Mô tả demo-sheet theo khung 5 bước (khoảng 50 giây)</h3>
+          <p class="hanzi">我做的這個示範，輸入是一個虛構的配電盤需求：兩個分段、一台變壓器並附電表、一台透過 ATS 切換的發電機、三個子配電盤、功因補償設備，以及一套不斷電系統。這個需求會先被模型解析成結構化的 JSON，再交給規則引擎逐一核對每個設備的選型依據。輸出包含一份附上證據的設備清單，還有依據這份清單畫出來的 DXF 圖面。其中電焊機沒有對應的選型規則，系統就把它標示成紅色、未驗證，這個警示也會往上傳到 A 段和總開關。這份示範裡的規則數值都是佔位用的，重點是驗證整個結構走得通，而不是規則本身的正確性。</p>
+          <p class="pinyin">Wǒ zuò de zhège shìfàn, shūrù shì yí ge xūgòu de pèidiànpán xūqiú: liǎng ge fēnduàn, yì tái biànyāqì bìng fù diànbiǎo, yì tái tòuguò ATS qiēhuàn de fādiànjī, sān ge zǐ pèidiànpán, gōngyīn bǔcháng shèbèi, yǐjí yí tào búduàndiàn xìtǒng. Zhège xūqiú huì xiān bèi móxíng jiěxī chéng jiégòuhuà de JSON, zài jiāo gěi guīzé yǐnqíng zhúyī héduì měi ge shèbèi de xuǎnxíng yījù. Shūchū bāohán yí fèn fùshàng zhèngjù de shèbèi qīngdān, hái yǒu yījù zhè fèn qīngdān huà chūlái de DXF túmiàn. Qízhōng diànhànjī méiyǒu duìyìng de xuǎnxíng guīzé, xìtǒng jiù bǎ tā biāoshì chéng hóngsè, wèi yànzhèng, zhège jǐngshì yě huì wǎng shàng chuándào A duàn hé zǒngkāiguān. Zhè fèn shìfàn lǐ de guīzé shùzhí dōu shì zhànwèi yòng de, zhòngdiǎn shì yànzhèng zhěnggè jiégòu zǒu de tōng, ér búshì guīzé běnshēn de zhèngquèxìng.</p>
+          <p class="meaning">Đoạn này đi đúng thứ tự Input → Processing → Output → Validation → Exclusion. Nếu người phỏng vấn đưa tình huống mới, giữ nguyên khung này và chỉ thay nội dung — khung đã thuộc thì không phải nghĩ cấu trúc khi đang nói.</p>
+        </div>
+      </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>3.2 · Nhịp đọc gợi ý</h2>
+
+      <div class="practice-line">
+        <p class="hanzi">這個系統會用大型語言模型解析工程需求<span class="slash">／</span>再由確定性的程式邏輯<span class="slash">／</span>負責選型計算與規則驗證。</p>
+        <p class="pinyin">Zhège xìtǒng huì yòng dàxíng yǔyán móxíng jiěxī gōngchéng xūqiú / zài yóu quèdìngxìng de chéngshì luóji / fùzé xuǎnxíng jìsuàn yǔ guīzé yànzhèng.</p>
+      </div>
+      <div class="practice-line" style="margin-top:12px">
+        <p class="hanzi">我認為 AI 不應該直接決定工程上的數字<span class="slash">／</span>而是負責理解與整理結構<span class="slash">／</span>真正的計算與驗證要交給程式碼。</p>
+        <p class="pinyin">Wǒ rènwéi AI bù yīnggāi zhíjiē juédìng gōngchéng shàng de shùzì / ér shì fùzé lǐjiě yǔ zhěnglǐ jiégòu / zhēnzhèng de jìsuàn yǔ yànzhèng yào jiāo gěi chéngshìmǎ.</p>
+      </div>
+    </section>
+    <div class="stage">
+      <span class="stage-num">GIAI ĐOẠN 4</span>
+      <h2>Phỏng vấn</h2>
+      <p>Giai đoạn cuối: dùng vốn đã có để ứng biến khi người phỏng vấn đưa tình huống mới trong lúc gọi.</p>
+    </div>
+    <section>
+      <h2>4.1 · Khung dẫn dắt khi làm Case Study trực tiếp</h2>
+
+      <div class="note">
+        <p>Nhà tuyển dụng nói rõ buổi phỏng vấn sẽ đưa một tình huống + dữ liệu ngay trong lúc gọi, và yêu cầu outline cách thiết kế PoC 2-3 tuần theo khung <strong>Input → Processing → Output → Validation → Exclusion</strong>, toàn bộ bằng tiếng Trung. Đây là bộ câu dùng để dẫn dắt câu trả lời theo đúng khung đó, đồng thời thể hiện khả năng làm rõ yêu cầu và phân định vai trò PM/SA — Developer.</p>
+      </div>
+      <div class="chunks" style="margin-top:16px">
+        <article class="chunk"><p class="hanzi">首先，我想先確認一下輸入資料的格式。</p><p class="pinyin">Shǒuxiān, wǒ xiǎng xiān quèrèn yíxià shūrù zīliào de géshì.</p><p class="meaning">Trước tiên, tôi muốn xác nhận định dạng của dữ liệu đầu vào.</p><p class="english">First, I'd like to confirm the format of the input data.</p></article>
+        <article class="chunk"><p class="hanzi">可以請您提供一個實際的範例資料嗎？</p><p class="pinyin">Kěyǐ qǐng nín tígōng yí ge shíjì de fànlì zīliào ma?</p><p class="meaning">Anh/chị có thể cho tôi xem một mẫu dữ liệu thực tế không?</p><p class="english">Could you provide an actual sample of the data?</p></article>
+        <article class="chunk"><p class="hanzi">在處理這部分，我會採用……的方式。</p><p class="pinyin">Zài chǔlǐ zhè bùfèn, wǒ huì cǎiyòng …… de fāngshì.</p><p class="meaning">Ở phần xử lý, tôi sẽ dùng cách tiếp cận……</p><p class="english">For the processing part, I would use the approach of…</p></article>
+        <article class="chunk"><p class="hanzi">這一步的輸出會是一個結構化的……。</p><p class="pinyin">Zhè yí bù de shūchū huì shì yí ge jiégòuhuà de ……。</p><p class="meaning">Đầu ra của bước này sẽ là một … có cấu trúc.</p><p class="english">The output of this step would be a structured …</p></article>
+        <article class="chunk"><p class="hanzi">為了驗證正確性，我會加入……的檢查。</p><p class="pinyin">Wèile yànzhèng zhèngquèxìng, wǒ huì jiārù …… de jiǎnchá.</p><p class="meaning">Để kiểm chứng độ chính xác, tôi sẽ thêm bước kiểm tra ……</p><p class="english">To validate correctness, I would add a check for …</p></article>
+        <article class="chunk"><p class="hanzi">這個部分我先不做，把它列為範圍外的項目。</p><p class="pinyin">Zhège bùfèn wǒ xiān bú zuò, bǎ tā lièwéi fànwéi wài de xiàngmù.</p><p class="meaning">Phần này tôi tạm chưa làm, xếp vào hạng mục ngoài phạm vi.</p><p class="english">I would not do this part for now — I'd list it as out of scope.</p></article>
+        <article class="chunk"><p class="hanzi">如果時間只有兩到三週，我會優先做……。</p><p class="pinyin">Rúguǒ shíjiān zhǐyǒu liǎng dào sān zhōu, wǒ huì yōuxiān zuò ……。</p><p class="meaning">Nếu chỉ có 2-3 tuần, tôi sẽ ưu tiên làm……</p><p class="english">If there are only two to three weeks, I would prioritize…</p></article>
+        <article class="chunk"><p class="hanzi">為了避免過度設計，我會先用最簡單的方式驗證可行性。</p><p class="pinyin">Wèile bìmiǎn guòdù shèjì, wǒ huì xiān yòng zuì jiǎndān de fāngshì yànzhèng kěxíngxìng.</p><p class="meaning">Để tránh thiết kế quá mức, tôi sẽ dùng cách đơn giản nhất để kiểm chứng tính khả thi trước.</p><p class="english">To avoid over-engineering, I would first validate feasibility with the simplest approach.</p></article>
+        <article class="chunk"><p class="hanzi">我想先確認這個決策是由 PM 這邊定，還是工程端來決定？</p><p class="pinyin">Wǒ xiǎng xiān quèrèn zhège juécè shì yóu PM zhè biān dìng, háishì gōngchéng duān lái juédìng?</p><p class="meaning">Tôi muốn xác nhận trước quyết định này là do bên PM chốt, hay do phía kỹ thuật quyết định?</p><p class="english">I'd like to confirm whether this decision is made by PM, or decided on the engineering side.</p></article>
+        <article class="chunk"><p class="hanzi">這個假設如果不成立，設計就需要調整。</p><p class="pinyin">Zhège jiǎshè rúguǒ bù chénglì, shèjì jiù xūyào tiáozhěng.</p><p class="meaning">Nếu giả định này không đúng, thiết kế sẽ cần điều chỉnh lại.</p><p class="english">If this assumption doesn't hold, the design would need to be adjusted.</p></article>
+        <article class="chunk"><p class="hanzi">這個問題我會留到之後的疊代再處理，先不影響目前的範圍。</p><p class="pinyin">Zhège wèntí wǒ huì liú dào zhīhòu de diédài zài chǔlǐ, xiān bù yǐngxiǎng mùqián de fànwéi.</p><p class="meaning">Vấn đề này tôi sẽ để lại xử lý ở vòng lặp sau, tạm không ảnh hưởng đến phạm vi hiện tại.</p><p class="english">I would leave this issue for a later iteration, without affecting the current scope.</p></article>
+      </div>
+
+      <h3 class="group-title" style="margin-top:26px">Ví dụ cụ thể để luyện: demo-sheet.pdf (tủ điện phân phối)</h3>
+      <div class="note">
+        <p>Đây chính là file demo bạn đã gửi cho nhà tuyển dụng (tủ điện phân phối giả định), diễn giải lại đúng theo khung <strong>Input → Processing → Output → Validation → Exclusion</strong>. Học thuộc 5 câu này là có sẵn một câu chuyện cụ thể, thật, để kể khi người phỏng vấn đưa tình huống mới trong buổi phỏng vấn — thay vì phải ứng biến hoàn toàn từ đầu.</p>
+      </div>
+      <div class="sentence-list" style="margin-top:16px">
+        <article class="sentence" data-key="d1">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu demo-sheet 1 đã học">
+          <div><p class="hanzi">我做的這個示範，輸入是一個虛構的配電盤需求：兩個分段、一台二十二千伏比三百八十伏的變壓器並附電表、一台透過 ATS 切換的發電機、三個子配電盤、功因補償設備，以及一套不斷電系統。</p><p class="pinyin">Wǒ zuò de zhège shìfàn, shūrù shì yí ge xūgòu de pèidiànpán xūqiú: liǎng ge fēnduàn, yì tái èrshí'èr qiānfú bǐ sānbǎi bāshí fú de biànyāqì bìng fù diànbiǎo, yì tái tòuguò ATS qiēhuàn de fādiànjī, sān ge zǐ pèidiànpán, gōngyīn bǔcháng shèbèi, yǐjí yí tào búduàndiàn xìtǒng.</p><p class="meaning">Trong bản demo tôi làm, đầu vào (Input) là một yêu cầu tủ điện phân phối hư cấu: hai phân đoạn, một máy biến áp 22kV/380V kèm đồng hồ đo, một máy phát điện chuyển qua ATS, ba tủ điện phụ, thiết bị bù công suất phản kháng, và một hệ thống UPS.</p><p class="english">In the demo I built, the input is a made-up switchboard requirement: two sections, a 22kV/380V transformer with metering, a generator switching through an ATS, three sub-panels, power-factor correction equipment, and a UPS.</p></div>
+        </article>
+        <article class="sentence" data-key="d2">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu demo-sheet 2 đã học">
+          <div><p class="hanzi">這個需求會先被模型解析成結構化的 JSON，再交給規則引擎逐一核對每個設備的選型依據。</p><p class="pinyin">Zhège xūqiú huì xiān bèi móxíng jiěxī chéng jiégòuhuà de JSON, zài jiāo gěi guīzé yǐnqíng zhúyī héduì měi ge shèbèi de xuǎnxíng yījù.</p><p class="meaning">Yêu cầu này (Processing) trước tiên được mô hình phân tích thành JSON có cấu trúc, sau đó giao cho rule engine kiểm tra từng thiết bị theo căn cứ chọn lựa.</p><p class="english">This requirement is first parsed by the model into structured JSON, then handed to the rule engine to check each piece of equipment's selection basis one by one.</p></div>
+        </article>
+        <article class="sentence" data-key="d3">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu demo-sheet 3 đã học">
+          <div><p class="hanzi">輸出包含一份附上證據的設備清單，還有依據這份清單畫出來的 DXF 圖面。</p><p class="pinyin">Shūchū bāohán yí fèn fùshàng zhèngjù de shèbèi qīngdān, hái yǒu yījù zhè fèn qīngdān huà chūlái de DXF túmiàn.</p><p class="meaning">Đầu ra (Output) gồm một danh sách thiết bị kèm bằng chứng, và một bản vẽ DXF được vẽ dựa trên danh sách đó.</p><p class="english">The output includes an equipment list with supporting evidence, and a DXF drawing rendered from that list.</p></div>
+        </article>
+        <article class="sentence" data-key="d4">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu demo-sheet 4 đã học">
+          <div><p class="hanzi">其中電焊機沒有對應的選型規則，系統就把它標示成紅色、未驗證，這個警示也會往上傳到 A 段和總開關。</p><p class="pinyin">Qízhōng diànhànjī méiyǒu duìyìng de xuǎnxíng guīzé, xìtǒng jiù bǎ tā biāoshì chéng hóngsè, wèi yànzhèng, zhège jǐngshì yě huì wǎng shàng chuándào A duàn hé zǒngkāiguān.</p><p class="meaning">Trong đó (Validation) máy hàn không có quy tắc chọn lựa tương ứng, nên hệ thống đánh dấu nó màu đỏ, chưa được xác minh, và cảnh báo này cũng lan lên tới phân đoạn A và cầu dao tổng.</p><p class="english">The welding machine has no corresponding sizing rule, so the system flags it red, unverified, and that warning propagates up to Section A and the main incomer.</p></div>
+        </article>
+        <article class="sentence" data-key="d5">
+          <input class="check" type="checkbox" aria-label="Đánh dấu câu demo-sheet 5 đã học">
+          <div><p class="hanzi">這份示範裡的規則數值都是佔位用的，不是真正的設計數值；重點是驗證整個結構走得通，而不是規則本身的正確性。</p><p class="pinyin">Zhè fèn shìfàn lǐ de guīzé shùzhí dōu shì zhànwèi yòng de, búshì zhēnzhèng de shèjì shùzhí; zhòngdiǎn shì yànzhèng zhěnggè jiégòu zǒu de tōng, ér búshì guīzé běnshēn de zhèngquèxìng.</p><p class="meaning">Các giá trị quy tắc trong bản demo này (Exclusion / lưu ý phạm vi) chỉ mang tính chỗ trống (placeholder), không phải giá trị thiết kế thật; trọng tâm là kiểm chứng toàn bộ cấu trúc chạy được, chứ không phải độ chính xác của bản thân quy tắc.</p><p class="english">The rule values in this demo are placeholders, not real design values; the point is to validate that the whole structure works end-to-end, not the correctness of the rules themselves.</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>4.2 · Câu hỏi về hợp tác &amp; phúc lợi</h2>
+
+      <div class="practice-line">
+        <p class="hanzi">除了薪資條件之外，我也希望能進一步了解貴公司的福利制度。</p>
+        <p class="pinyin">Chúle xīnzī tiáojiàn zhīwài, wǒ yě xīwàng néng jìnyíbù liǎojiě guì gōngsī de fúlì zhìdù.</p>
+        <p class="meaning">Ngoài điều kiện lương ra, tôi cũng muốn tìm hiểu thêm về chế độ phúc lợi của quý công ty.</p>
+        <p class="english">Besides the salary package, I would also like to learn more about your company's employee benefits.</p>
+      </div>
+      <div class="practice-line" style="margin-top:12px">
+        <p class="hanzi">除了時薪之外，我也想了解一下這個專案大概的合作方式與結算方式。</p>
+        <p class="pinyin">Chúle shíxīn zhīwài, wǒ yě xiǎng liǎojiě yíxià zhège zhuān'àn dàgài de hézuò fāngshì yǔ jiésuàn fāngshì.</p>
+        <p class="meaning">Ngoài mức lương theo giờ, tôi cũng muốn tìm hiểu thêm về cách thức hợp tác và thanh toán chung của dự án này.</p>
+        <p class="english">Besides the hourly rate, I'd also like to understand more about how the collaboration and payment for this project generally work.</p>
+      </div>
+    </section>
+    <footer>Trang học ngoại tuyến · Chữ phồn thể · Chuẩn bị phỏng vấn AI Engineer</footer>
